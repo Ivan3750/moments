@@ -103,10 +103,12 @@ app.post('/login', async (req, res) => {
 
 
 /* MAIN */
-app.use(express.static(path.join(__dirname, 'pages')));
+app.use(express.static(path.join(process.cwd(), "pages", "index.html")));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pages', 'login.html'));  // Оновлений шлях
+  res.sendFile("path.join(__dirname, 'pages', 'login.html')");  // Оновлений шлях
+  res.sendFile(path.join(process.cwd(), "pages", "index.html"));
+
 });
 
 
