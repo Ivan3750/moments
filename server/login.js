@@ -22,8 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 /* DB */
 const dbURL = "mongodb+srv://kohan3750:Data@cluster0.vdi3teq.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0";
-/* const dbURL = "mongodb://localhost:27017/userdb";
- */mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
@@ -103,12 +102,16 @@ app.post('/login', async (req, res) => {
 
 
 /* MAIN */
-app.use(express.static(path.join(process.cwd(), "pages", "index.html")));
+app.use(express.static(path.join(__dirname, 'pages')));
 
 app.get('/', (req, res) => {
-  res.sendFile("path.join(__dirname, 'pages', 'login.html')");  // Оновлений шлях
-  res.sendFile(path.join(process.cwd(), "pages", "index.html"));
-
+  const indexPath = path.join(__dirname, 'pages', 'index.html');
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Error sending index.html:', err);
+      res.status(err.status || 500).send('Internal Server Error');
+    }
+  });
 });
 
 
