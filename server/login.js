@@ -102,10 +102,10 @@ app.post('/login', async (req, res) => {
 
 
 /* MAIN */
-app.use(express.static(path.join(__dirname, 'pages')));
+app.use(express.static(path.join(__dirname,'../src')));
 
 app.get('/', (req, res) => {
-  const indexPath = path.join(__dirname, '../pages', 'login.html');
+  const indexPath = path.join(__dirname, '../src',"pages", 'login.html');
   res.sendFile(indexPath, (err) => {
     if (err) {
       console.error('Error sending index.html:', err);
