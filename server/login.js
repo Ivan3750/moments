@@ -105,7 +105,7 @@ app.post('/login', async (req, res) => {
 /* MAIN */
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'pages', 'index.html'));
+  res.sendFile(path.join(__dirname, '../pages', 'index.html'));
 });
 
 
