@@ -1,0 +1,206 @@
+
+
+.header {
+    display: flex;
+    background-color: #2A2A2A;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+}
+.header__logo {
+    color: #ffffff;
+    font-size: 24px;
+}
+.search__box {
+    width: 500px;
+    height: 50px;
+    border-radius: 20px;
+    background-color: #3a3a3a;
+}
+.account {
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+    border: 1px solid #000;
+}
+
+main{
+    display: flex;
+    gap: 25px;
+    margin-top: 20px;
+}
+.section__controls{
+    padding-top: 20px;
+  border-radius: 20px;
+  margin-left: 20px;
+    width: 250px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #2A2A2A;
+}
+
+.tab:nth-child(1){
+  margin-top: 15px;
+}
+.tab{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 15px 10px;
+}
+.tab:hover{
+    cursor: pointer;
+    background-color: rgb(28, 27, 27);
+
+}
+.tab__icon{
+    width: 30px;
+    height: 30px;
+}
+.tab__name{
+    font-size: 18px;
+}
+.modal-create {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #00000057;
+}
+.modal-create.show{
+    display: flex;
+}
+.modal-block {
+    position: absolute;
+    background-color: #2A2A2A;
+    width: 450px;
+    height: 600px;
+    border-radius: 20px;
+}
+.modal-head {
+    text-align: center;
+}
+.modal-title {
+    padding: 15px 0px;
+    border-bottom: 2px solid #3d3c3c;
+
+}
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+}
+.close-modal{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+
+
+
+
+/* SECTION ACCOUNT */
+
+
+.section__account{
+    width: calc(100% - 350px);
+    padding: 40px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    min-height: 100vh;
+    background-color: #2A2A2A;
+}
+
+.account__head {
+}
+.account-avatar {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+.account-info {
+}
+.account-info-head {
+}
+.account-name {
+}
+
+
+.section__account {
+}
+.account__head {
+    padding: 30px 100px;
+    display: flex;
+    gap: 50px;
+}
+.account-avatar {
+}
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.account-info-head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.account-name {
+}
+.account-btn-follow {
+    width: 120px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #202fff;
+}
+.account-btn-message {
+    width: 120px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #202fff;
+}
+.account-info-stats {
+    display: flex;
+    gap: 30px;
+}
+.account-stats-posts {
+}
+.account-stats-followers {
+}
+.account-stats-following {
+}
+.account-description {
+}
+.account-posts {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+.post {
+    border-radius: 20px;
+    width: 349px;
+    height: 349px;
+    object-fit: cover;
+}
+
+
+
+
+/* *{
+    outline: 2px solid #f0f;
+} */

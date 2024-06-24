@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account</title>
+    <link rel="stylesheet" href="../style/normalize.css">
+    <link rel="stylesheet" href="../style/account.css">
+</head>
+<body>
+    <header class="header">
+        <img src="../assets/icons/moments.svg" class="header__logo"></ш>
+        <div class="search__box"></div>
+        <div class="account"></div>
+    </header>
+    <main>
+        <section class="section__controls">
+            <div class="tab tab-home" id="tab-home">
+                <img src="../assets/icons/home.png" alt="" class="tab__icon" id="img-home">
+                <p class="tab__name">Home</p>
+            </div>
+            <div class="tab tab-notifications" id="tab-notifications">
+                <img src="../assets/icons/like.png" alt="" class="tab__icon"  id="img-notifications">
+                <p class="tab__name">Notifications</p>
+            </div>
+            <div class="tab tab-messages" id="tab-messages">
+                <img src="../assets/icons/messages.png" alt="" class="tab__icon" id="img-messages">
+                <p class="tab__name">Messages</p>
+            </div>
+            <div class="tab tab-create" id="tab-create">
+                <img src="../assets/icons/add.png" alt="" class="tab__icon" id="img-create">
+                <p class="tab__name">Create</p>
+            </div>
+            <div class="tab tab-settings" id="tab-settings">
+                <img src="../assets/icons/settings.png" alt="" class="tab__icon" id="img-settings">
+                <p class="tab__name">Settings</p>
+            </div>
+        </section>
+        <div class="modal-create">
+            <img src="../assets/icons/close.png" alt="" class="close-modal">
+            <div class="modal-block">
+                <div class="modal-head">
+                    <p class="modal-title">Створити допис
+                    </p>
+                </div>
+                <div class="modal-body">
+                        <input type="text" name="name" placeholder="Image Name" id="input-text" required>
+                        <input type="file" name="image" accept="image/*" id="input-file" class="custom-file-input" required>
+                        <button  id="send-photo-btn">Upload</button>
+                </div>
+            </div>
+        </div>
+        <section class="section__account">
+            <div class="account__head">
+                <img src="../assets/img/unnamed.jpg" alt="" class="account-avatar">
+                <div class="account-info">
+                    <div class="account-info-head">
+                        <p class="account-name">Ivan_60</p>
+                        <button class="account-btn-follow">Follow</button>
+                        <button class="account-btn-message">Message</button>
+                    </div>
+                    <div class="account-info-stats">
+                        <p class="account-stats-posts">0 posts</p>
+                        <p class="account-stats-followers">0 followers</p>
+                        <p class="account-stats-following">0 following</p>
+                    </div>
+                    <p class="account-description">I promise I won't overdo the filters.</p>
+                </div>
+            </div>
+            <div class="account-posts">
+            </div>
+        </section>
+        <script src="../scripts/controls.js"></script>
+        <script type="module" src="../scripts/modal-create.js"></script>
+        <script type="module" src="../scripts/getData.js"></script>
+        <script type="module" src="../scripts/profile.js"></script>
+</body>
+</html>
