@@ -21,8 +21,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 /* DB */
-const dbURL = "mongodb://localhost:27017/userdb";
-mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+const dbURL = "mongodb+srv://kohan3750:Data@cluster0.vdi3teq.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0";
+/* const dbURL = "mongodb://localhost:27017/userdb";
+ */mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
