@@ -1,0 +1,24 @@
+.modal-avatar {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #00000057;
+}
+.modal-avatar.show{
+    display: flex;
+}
+
+
+.modal-block {
+    position: absolute;
+    background-color: #2A2A2A;
+    width: 450px;
+    height: 600px;
+    border-radius: 20px;
+}

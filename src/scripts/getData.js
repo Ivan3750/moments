@@ -1,3 +1,7 @@
+const accountAvatar = document.querySelector('.account-avatar');
+const posts = document.querySelector('.account-posts');
+
+
 export const getUser = async () => {
     const email = JSON.parse(localStorage.getItem('user')).email;
     try {
@@ -9,7 +13,69 @@ export const getUser = async () => {
         console.error('Error fetching user:', error);
         return null;
     }
-};
+ };
+export const getUserByUserName = async (value) => {
+    try {
+        const response = await fetch(`http://localhost:5000/username/${value}`);
+        console.log(response)
+        const user = await response.json();
+        return user;
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        return null;
+    }
+}; 
 
-const user = await getUser();
-console.log(user);
+
+
+export const getPhoto = (usernameFromURL)=>{
+    fetch(`http://localhost:5000/photos/${usernameFromURL}`)
+    .then(res => res.json())
+    .then(data => {
+        posts.innerHTML = ""
+        console.log(data.length)
+        if(data.length !== 0){
+            function toBase64(arr) {
+                return btoa(
+                    new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')
+                );
+            }
+    
+            data.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = `data:${image.contentType};base64,${toBase64(image.data.data)}`;
+                imgElement.className = 'post';
+                posts.prepend(imgElement);
+            });
+        }else{
+            const notImg = document.createElement("p")
+            notImg.textContent = "No images"
+            posts.prepend(notImg)
+
+        }
+
+       
+    })
+    .catch(error => {
+        console.error('Error fetching images:', error);
+    });
+}
+
+export const getAvatar = (avatar, InAvatar) => {
+    function toBase64(arr) {
+        return btoa(
+            new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+    }
+
+    try {
+        const base64String = toBase64(avatar.data.data);
+        InAvatar.src = `data:${avatar.contentType};base64,${base64String}`;
+        console.log('Аватар успішно встановлено');
+    } catch (error) {
+        console.error('Помилка при встановленні аватара:', error);
+
+        InAvatar.src = `https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg`;
+
+    }
+}

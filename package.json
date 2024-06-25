@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "nodemon  ./server/login.js"
-},
+    "start": "nodemon  ./server/login.js"
+  },
   "author": "Ivan Kohan",
   "license": "ISC",
   "dependencies": {

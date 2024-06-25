@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account</title>
+    <title>My profile</title>
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/account.css">
+    <link rel="stylesheet" href="../style/myaccount.css">
 </head>
 <body>
     <header class="header">
@@ -61,7 +62,7 @@
             </div>
         </div>
         <section class="section__account">
-            <div class="modal-create">
+            <div class="modal-avatar">
                 <img src="../assets/icons/close.png" alt="" class="close-modal">
                 <div class="modal-block">
                     <div class="modal-head">
@@ -69,9 +70,8 @@
                         </p>
                     </div>
                     <div class="modal-body">
-                            <input type="text" name="name" placeholder="Image Name" id="input-text" required>
-                            <input type="file" name="image" accept="image/*" id="input-file" class="custom-file-input" required>
-                            <button  id="send-photo-btn">Upload</button>
+                            <input type="file" name="image" accept="image/*" id="avatar-file" class="custom-file-input" required>
+                            <button  id="send-avatar-btn">Upload</button>
                     </div>
                 </div>
             </div>
@@ -96,8 +96,9 @@
         </section>
         <script src="../scripts/UI/controls.js"></script>
         <script type="module" src="../scripts/UI/modal-create.js"></script>
+        <script type="module" src="../scripts/UI/modal-avatar.js"></script>
         <script type="module" src="../scripts/getData.js"></script>
-        <script type="module" src="../scripts/profile.js"></script>
+        <script type="module" src="../scripts/myprofile.js"></script>
         <script type="module" src="../scripts/header.js"></script>
 </body>
 </html>

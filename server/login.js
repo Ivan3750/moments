@@ -1,30 +1,29 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const bcrypt = require('bcrypt');
-const dotenv = require('dotenv');
-const multer = require('multer');
-const path = require('path');
+const express = require("express")
+const mongoose = require("mongoose")
+const bodyParser = require("body-parser")
+const cors = require("cors")
+const bcrypt = require("bcrypt")
+const dotenv = require("dotenv")
+const multer = require("multer")
+const path = require("path")
 
-let activeUser;
 
-dotenv.config();
+dotenv.config()
 
-const app = express();
+const app = express()
 
-app.use(bodyParser.json());
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(cors())
+app.use(express.urlencoded({ extended: true }))
 
 
 
 
 /* DB */
-const dbURL = "mongodb+srv://kohan3750:Data@cluster0.vdi3teq.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0";
+const dbURL = "mongodb+srv://kohan3750:Data@cluster0.vdi3teq.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0"
 mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error("MongoDB connection error:", err))
 
 
   const userSchema = new mongoose.Schema({
@@ -44,159 +43,257 @@ mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
       data: Buffer, 
       contentType: String 
     }]
-  });
+  })
   
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema)
 
 
 /* REGISTER */
 
-app.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
+app.post("/register", async (req, res) => {
+  const { username, email, password } = req.body
 
   try {
-    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] })
     if (existingUser) {
-      return res.status(400).json({ message: 'Username or email already exists' });
+      return res.status(400).json({ message: "Username or email already exists" })
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10)
 
-    const newUser = new User({ username, email, password: hashedPassword });
-    await newUser.save();
+    const newUser = new User({ username, email, password: hashedPassword })
+    await newUser.save()
 
-    res.status(201).json({ message: 'User registered' });
+    res.status(201).json({ message: "User registered" })
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: err.message })
   }
-});
+})
 
 
 /* LOGIN */
 
 
 
-app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body
 
   try {
-    const user = await User.findOne({ email });
-    activeUser = user;
+    const user = await User.findOne({ email })
+    activeUser = user
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" })
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" })
     }
 
-    res.status(200).json({ "email": email });
+    res.status(200).json({ "email": email })
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
+    console.error(err)
+    res.status(500).json({ message: "Server error" })
   }
-});
+})
 
 
 
 /* MAIN */
-app.use(express.static(path.join(__dirname,'../src')));
+app.use(express.static(path.join(__dirname,"../src")))
 
-app.get('/', (req, res) => {
-  const indexPath = path.join(__dirname, '../src',"pages", 'login.html');
+app.get("/", (req, res) => {
+  const indexPath = path.join(__dirname, "../src","pages", "login.html")
   res.sendFile(indexPath, (err) => {
     if (err) {
-      console.error('Error sending index.html:', err);
-      res.status(err.status || 500).send('Internal Server Error');
+      console.error("Error sending index.html:", err)
+      res.status(err.status || 500).send("Internal Server Error")
     }
-  });
-});
+  })
+})
 
+app.get("/myprofile", (req, res) => {
+  res.sendFile(path.join(__dirname, "../src", "pages", "myprofile.html"), (err) => {
+    if (err) {
+      console.error("Error sending myprofile.html:", err)
+      res.status(err.status || 500).send("Internal Server Error")
+    }
+  })
+})
+
+
+
+app.get("/:username", async (req, res) => {
+  let username = req.params.username
+  if (username === "myprofile") {
+    return res.redirect("/myprofile")
+  }
+  try {
+    const user = await User.findOne({ username })
+    let indexPath
+    
+    if (!user) {
+      indexPath = path.join(__dirname, "../src", "pages", "404.html")
+    } else {
+      indexPath = path.join(__dirname, "../src", "pages", "account.html")
+    }
+    
+    res.sendFile(indexPath, (err) => {
+      if (err) {
+        console.error("Error sending file:", err)
+        res.status(err.status || 500).send("Internal Server Error")
+      }
+    })
+  } catch (error) {
+    console.error("Database query failed:", error)
+    res.status(500).send("Internal Server Error")
+  }
+})
 
 /* UPLOAD */
 
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 
-app.post('/:username/upload', upload.single('image'), async (req, res) => {
+app.post("/:username/upload", upload.single("image"), async (req, res) => {
   let username = req.params.username
   try {
     if (!username) {
-      return res.status(401).json({ message: 'User not authenticated' });
+      return res.status(401).json({ message: "User not authenticated" })
     }
 
-    const user = await User.findOne({username});
+    const user = await User.findOne({username})
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" })
     }
 
     const newImage = {
       data: req.file.buffer,
       contentType: req.file.mimetype
-    };
+    }
     
-    user.images.push(newImage);
-    await user.save();
+    user.images.push(newImage)
+    await user.save()
 
-    res.send({ data: req.file.buffer, contentType: req.file.mimetype });
+    res.send({ data: req.file.buffer, contentType: req.file.mimetype })
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Failed to upload image');
+    console.error(err)
+    res.status(500).send("Failed to upload image")
   }
-});
+})
+app.post("/:username/avatar", upload.single("image"), async (req, res) => {
+  let username = req.params.username
+  try {
+    if (!username) {
+      return res.status(401).json({ message: "User not authenticated" })
+    }
+
+    const user = await User.findOne({username})
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    const newImage = {
+      data: req.file.buffer,
+      contentType: req.file.mimetype
+    }
+    
+    user.avatar = newImage
+    await user.save()
+
+    res.send({ data: req.file.buffer, contentType: req.file.mimetype })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send("Failed to upload image")
+  }
+})
 
 
 
 
 /* PHOTOS */
-app.get('/photos/:email', async (req, res) => {
+app.get("/photos/:username", async (req, res) => {
   try {
-    const email = req.params.email
-    if (!email) {
-      return res.status(401).json({ message: 'User not authenticated' });
+    const username = req.params.username
+    if (!username) {
+      return res.status(401).json({ message: "User not authenticated" })
     }
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({username})
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" })
     }
 
-    res.json(user.images);
+    res.json(user.images)
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to retrieve images' });
+    console.error(err)
+    res.status(500).json({ message: "Failed to retrieve images" })
   }
-});
+})
 
 /* USER */
-app.get('/user/:email', async (req, res) => {
+app.get("/user/:email", async (req, res) => {
   const email = req.params.email
   try {
     if (!email) {
-      return res.status(401).json({ message: 'User not authenticated' });
+      return res.status(401).json({ message: "User not authenticated" })
     }
 
-    const user = await User.findOne({email});
+    const user = await User.findOne({email})
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" })
     }
 
-    res.json(user);
+    res.json(user)
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed' });
+    console.error(err)
+    res.status(500).json({ message: "Failed" })
   }
-});
+})
+app.get("/username/:username", async (req, res) => {
+  const username = req.params.username
+  try {
+    if (!username) {
+      return res.status(401).json({ message: "User not authenticated" })
+    }
+
+    const user = await User.findOne({username})
+    if (!user) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    res.json(user)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: "Failed" })
+  }
+})
 
 
 
 
-const PORT =  5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-app.all('*', (req, res) => {
-  res.status(405).json({ message: 'Method Not Allowed' });
-});
+
+app.get("/search/:data", async (req, res) => {
+  const searchData = req.params.data
+  try {
+    const regex = new RegExp(searchData, "i") // "i" для нечутливого до регістру пошуку
+    const users = await User.find({ username: regex })
+    console.log("Users found:", users)
+    res.status(200).send(users) // Встановлюємо статус код перед відправкою відповіді
+  } catch (err) {
+    console.error("Error finding users:", err)
+    res.status(500).send("Internal Server Error")
+  }
+})
+
+
+
+const PORT =  5000
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+
+app.all("*", (req, res) => {
+  res.status(405).json({ message: "Method Not Allowed" })
+})
