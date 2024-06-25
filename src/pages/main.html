@@ -10,29 +10,57 @@
 </head>
 <body>
     <header class="header">
-        <img src="../assets/icons/moments.svg" class="header__logo"></ш>
-        <div class="search__box"></div>
-        <div class="account"></div>
+        <img src="../assets/icons/moments.svg" class="header__logo"/>
+        <div class="search-block">
+            <div class="search__box">
+                <img src="../assets/icons/search.png" alt="" class="search-icon">
+                <input type="text" name="" id="" class="search-input">
+            </div>
+            <div class="search-result">
+                
+            </div>
+        </div>
+        <div class="account">
+            <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img">
+        </div>
     </header>
     <main>
         <section class="section__controls">
-            <div class="tab">
-                <img src="../assets/icons/icons8-home-100 (2).png" alt="" class="tab__icon">
+            <div class="tab tab-home" id="tab-home">
+                <img src="../assets/icons/home.png" alt="" class="tab__icon" id="img-home">
                 <p class="tab__name">Home</p>
             </div>
-            <div class="tab">
-                <img src="../assets/icons/icons8-like-100.png" alt="" class="tab__icon">
-                <p class="tab__name">Likes</p>
+            <div class="tab tab-notifications" id="tab-notifications">
+                <img src="../assets/icons/like.png" alt="" class="tab__icon"  id="img-notifications">
+                <p class="tab__name">Notifications</p>
             </div>
-            <div class="tab">
-                <img src="../assets/icons/icons8-message-100.png" alt="" class="tab__icon">
+            <div class="tab tab-messages" id="tab-messages">
+                <img src="../assets/icons/messages.png" alt="" class="tab__icon" id="img-messages">
                 <p class="tab__name">Messages</p>
             </div>
-            <div class="tab">
-                <img src="../assets/icons/icons8-settings-100.png" alt="" class="tab__icon">
+            <div class="tab tab-create" id="tab-create">
+                <img src="../assets/icons/add.png" alt="" class="tab__icon" id="img-create">
+                <p class="tab__name">Create</p>
+            </div>
+            <div class="tab tab-settings" id="tab-settings">
+                <img src="../assets/icons/settings.png" alt="" class="tab__icon" id="img-settings">
                 <p class="tab__name">Settings</p>
             </div>
         </section>
+        <div class="modal-create">
+            <img src="../assets/icons/close.png" alt="" class="close-modal">
+            <div class="modal-block">
+                <div class="modal-head">
+                    <p class="modal-title">Створити допис
+                    </p>
+                </div>
+                <div class="modal-body">
+                        <input type="text" name="name" placeholder="Image Name" id="input-text" required>
+                        <input type="file" name="image" accept="image/*" id="input-file" class="custom-file-input" required>
+                        <button  id="send-photo-btn">Upload</button>
+                </div>
+            </div>
+        </div>
         <section class="section__contents">
             <div class="content-block">
                 <div class="user-block">

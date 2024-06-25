@@ -5,7 +5,7 @@ const posts = document.querySelector('.account-posts');
 export const getUser = async () => {
     const email = JSON.parse(localStorage.getItem('user')).email;
     try {
-        const response = await fetch(`http://localhost:5000/user/${email}`);
+        const response = await fetch(`/user/${email}`);
         const user = await response.json();
         console.log(user);
         return user;
@@ -16,7 +16,7 @@ export const getUser = async () => {
  };
 export const getUserByUserName = async (value) => {
     try {
-        const response = await fetch(`http://localhost:5000/username/${value}`);
+        const response = await fetch(`/username/${value}`);
         console.log(response)
         const user = await response.json();
         return user;
@@ -29,7 +29,7 @@ export const getUserByUserName = async (value) => {
 
 
 export const getPhoto = (usernameFromURL)=>{
-    fetch(`http://localhost:5000/photos/${usernameFromURL}`)
+    fetch(`/photos/${usernameFromURL}`)
     .then(res => res.json())
     .then(data => {
         posts.innerHTML = ""

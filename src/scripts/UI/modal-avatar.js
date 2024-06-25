@@ -26,7 +26,7 @@ sendAvatarBtn.addEventListener("click", () => {
     formData.append('image', file);
     getUser().then(user=>{
         console.log(JSON.stringify(user.username))
-        fetch(`http://localhost:5000/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/avatar`, {  //CHANGE USERNAME
+        fetch(`/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/avatar`, {  //CHANGE USERNAME
             method: "POST",
             body: formData
         })

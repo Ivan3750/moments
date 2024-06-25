@@ -25,7 +25,7 @@ closeModal.addEventListener("click", ()=>{
         formData.append('image', file);
         getUser().then(user=>{
             console.log(JSON.stringify(user.username))
-            fetch(`http://localhost:5000/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/upload`, {  //CHANGE USERNAME
+            fetch(`/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/upload`, {  //CHANGE USERNAME
                 method: "POST",
                 body: formData
             })
