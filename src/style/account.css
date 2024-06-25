@@ -54,11 +54,29 @@
     border-radius: 20px;
     box-shadow: 0px 18px 20px #212121;
     padding-top: 50px;
-    padding: 30px 20px;
+    padding: 30px 0px;
     box-sizing: border-box;
 }
 .search-result.active{
 display: block;
+}
+
+.result-box{
+    display: flex;
+    align-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+.result-box:hover{
+    background-color: #211f1f;
+}
+
+.result-avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 
 .account {
@@ -70,6 +88,7 @@ display: block;
     border-radius: 50px;
     height: 50px;
     width: 50px;
+    cursor: pointer;
 }
 
 
@@ -186,6 +205,7 @@ main{
 .account-info-head {
 }
 .account-name {
+    min-width: 100px;
 }
 
 
@@ -222,6 +242,15 @@ main{
     border-radius: 8px;
     background-color: #202fff;
 }
+
+.account-btn-edit {
+    width: 120px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #373737;
+}
+
+
 .account-info-stats {
     display: flex;
     gap: 30px;

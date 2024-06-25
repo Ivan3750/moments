@@ -48,7 +48,8 @@ const searchUsers = () => {
             }else{
                 searchResult.innerHTML = ""
                 users.forEach(user => {
-                    resultBox(searchResult, user.username)
+                    console.log(user)
+                    resultBox(searchResult, user)
                 });
             }
         })
@@ -56,15 +57,17 @@ const searchUsers = () => {
 };
 
 
-const resultBox = (place, username) => {
+const resultBox = (place, user) => {
+    
     const divResult = document.createElement("div")
     divResult.classList = "result-box"
     const avatarResult = document.createElement("img")
     avatarResult.classList = "result-avatar"
+    getAvatar(user.avatar, avatarResult)
     const usernameResult = document.createElement("p")
-    usernameResult.innerHTML = username
-    usernameResult.addEventListener("click", ()=>{
-        const url = `/${encodeURIComponent(username)}`;
+    usernameResult.innerHTML = user.username
+    divResult.addEventListener("click", ()=>{
+        const url = `/${encodeURIComponent(user.username)}`;
 
         location.href = url;
     })

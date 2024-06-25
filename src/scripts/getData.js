@@ -3,7 +3,7 @@ const posts = document.querySelector('.account-posts');
 
 
 export const getUser = async () => {
-    const email = JSON.parse(localStorage.getItem('user')).email;
+    const email = JSON.parse(localStorage.getItem('user')).email || "";
     try {
         const response = await fetch(`/user/${email}`);
         const user = await response.json();

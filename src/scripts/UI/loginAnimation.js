@@ -67,8 +67,10 @@ const createEmailAndPassword = (userData) => {
     return new Promise((resolve) => {
         const askEmail = createElement("p", "Enter email: ", "");
         const inputEmail = createElement("input", "", "input");
+        inputEmail.type = "email"
         const askPass = createElement("p", "Enter password: ", "");
         const inputPass = createElement("input", "", "input");
+        inputPass.type = "password"
         const messageElement = createElement("p", "", "message");
         const button = createElement("button", "Next", "next-button");
 
@@ -131,7 +133,7 @@ class Login {
     async showHello() {
         const el = createElement("p", "", "text-active");
         el.style.fontSize = "25px";
-        await typeText(".text-active", "Welcome to Social Media Moments! Let’s begin the adventure", 50);
+        await typeText(".text-active", "Welcome to Social Media Moments! Let’s begin the adventure    ", 50);
     }
 
     askName() {
@@ -193,6 +195,7 @@ const sendRegistration = (data) =>{
             "Content-Type": "application/json"
         },
     })
+    .then(res => res.json())
     .then(data => {
         localStorage.setItem('isLogin', "true");
         localStorage.setItem('user', JSON.stringify(data));
@@ -221,12 +224,13 @@ fetch("/login", {
 .then(data => {
     localStorage.setItem('isLogin', "true");
     localStorage.setItem('user', JSON.stringify(data));
-    alert(JSON.stringify(data))
     location.href = "/home";
 
 })
 .catch(error => {
     alert("No email password")
+    location.href = "/";
+
 });
 }    
 

@@ -63,6 +63,13 @@ body{
     padding: 5px;
     box-sizing: content-box;
 }
+.login-button:hover{
+    background-color: #021ea5;
+}
+.registration-button:hover{
+    background-color: #021ea5;
+}
+
 
 .box-buttons{
     margin-top: 35px;

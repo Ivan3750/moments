@@ -22,8 +22,8 @@ export const loadMyProfileData = ()=>{
         profileName.textContent = user.username
         profileDescription.textContent = user.description
         statsPosts.textContent = user.images.length + " posts"
-        statsFollowers.textContent = user.stats.followers + " followers"
-        statsFollowing.textContent = user.stats.following + " following" 
+        statsFollowers.textContent = user.stats.followers.length + " followers"
+        statsFollowing.textContent = user.stats.following.length + " following" 
         getPhoto(user.username)
         getAvatar(user.avatar, accountAvatar)
     })
