@@ -29,7 +29,7 @@ tabHome.addEventListener("click", ()=>{
         inactiveTab()
         imgHome.src = "../assets/icons/home-active.png"
         activeTab = "home"
-        loc
+        window.location.href = "/home"
 }) 
 tabNotifications.addEventListener("click", ()=>{
    

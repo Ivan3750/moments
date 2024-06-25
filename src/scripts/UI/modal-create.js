@@ -24,21 +24,18 @@ closeModal.addEventListener("click", ()=>{
         let formData = new FormData();
         formData.append('image', file);
         getUser().then(user=>{
-            console.log(JSON.stringify(user.username))
             fetch(`/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/upload`, {  //CHANGE USERNAME
                 method: "POST",
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Upload successful:', data);
                 modal.classList.remove("show")
                 getPhoto()
                 loadProfileData()
     
             })
             .catch(error => {
-                console.error('Error uploading image:', error);
             });
         
         })

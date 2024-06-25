@@ -7,21 +7,17 @@ export const getUser = async () => {
     try {
         const response = await fetch(`/user/${email}`);
         const user = await response.json();
-        console.log(user);
         return user;
     } catch (error) {
-        console.error('Error fetching user:', error);
         return null;
     }
  };
 export const getUserByUserName = async (value) => {
     try {
         const response = await fetch(`/username/${value}`);
-        console.log(response)
         const user = await response.json();
         return user;
     } catch (error) {
-        console.error('Error fetching user:', error);
         return null;
     }
 }; 
@@ -33,7 +29,6 @@ export const getPhoto = (usernameFromURL)=>{
     .then(res => res.json())
     .then(data => {
         posts.innerHTML = ""
-        console.log(data.length)
         if(data.length !== 0){
             function toBase64(arr) {
                 return btoa(
@@ -56,9 +51,7 @@ export const getPhoto = (usernameFromURL)=>{
 
        
     })
-    .catch(error => {
-        console.error('Error fetching images:', error);
-    });
+    
 }
 
 export const getAvatar = (avatar, InAvatar) => {
@@ -71,9 +64,7 @@ export const getAvatar = (avatar, InAvatar) => {
     try {
         const base64String = toBase64(avatar.data.data);
         InAvatar.src = `data:${avatar.contentType};base64,${base64String}`;
-        console.log('Аватар успішно встановлено');
     } catch (error) {
-        console.error('Помилка при встановленні аватара:', error);
 
         InAvatar.src = `https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg`;
 

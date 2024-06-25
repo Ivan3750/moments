@@ -181,7 +181,6 @@ const startLogin = async () => {
 
 
 
-// Запуск функції
 startLogin();
 
 
@@ -195,12 +194,10 @@ const sendRegistration = (data) =>{
         },
     })
     .then(data => {
-        console.log('Success:', data);
         localStorage.setItem('isLogin', "true");
         localStorage.setItem('user', JSON.stringify(data));
-        location.href = "../pages/main.html";
+        location.href = "/home";
     })
-    console.log(JSON.stringify(data))
 }
 
 
@@ -222,16 +219,14 @@ fetch("/login", {
     return response.json();
 })
 .then(data => {
-    console.log('Success:', data);
     localStorage.setItem('isLogin', "true");
     localStorage.setItem('user', JSON.stringify(data));
     alert(JSON.stringify(data))
-    location.href = "../pages/main.html";
+    location.href = "/home";
 
 })
 .catch(error => {
     alert("No email password")
-    console.error('Error:', error);
 });
 }    
 

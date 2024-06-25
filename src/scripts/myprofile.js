@@ -19,7 +19,6 @@ accountAvatar.addEventListener("click", ()=>{
 export const loadMyProfileData = ()=>{
     getUser()
     .then(user=>{
-        console.log(user)
         profileName.textContent = user.username
         profileDescription.textContent = user.description
         statsPosts.textContent = user.images.length + " posts"
@@ -27,7 +26,6 @@ export const loadMyProfileData = ()=>{
         statsFollowing.textContent = user.stats.following + " following" 
         getPhoto(user.username)
         getAvatar(user.avatar, accountAvatar)
-       console.log(user.avatar)
     })
 
 

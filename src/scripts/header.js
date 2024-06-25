@@ -40,22 +40,19 @@ window.addEventListener("click", (e) => {
 
 
 const searchUsers = () => {
-    fetch(`http://localhost:5000/search/${searchInput.value}`)
+    fetch(`/search/${searchInput.value}`)
         .then(response => response.json())
         .then(users => {
             if(users.length === 0){
                 searchResult.innerHTML = "Nothing"
             }else{
-                console.log(users);
                 searchResult.innerHTML = ""
                 users.forEach(user => {
                     resultBox(searchResult, user.username)
                 });
             }
         })
-        .catch(error => {
-            console.error('Error fetching users:', error);
-        });
+    
 };
 
 
