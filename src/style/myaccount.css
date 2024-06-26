@@ -9,16 +9,76 @@
     width: 100%;
     height: 100vh;
     background-color: #00000057;
+    z-index: 5;
 }
 .modal-avatar.show{
     display: flex;
 }
 
 
-.modal-block {
+
+.account-hover-img{
+    width: 50px;
+    height: 50px;
     position: absolute;
-    background-color: #2A2A2A;
-    width: 450px;
-    height: 600px;
-    border-radius: 20px;
+    top: 25%;
+    left: 25%;
+}
+.account-hover{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+}
+
+.account-avatar-box{
+    position: relative;
+}
+
+.account-avatar-box::before{
+    display: none;
+    transition: .3s;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #2a2a2ab7;
+    content: "";
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+
+}
+.account-avatar-icon{
+    display: none;
+    transition: .3s;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: calc((100% - 50px)/2);
+    left: calc((100% - 50px)/2);
+}
+.account-avatar-box:hover::before{
+    display: block;
+    transition: .3s;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #2a2a2ab7;
+    content: "";
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+
+
+}
+.account-avatar-box:hover .account-avatar-icon{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: calc((100% - 50px)/2);
+    left: calc((100% - 50px)/2);
+    display: block;
+    transition: .3s;
+    cursor: pointer;
 }

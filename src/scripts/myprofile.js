@@ -9,9 +9,7 @@ const posts = document.querySelector('.account-posts');
 const accountAvatar = document.querySelector('.account-avatar');
 
 
-accountAvatar.addEventListener("click", ()=>{
-    
-})
+
 
 
 

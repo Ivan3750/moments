@@ -28,6 +28,7 @@
             </div>
         </div>
         <div class="account">
+           
             <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img">
         </div>
     </header>
@@ -55,35 +56,46 @@
             </div>
         </section>
         <div class="modal-create">
-            <img src="../assets/icons/close.png" alt="" class="close-modal">
+            <img src="../assets/icons/close.png" alt="" class="close-modal-create">
             <div class="modal-block">
                 <div class="modal-head">
-                    <p class="modal-title">Створити допис
+                    <p class="modal-title">Create a post
                     </p>
                 </div>
                 <div class="modal-body">
-                        <input type="text" name="name" placeholder="Image Name" id="input-text" required>
-                        <input type="file" name="image" accept="image/*" id="input-file" class="custom-file-input" required>
-                        <button  id="send-photo-btn">Upload</button>
+                    <div class="button-wrapper">
+                        <span class="label">
+                          Upload File
+                        </span>
+                          <input type="file" name="upload" id="input-file" class="upload-box" placeholder="Upload File">
+                      </div>     
                 </div>
             </div>
         </div>
         <section class="section__account">
             <div class="modal-avatar">
-                <img src="../assets/icons/close.png" alt="" class="close-modal">
+                <img src="../assets/icons/close.png" alt="" class="close-modal-avatar">
                 <div class="modal-block">
                     <div class="modal-head">
-                        <p class="modal-title">Основна світлина
+                        <p class="modal-title">Avatar
                         </p>
                     </div>
                     <div class="modal-body">
-                            <input type="file" name="image" accept="image/*" id="avatar-file" class="custom-file-input" required>
-                            <button  id="send-avatar-btn">Upload</button>
+                        <div class="button-wrapper">
+                            <span class="label">
+                              Upload File
+                            </span>
+                              <input type="file" name="upload" id="avatar-file" class="upload-box" placeholder="Upload File">
+                          </div>                           
                     </div>
                 </div>
             </div>
             <div class="account__head">
-                <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-avatar">
+                <div class="account-avatar-box">
+                    <img src="../assets/icons/upload.png" alt="" class="account-avatar-icon">
+                    <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-avatar">
+                </div>
+             
                 <div class="account-info">
                     <div class="account-info-head">
                         <p class="account-name"></p>

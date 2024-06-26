@@ -4,7 +4,7 @@ import {getUserByUserName, getAvatar, getPhoto, getUser} from "./getData.js"
 
 
 const profileName = document.querySelector('.account-name');
-const statsPosts = document.querySelector('.account-stats-posts');
+ const statsPosts = document.querySelector('.account-stats-posts');
 const statsFollowers = document.querySelector('.account-stats-followers');
 const statsFollowing = document.querySelector('.account-stats-following');
 const profileDescription = document.querySelector('.account-description');

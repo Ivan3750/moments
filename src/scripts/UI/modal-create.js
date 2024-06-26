@@ -1,16 +1,16 @@
-/* import {loadProfileData} from "../profile.js"
- */import { getUser } from "../getData.js";
-
+import { getUser, getPhoto } from "../getData.js";
 const filePost = document.querySelector('.file-post');
 const inputText = document.querySelector('#input-text');
 const inputFile = document.querySelector('#input-file');
 const sendPhotoBtn = document.querySelector('#send-photo-btn');
 const posts = document.querySelector('.account-posts');
 const modal = document.querySelector('.modal-create');
-const closeModal = document.querySelector('.close-modal');
+const closeModalCreate = document.querySelector('.close-modal-create');
+const statsPostsTxT = document.querySelector('.account-stats-posts');
 
 
-closeModal.addEventListener("click", ()=>{
+
+closeModalCreate.addEventListener("click", ()=>{
     modal.classList.remove("show")
 })
 
@@ -19,7 +19,7 @@ closeModal.addEventListener("click", ()=>{
     
 }) */
 
-    sendPhotoBtn.addEventListener("click", () => {
+    inputFile.addEventListener("change", () => {
         let file = inputFile.files[0];
         let formData = new FormData();
         formData.append('image', file);
@@ -31,9 +31,10 @@ closeModal.addEventListener("click", ()=>{
             .then(response => response.json())
             .then(data => {
                 modal.classList.remove("show")
-                getPhoto()
-                loadProfileData()
-    
+                getPhoto(user.username)
+                statsPostsTxT.textContent = user.images.length + " posts"
+
+                
             })
             .catch(error => {
             });

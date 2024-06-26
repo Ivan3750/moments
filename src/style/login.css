@@ -32,7 +32,7 @@ body{
 .input{
     margin-top: 15px;
     background: transparent;
-    border-bottom: 2px solid;
+    border-bottom: 1px solid #ffffff;
     font-size: 20px;
     padding-left: 2px;
 }

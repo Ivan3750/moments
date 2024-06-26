@@ -54,7 +54,7 @@
             </div>
         </section>
         <div class="modal-create">
-            <img src="../assets/icons/close.png" alt="" class="close-modal">
+            <img src="../assets/icons/close.png" alt="" class="close-modal-create">
             <div class="modal-block">
                 <div class="modal-head">
                     <p class="modal-title">Створити допис
@@ -69,16 +69,19 @@
         </div>
         <section class="section__account">
             <div class="modal-create">
-                <img src="../assets/icons/close.png" alt="" class="close-modal">
+                <img src="../assets/icons/close.png" alt="" class="close-modal-avatar">
                 <div class="modal-block">
                     <div class="modal-head">
                         <p class="modal-title">Основна світлина
                         </p>
                     </div>
                     <div class="modal-body">
-                            <input type="text" name="name" placeholder="Image Name" id="input-text" required>
-                            <input type="file" name="image" accept="image/*" id="input-file" class="custom-file-input" required>
-                            <button  id="send-photo-btn">Upload</button>
+                        <div class="button-wrapper">
+                            <span class="label">
+                              Upload File
+                            </span>
+                              <input type="file" name="upload" id="input-file" class="upload-box" placeholder="Upload File">
+                          </div>     
                     </div>
                 </div>
             </div>

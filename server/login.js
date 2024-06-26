@@ -76,14 +76,15 @@ app.post("/register", async (req, res) => {
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
-      return res.status(400).json({ message: "Username or email already exists" });
+      return res.status(404).json({ message: "Username or email already exists" });
+    }else{
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new User({ username, email, password: hashedPassword });
+      await newUser.save();
+  
+      res.status(200).json({ email: email });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword });
-    await newUser.save();
-
-    res.status(200).json({ email: email });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
