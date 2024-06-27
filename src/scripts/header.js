@@ -40,7 +40,7 @@ window.addEventListener("click", (e) => {
 
 
 const searchUsers = () => {
-    fetch(`/search/${searchInput.value}`)
+    fetch(`API/search/${searchInput.value}`)
         .then(response => response.json())
         .then(users => {
             if(users.length === 0){

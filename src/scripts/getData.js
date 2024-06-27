@@ -1,11 +1,12 @@
 const accountAvatar = document.querySelector('.account-avatar');
 const posts = document.querySelector('.account-posts');
+const statsPosts = document.querySelector('.account-stats-posts');
 
 
 export const getUser = async () => {
     const email = JSON.parse(localStorage.getItem('user')).email || "";
     try {
-        const response = await fetch(`/user/${email}`);
+        const response = await fetch(`API/user/${email}`);
         const user = await response.json();
         return user;
     } catch (error) {
@@ -14,7 +15,7 @@ export const getUser = async () => {
  };
 export const getUserByUserName = async (value) => {
     try {
-        const response = await fetch(`/username/${value}`);
+        const response = await fetch(`API/username/${value}`);
         const user = await response.json();
         return user;
     } catch (error) {
@@ -25,11 +26,12 @@ export const getUserByUserName = async (value) => {
 
 
 export const getPhoto = (usernameFromURL)=>{
-    fetch(`/photos/${usernameFromURL}`)
+    fetch(`API/photos/${usernameFromURL}`)
     .then(res => res.json())
     .then(data => {
         posts.innerHTML = ""
-        if(data.length !== 0){
+        if(data.length !== 0 && data.length){
+            statsPosts.textContent = data.length + " posts"
             function toBase64(arr) {
                 return btoa(
                     new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')

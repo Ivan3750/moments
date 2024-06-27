@@ -19,7 +19,6 @@ export const loadMyProfileData = ()=>{
     .then(user=>{
         profileName.textContent = user.username
         profileDescription.textContent = user.description
-        statsPosts.textContent = user.images.length + " posts"
         statsFollowers.textContent = user.stats.followers.length + " followers"
         statsFollowing.textContent = user.stats.following.length + " following" 
         getPhoto(user.username)

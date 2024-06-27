@@ -24,7 +24,7 @@ closeModalCreate.addEventListener("click", ()=>{
         let formData = new FormData();
         formData.append('image', file);
         getUser().then(user=>{
-            fetch(`/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/upload`, {  //CHANGE USERNAME
+            fetch(`API/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/upload`, {  //CHANGE USERNAME
                 method: "POST",
                 body: formData
             })

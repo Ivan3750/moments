@@ -188,7 +188,7 @@ startLogin();
 
 const sendRegistration = (data) =>{
         
-    fetch("/register", {
+    fetch("API/register", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
@@ -208,7 +208,7 @@ const sendRegistration = (data) =>{
 
 const sendLogin = (data) =>{
 
-fetch("/login", {
+fetch("API/login", {
     method: "POST",
     body: JSON.stringify(data),
     headers: {

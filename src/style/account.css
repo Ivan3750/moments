@@ -280,6 +280,12 @@ main{
     border-radius: 8px;
     background-color: #202fff;
 }
+.account-btn-follow.followed {
+    width: 120px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #1d1d1d;
+}
 .account-btn-message {
     width: 120px;
     height: 32px;
