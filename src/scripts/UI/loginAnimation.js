@@ -198,7 +198,7 @@ const sendRegistration = (data) =>{
     .then(res => res.json())
     .then(data => {
         localStorage.setItem('isLogin', "true");
-        localStorage.setItem('user', JSON.stringify(data));
+        localStorage.setItem('token', JSON.stringify(data.token));
         location.href = "/home";
     })
 }
@@ -223,7 +223,7 @@ fetch("API/login", {
 })
 .then(data => {
     localStorage.setItem('isLogin', "true");
-    localStorage.setItem('user', JSON.stringify(data));
+    localStorage.setItem('token', JSON.stringify(data.token));
     location.href = "/home";
 
 })

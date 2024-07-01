@@ -41,17 +41,21 @@ const userSchema = new mongoose.Schema({
 });
 
 // Define image schema
-const imageSchema = new mongoose.Schema({
+const postsSchema = new mongoose.Schema({
     username: String, // Assuming you want an array of usernames
-    images: [{
+    posts: [{
         data: Buffer,
-        contentType: String
+        contentType: String,
+        id: Number,
+        views: [String],
+        likes: [String],
+        shares: [String]
     }]
 });
 
 // MongoDB connection URIs
 const dbUsers = "mongodb+srv://kohan3750:Data@cluster0.vdi3teq.mongodb.net/users?retryWrites=true&w=majority&appName=Cluster0";
-const dbImage = "mongodb+srv://kohan3750:Data@cluster0.vdi3teq.mongodb.net/images?retryWrites=true&w=majority&appName=Cluster0";
+const dbImage = "mongodb+srv://kohan3750:Data@cluster0.vdi3teq.mongodb.net/PostsCollections?retryWrites=true&w=majority&appName=Cluster0";
 
 // Connect to the users database
 mongoose.connect(dbUsers, {
@@ -76,10 +80,10 @@ dbImageConnection.once('open', () => {
 1
 // Define models
 const User = dbUsersConnection.model('User', userSchema);
-const Image = dbImageConnection.model('Image', imageSchema);
+const PostsCollections = dbImageConnection.model('PostsCollections', postsSchema);
 
 module.exports = {
     User,
-    Image
+    PostsCollections
 };
 

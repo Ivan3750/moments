@@ -37,7 +37,7 @@ export const loadProfileData = async () => {
 
 const checkFollowFunc = async (username) => {
     try {
-        const response = await fetch(`API/Checkfollow/${JSON.parse(localStorage.user).email}/${username}`);
+        const response = await fetch(`API/Checkfollow/${JSON.parse(localStorage.token)}/${username}`);
         const data = await response.json();
         return data.isFollowing;
     } catch (error) {
@@ -64,14 +64,14 @@ followBTN.addEventListener("click", async () => {
         if (!followValue) {
             followBTN.classList.add("followed");
             followBTN.textContent = "Followed";
-            await fetch(`API/follow/${JSON.parse(localStorage.user).email}/${usernameFollow}`);
+            await fetch(`API/follow/${JSON.parse(localStorage.token)}/${usernameFollow}`);
             const usernameFromURL = window.location.pathname.replace("/", "");
             const user = await getUserByUserName(usernameFromURL);
             statsFollowers.textContent = `${user.stats.followers.length} followers`;
         } else {
             followBTN.textContent = "Follow";
             followBTN.classList.remove("followed");
-            await fetch(`API/unfollow/${JSON.parse(localStorage.user).email}/${usernameFollow}`);
+            await fetch(`API/unfollow/${JSON.parse(localStorage.token)}/${usernameFollow}`);
             const usernameFromURL = window.location.pathname.replace("/", "");
             const user = await getUserByUserName(usernameFromURL);
             statsFollowers.textContent = `${user.stats.followers.length} followers`;

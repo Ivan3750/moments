@@ -7,6 +7,13 @@ const router = express.Router();
 
 // Serve login page
 router.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../src", "pages", "main.html"), (err) => {
+    if (err) {
+      res.status(err.status || 500).send("Internal Server Error");
+    }
+  });
+});
+router.get("/auth", (req, res) => {
   res.sendFile(path.join(__dirname, "../src", "pages", "login.html"), (err) => {
     if (err) {
       res.status(err.status || 500).send("Internal Server Error");

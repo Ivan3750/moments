@@ -30,8 +30,7 @@ inputFile.addEventListener("input", () => {
     let file = inputFile.files[0];
     let formData = new FormData();
     formData.append('image', file);
-    getUser().then(user=>{
-        fetch(`/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/avatar`, {  //CHANGE USERNAME
+        fetch(`API/${JSON.parse(localStorage.token)}/avatar`, {  //CHANGE USERNAME
             method: "POST",
             body: formData
         })
@@ -44,5 +43,4 @@ inputFile.addEventListener("input", () => {
         .catch(error => {
         });
     
-    })
 });

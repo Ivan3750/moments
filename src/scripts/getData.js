@@ -1,12 +1,15 @@
 const accountAvatar = document.querySelector('.account-avatar');
 const posts = document.querySelector('.account-posts');
 const statsPosts = document.querySelector('.account-stats-posts');
+const viewPostBlock = document.querySelector('.view-post-block');
+const viewPost = document.querySelector('.view-post');
+let viewPostStatus = false
 
 
 export const getUser = async () => {
-    const email = JSON.parse(localStorage.getItem('user')).email || "";
+    
     try {
-        const response = await fetch(`API/user/${email}`);
+        const response = await fetch(`API/user/${JSON.parse(localStorage.token)}`);
         const user = await response.json();
         return user;
     } catch (error) {
@@ -26,7 +29,7 @@ export const getUserByUserName = async (value) => {
 
 
 export const getPhoto = (usernameFromURL)=>{
-    fetch(`API/photos/${usernameFromURL}`)
+    fetch(`API/posts/${usernameFromURL}`)
     .then(res => res.json())
     .then(data => {
         posts.innerHTML = ""
@@ -42,6 +45,16 @@ export const getPhoto = (usernameFromURL)=>{
                 const imgElement = document.createElement('img');
                 imgElement.src = `data:${image.contentType};base64,${toBase64(image.data.data)}`;
                 imgElement.className = 'post';
+                imgElement.addEventListener("click", ()=>{
+                    viewPostBlock.classList.add("show")
+                    viewPostStatus = true
+                    viewPost.src = `data:${image.contentType};base64,${toBase64(image.data.data)}`
+                    viewPostBlock.addEventListener("click", (e)=>{
+                        if(e.target !== viewPost){
+                            viewPostBlock.classList.remove("show")
+                        }
+                    })
+                })
                 posts.prepend(imgElement);
             });
         }else{

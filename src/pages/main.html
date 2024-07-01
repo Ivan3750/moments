@@ -8,15 +8,17 @@
     <link rel="stylesheet" href="../style/main.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/account.css">
+    <link rel="stylesheet" href="../style/header.css">
+
 </head>
 <body>
-    <div class="mask">
+    <!-- <div class="mask">
         <div class="load-3">
             <div class="line"></div>
             <div class="line"></div>
             <div class="line"></div>
         </div>
-    </div>
+    </div> -->
     <header class="header">
         <img src="../assets/icons/moments.svg" class="header__logo"/>
         <div class="search-block">
@@ -59,7 +61,7 @@
             <img src="../assets/icons/close.png" alt="" class="close-modal">
             <div class="modal-block">
                 <div class="modal-head">
-                    <p class="modal-title">Створити допис
+                    <p class="modal-title">Create post
                     </p>
                 </div>
                 <div class="modal-body">
@@ -75,20 +77,29 @@
                 <img src="../assets/img/unnamed.jpg" alt="" class="user-img">
                 <p class="user-name">User Name</p>
                 </div>
-                <img src="../assets/img/content.jpg" alt="" class="content-img">
+                <img src="../assets/img/content.jpg" alt="" class="content-img lazyload">
                 <div class="content-controls">
-                    <button class="content-btn">
-                        <img src="../assets/icons/icons8-like-100.png" alt="" class="content-btn-img">
-                        <p>0</p>
-                    </button>
-                    
+                        <div class="content-box">
+                            <img src="../assets/icons/like.png" alt="" class="content-btn-like">
+                            <p class="content-amount-like">0</p>
+                        </div>
+                        <div class="content-box">
+                            <img src="../assets/icons/messages.png" alt="" class="content-btn-messages">
+                            <p class="content-amount-messages">0</p>
+                        </div>
+                        <div class="content-box">
+                            <img src="../assets/icons/share.png" alt="" class="content-btn-share">
+                            <p class="content-amount-share">0</p>
+                        </div>                    
                 </div>
             </div>
         </section>
         <section class="section__followers"></section>
     </main>
+    <script src="https://afarkas.github.io/lazysizes/lazysizes.min.js" async=""></script>   
     <script type="module" src="../scripts/header.js"></script>
-    <script type="module" src="../scripts/UI/load.js"></script>
     <script type="module" src="../scripts/UI/controls.js"></script>
+    <script type="module" src="../scripts/content.js"></script>
+    <script type="module" src="../scripts/UI/load.js"></script>
 </body>
 </html>

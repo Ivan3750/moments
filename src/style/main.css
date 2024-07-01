@@ -1,78 +1,5 @@
 
 
-.header {
-  display: flex;
-  background-color: #2A2A2A;
-  padding: 5px 15px;
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: space-between;
-}
-.header__logo {
-  color: #ffffff;
-  font-size: 24px;
-}
-.search-block{
-  position: relative;
-  z-index: 5;
-}
-.search__box {
-  display: flex;
-  flex-direction: row;
-  padding: 5px;
-  box-sizing: border-box;
-  align-items: center;
-  gap: 15px;
-  width: 500px;
-  height: 50px;
-  border-radius: 20px;
-  background-color: #3a3a3a;
-
-}
-.search-input{
-  background: transparent;
-  font-size: 24px;
-  border: 0;
-  width: 80%;
-  height: 100%;
-}
-.search-icon{
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-}
-
-.search-result{
-  display: none;
-  position: absolute;
-  min-height: 100px;
-  width: 100%;
-  top: 30px;
-  left: 0;
-  background-color: #242424;
-  z-index: -1;
-  border-radius: 20px;
-  box-shadow: 0px 18px 20px #212121;
-  padding-top: 50px;
-  padding: 30px 20px;
-  box-sizing: border-box;
-}
-.search-result.active{
-display: block;
-}
-
-.account {
-  border-radius: 50px;
-  height: 50px;
-  width: 50px;
-}
-.account-img{
-  border-radius: 50px;
-  height: 50px;
-  width: 50px;
-}
-
-
 main{
     display: flex;
     gap: 25px;
@@ -131,13 +58,22 @@ main{
 .content-controls {
 }
 
-
-.content-btn, .content-btn-img{
-  width: 30px;
+.content-box img{
+  cursor: pointer;
+  width: auto;
   height: 30px;
 }
+.content-controls{
+  margin-top: 10px;
+  display: flex;
+  gap: 15px;
+}
 
-
+.content-box{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 
 
