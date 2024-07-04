@@ -37,7 +37,9 @@ const userSchema = new mongoose.Schema({
     images: [{
         data: Buffer,
         contentType: String
-    }]
+    }],
+    viewedPostIDs: [String]
+
 });
 
 // Define image schema
@@ -49,8 +51,11 @@ const postsSchema = new mongoose.Schema({
         id: Number,
         views: [String],
         likes: [String],
-        shares: [String]
-    }]
+        shares: [String],
+        comments: [{
+            username: String, comments: String
+        }]
+}]
 });
 
 // MongoDB connection URIs

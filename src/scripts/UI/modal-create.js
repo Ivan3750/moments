@@ -1,4 +1,4 @@
-import { getUser, getPhoto } from "../getData.js";
+import { getUser, setPosts } from "../getData.js";
 const filePost = document.querySelector('.file-post');
 const inputText = document.querySelector('#input-text');
 const inputFile = document.querySelector('#input-file');

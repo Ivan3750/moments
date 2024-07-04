@@ -38,9 +38,14 @@ main{
   padding: 15px;
 }
 .user-block {
+  width: min-content;
   display: flex;
   gap: 15px;
   align-items: center;
+}
+
+.user-block:hover{
+  cursor: pointer;
 }
 .user-img {
   width: 50px;
@@ -53,6 +58,7 @@ main{
   margin-top: 20px;
   width: 400px;
   border-radius: 5px;
+  cursor: pointer;
 
 }
 .content-controls {
@@ -80,4 +86,26 @@ main{
 
 .section__followers{
   width: 300px;
+}
+
+#loading-indicator{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.content-frame-img{
+  margin-top: 20px;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    border-radius: 20px;
+    height: 556px;
+}
+
+.section__contents{
+
 }

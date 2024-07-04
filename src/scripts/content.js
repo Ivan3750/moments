@@ -1,120 +1,156 @@
-const contentImg = document.querySelector('.content-img');
-const contentUserName = document.querySelector('.user-name');
-const contentUserImg = document.querySelector('.user-img');
+import { LoadView } from "./UI/view-post.js";
 
+const postsContainer = document.getElementById('posts-container');
+const loadingIndicator = document.createElement('div');
+loadingIndicator.id = 'loading-indicator';
+loadingIndicator.textContent = 'Loading...';
+document.body.appendChild(loadingIndicator);
 
-const btnLike = document.querySelector('.content-btn-like');
-const amountLike = document.querySelector('.content-amount-like');
-const btnMessages = document.querySelector('.content-btn-messages');
-const amountMessages = document.querySelector('.content-amount-messages');
-const btnShare = document.querySelector('.content-btn-share');
-const amountShare = document.querySelector('.content-amount-share');
+let isLoading = false;
+let debounceTimer = null;
 
+const toBase64 = (arr) => btoa(new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), ''));
 
-let ACTIVE_POST_ID = "6681dbd8be6effcd20c90f14"
+const fetchPost = async (postId) => {
+    const response = await fetch(`API/content/post/${postId}`);
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    return response.json();
+};
 
-/* const LoadContent = async() =>{
-     const fetchContent = await fetch(`API/content/${JSON.parse(localStorage.token)}`)
-     const dataJson = await fetchContent.json()
-     console.log(dataJson)
-    let img = dataJson[0].posts
-    console.log(dataJson)
-    let user = dataJson[1]
-    let avatar = dataJson[2]
-     function toBase64(arr) {
-        return btoa(
-            new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')
-        );
+const fetchNextPostID = async () => {
+    const token = JSON.parse(localStorage.token);
+    const response = await fetch(`API/content/nextPost/${token}`);
+    if (!response.ok) {
+        const Load = document.getElementById('loading-indicator');
+        Load.textContent = 'No more posts for you...';
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data.nextPostID;
+};
+
+export let ACTIVE_POST_ID;
+
+const createPostElement = (postData, userData) => {
+    if (!postData || !userData) {
+        console.error("Invalid postData or userData", postData, userData);
+        return null;
     }
 
-    try {
-        const base64String = toBase64(img[0].data.data);
-        contentImg.src = `data:${img.contentType};base64,${base64String}`;
-        contentUserName.innerHTML = user
-        console.log(avatar)
-        const base64StringAvt = toBase64(avatar.data.data);
-        contentUserImg.src = `data:${avatar.contentType};base64,${base64StringAvt}`;
-        
+    const postElement = document.createElement('div');
+    postElement.classList.add('content-block');
 
-    } catch (error) {
-        console.log(error)
-        contentImg.src = `https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg`;
+    const likesCount = postData.likes ? postData.likes.length : 0;
+    const commentsCount = postData.comments ? postData.comments.length : 0;
+    const sharesCount = postData.shares ? postData.shares.length : 0;
 
-    }
+    postElement.innerHTML = `
+        <div class="user-block">
+            <img src="data:${userData.avatar.contentType};base64,${toBase64(userData.avatar.data.data)}" alt="" class="user-img">
+            <p class="user-name">${userData.username}</p>
+        </div>
+        <div class="content-frame-img">
+            <img src="data:${postData.contentType};base64,${toBase64(postData.data.data)}" alt="" class="content-img lazyload">
+        </div>
+        <div class="content-controls">
+            <div class="content-box">
+                <img src="../assets/icons/like.png" alt="" class="content-btn-like">
+                <p class="content-amount-like">${likesCount}</p>
+            </div>
+            <div class="content-box">
+                <img src="../assets/icons/messages.png" alt="" class="content-btn-messages">
+                <p class="content-amount-messages">${commentsCount}</p>
+            </div>
+            <div class="content-box">
+                <img src="../assets/icons/share.png" alt="" class="content-btn-share">
+                <p class="content-amount-share">${sharesCount}</p>
+            </div>
+        </div>
+    `;
 
+    fetch(`API/content/check/${postData._id}/${JSON.parse(localStorage.token).replace(/%22/g, '')}`)
+        .then(res => res.json())
+        .then((data) => {
+            postElement.querySelector('.content-amount-like').innerHTML = data.likes.length;
+            postElement.querySelector('.content-btn-like').src = data.liked ? "../assets/icons/like-active.png" : "../assets/icons/like.png";
+        })
+        .catch(err => console.error('Error:', err));
 
+    postElement.querySelector('.user-block').addEventListener('click', () => {
+        location.href = `/${userData.username}`;
+    });
 
+    postElement.querySelector('.content-img').addEventListener('click', () => {
+        LoadView(postData, userData.username, userData.avatar);
+    });
 
-} */
-
-
-
-    const LoadPost = async (reload) => {
+    postElement.querySelector('.content-btn-like').addEventListener('click', async () => {
+        const token = JSON.parse(localStorage.token).replace(/%22/g, '');
         try {
-            const response = await fetch(`API/content/post/${ACTIVE_POST_ID}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            function toBase64(arr) {
-                return btoa(
-                    new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')
-                );
-            }
-            const AllpostData = await response.json();
-            let postData =  AllpostData[0]
-            let userData = AllpostData[1]
-            amountLike.innerHTML = postData.likes.length 
-           amountShare.innerHTML = postData.shares.length 
-            
-            if(!reload){const base64StringUser = toBase64(userData.avatar.data.data);
-            contentUserImg.src = `data:${userData.avatar.contentType};base64,${base64StringUser}`;
-            const base64String = toBase64(postData.data.data);
-            contentImg.src = `data:${postData.contentType};base64,${base64String}`;
-
-            contentUserName.innerHTML = userData.username}
-        } catch (error) {
-            console.error("Failed to load post:", error);
+            const data = await (await fetch(`API/content/check/${postData._id}/${token}`)).json();
+            postElement.querySelector('.content-amount-like').innerHTML = data.likes.length;
+            postElement.querySelector('.content-btn-like').src = data.liked ? "../assets/icons/like-active.png" : "../assets/icons/like.png";
+            await doAction('like', postData._id);
+        } catch (err) {
+            console.error('Error:', err);
         }
-    };
-    
-    LoadPost();
-    
+    });
 
+    postElement.querySelector('.content-btn-share').addEventListener('click', async () => {
+        await doAction('share', postData._id);
+    });
 
+    return postElement;
+};
 
-btnLike.addEventListener("click", ()=>{
-    btnLike.src = "../assets/icons/like-active.png"
-    doAction("like")
-    getPostDetails();
-
-
-})
-btnMessages.addEventListener("click", ()=>{
-    amountMessages.innerHTML = 1  
-})
-btnShare.addEventListener("click", ()=>{
-    amountShare.innerHTML = 1  
-})
-/* 
-contentImg.addEventListener("dbclick",()=>{
-    console.log("Double")
-} )
- */
-
-const doAction =(action)=>{
-    fetch(`API/content/${action}/post/${ACTIVE_POST_ID}/${JSON.parse(localStorage.token)}`, {method: "POST"})
-    LoadPost()
-}
-const getPostDetails = async () => {
+const loadPost = async (postId) => {
     try {
-        const response = await fetch(`API/content/${JSON.parse(localStorage.token)}/post/${ACTIVE_POST_ID}/`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.error('Error fetching post details:', error);
-    }
-}
+        isLoading = true;
+        loadingIndicator.style.display = 'block';
 
+        const [postData, userData] = await fetchPost(postId);
+        const postElement = createPostElement(postData, userData);
+
+        if (postElement) {
+            postsContainer.appendChild(postElement);
+        }
+
+        ACTIVE_POST_ID = await fetchNextPostID();
+        localStorage.setItem('ACTIVE_POST_ID', ACTIVE_POST_ID); // Зберігаємо в LocalStorage
+
+        isLoading = false;
+        loadingIndicator.style.display = 'none';
+    } catch (error) {
+        console.error("Failed to load post:", error);
+        isLoading = false;
+        loadingIndicator.style.display = 'none';
+    }
+};
+
+const doAction = async (action, postId, body = {}) => {
+    try {
+        await fetch(`API/content/${action}/post/${postId}/${JSON.parse(localStorage.token)}`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+    } catch (error) {
+        console.error(`Failed to ${action} post:`, error);
+    }
+};
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', async () => {
+    ACTIVE_POST_ID = localStorage.getItem('ACTIVE_POST_ID') || await fetchNextPostID(); // Завантажуємо з LocalStorage або з API
+    await loadPost(ACTIVE_POST_ID);
+
+    window.addEventListener('scroll', async () => {
+        if (debounceTimer) clearTimeout(debounceTimer);
+
+        debounceTimer = setTimeout(async () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 2 && !isLoading) {
+                await loadPost(ACTIVE_POST_ID);
+            }
+        }, 100);
+    });
+});

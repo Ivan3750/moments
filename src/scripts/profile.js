@@ -1,4 +1,4 @@
-import { getUserByUserName, getAvatar, getPhoto, getUser } from "./getData.js"
+import { getUserByUserName, setAvatar, setPosts, getUser } from "./getData.js"
 
 const profileName = document.querySelector('.account-name');
 const statsFollowers = document.querySelector('.account-stats-followers');
@@ -25,8 +25,8 @@ export const loadProfileData = async () => {
         statsFollowers.textContent = `${user.stats.followers.length} followers`;
         statsFollowing.textContent = `${user.stats.following.length} following`;
         
-        getAvatar(user.avatar, accountAvatar);
-        getPhoto(usernameFromURL);
+        setAvatar(user.avatar, accountAvatar);
+        setPosts(usernameFromURL);
         
         const followValue = await checkFollowFunc(usernameFromURL);
         updateFollowButton(followValue);

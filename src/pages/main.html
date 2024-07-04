@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/account.css">
     <link rel="stylesheet" href="../style/header.css">
+    <link rel="stylesheet" href="../style/view-post.css">
 
 </head>
 <body>
@@ -71,26 +72,26 @@
                 </div>
             </div>
         </div>
-        <section class="section__contents">
-            <div class="content-block">
-                <div class="user-block">
-                <img src="../assets/img/unnamed.jpg" alt="" class="user-img">
-                <p class="user-name">User Name</p>
-                </div>
-                <img src="../assets/img/content.jpg" alt="" class="content-img lazyload">
-                <div class="content-controls">
-                        <div class="content-box">
-                            <img src="../assets/icons/like.png" alt="" class="content-btn-like">
-                            <p class="content-amount-like">0</p>
+        <section class="section__contents" id="posts-container">
+            <div class="view-block-conteiner">
+                <img src="../assets/icons/close.png" alt="" class="view-close">
+                <div class="view-post-block">
+                    <div class="view-post-img-box">
+                        <img src="" alt="" class="view-post-img">
+                    </div>
+                    <div class="view-post-details">
+                        <div class="view-post-head">
+                            <img src="" alt="" class="view-post-avatar">
+                            <p class="view-post-username"></p>
                         </div>
-                        <div class="content-box">
-                            <img src="../assets/icons/messages.png" alt="" class="content-btn-messages">
-                            <p class="content-amount-messages">0</p>
+                        <div class="view-post-body">
+                        
                         </div>
-                        <div class="content-box">
-                            <img src="../assets/icons/share.png" alt="" class="content-btn-share">
-                            <p class="content-amount-share">0</p>
-                        </div>                    
+                        <div class="view-post-comment">
+                            <input type="text" name="" id="comment-input" placeholder="Write a comment...">
+                            <button class="view-post-send-comment">Send</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

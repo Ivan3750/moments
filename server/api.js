@@ -248,51 +248,53 @@ router.get("/checkFollow/:token/:username", async (req, res) => {
   }
 });
 
+
 router.get("/content/:token", async (req, res) => {
-  try {
-    let token = jwt.decode(req.params.token);
-    let email = token.email;
-    let user = await User.findOne({ email });
+    try {
+        let token = jwt.decode(req.params.token);
+        let email = token.email;
+        let user = await User.findOne({ email });
 
-    if (!user) {
-      return res.status(404).send({ message: "User not found" });
+        if (!user) {
+            return res.status(404).send({ message: "User not found" });
+        }
+
+        let userFollowing = user.stats.following;
+        let chooseUser = userFollowing[2];
+        let findImages = await PostsCollections.findOne({ username: chooseUser }).select("posts");
+        let findInfo = await User.findOne({ username: chooseUser });
+        let findAvatar = findInfo.avatar;
+
+        res.send([findImages, chooseUser, findAvatar]);
+    } catch (error) {
+        res.status(500).send({ message: "Server error" });
     }
-
-    let userFollowing = user.stats.following;
-    let chooseUser = userFollowing[2];
-    let findImages = await PostsCollections.findOne({ username: chooseUser }).select("posts");
-    let findInfo = await User.findOne({ username: chooseUser });
-    let findAvatar = findInfo.avatar;
-
-    res.send([findImages, chooseUser, findAvatar]);
-  } catch (error) {
-    res.status(500).send({ message: "Server error" });
-  }
 });
 
-router.get("/content/post/:id", async (req, res) => {
-  try {
-    const postId = req.params.id;
-    const document = await PostsCollections.findOne({ "posts._id": postId });
-    if (document && document.posts) {
-      const post = document.posts.id(postId);
-      const user = await User.findOne({ username: document.username }).select("avatar username");
-      if (post) {
-        res.json([post, user]);
-      } else {
-        res.status(404).json({ message: "Post not found" });
-      }
-    } else {
-      res.status(404).json({ message: "No posts found" });
+router.get("/content/post/:id/", async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const document = await PostsCollections.findOne({ "posts._id": postId });
+        if (document && document.posts) {
+            const post = document.posts.id(postId);
+            const user = await User.findOne({ username: document.username }).select("avatar username");
+            if (post) {
+                res.json([post, user]);
+            } else {
+                res.status(404).json({ message: "Post not found" });
+            }
+        } else {
+            res.status(404).json({ message: "No posts found" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error", error: error.message });
-  }
 });
 
 router.post("/content/:action/post/:id/:token", async (req, res) => {
   try {
     const { action, id, token } = req.params;
+    const { comment } = req.body;  // Extract comment from req.body
 
     let decodedToken;
     try {
@@ -326,58 +328,247 @@ router.post("/content/:action/post/:id/:token", async (req, res) => {
           post.likes = post.likes.filter(likeUser => likeUser !== user.username);
         }
         break;
-      case "view":
-        if (!post.views.includes(user.username)) {
-          post.views.push(user.username);
-        }
-        break;
       case "share":
         if (!post.shares.includes(user.username)) {
           post.shares.push(user.username);
         }
         break;
       case "comment":
-        post.comments.push({ username: user.username, comment: req.body.comment || "" });
+        if (comment) {  // Ensure comment is defined
+          post.comments.push({ username: user.username, comments: comment });
+        } else {
+          return res.status(400).json({ message: "Comment is required" });
+        }
         break;
       default:
         return res.status(400).json({ message: "Invalid action" });
     }
 
     await document.save();
-    res.json({ message: `Post ${action}d successfully`, post });
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    const pc = post.comments
+    res.status(200).json({ message: "Action performed successfully", pc });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 });
-router.get("/content/:token/post/:id", async (req, res) => {
+
+/* 
+router.get("/content/nextPost/:token", async (req, res) => {
   try {
-    const { id, token } = req.params;
-    const decodedToken = jwt.verify(token, SECRET_KEY);
-    
-    const user = await User.findOne({ email: decodedToken.email });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+      let token = jwt.verify(req.params.token, SECRET_KEY);
+      let email = token.email;
+      let user = await User.findOne({ email });
 
-    const userPosts = await PostsCollections.findOne({ username: user.username }).select;
-    if (!userPosts || !userPosts.posts) {
-      return res.status(404).json({ message: "User posts not found" });
-    }
+      if (!user) {
+          return res.status(404).send({ message: "User not found" });
+      }
 
-    // Find the post with matching _id in userPosts.posts array
-    const post = userPosts.posts.find(p => p._id == id);
-    if (!post) {
-      return res.status(404).json({ message: "Post not found" });
-    }
+      // Initialize viewedPosts if it is undefined or null
+      if (!Array.isArray(user.viewedPostIDs)) {
+          user.viewedPostIDs = [];
+      }
 
-    res.send(post);
-  } catch (err) {
-    if (err instanceof jwt.JsonWebTokenError) {
-      return res.status(403).json({ message: "Invalid token" });
+      let allUsers = await User.find({});
+      
+      // Exclude the current user
+      allUsers = allUsers.filter(otherUser => otherUser.username !== user.username);
+      
+      if (allUsers.length === 0) {
+          return res.status(404).send({ message: "No other users found" });
+      }
+
+      let chooseUser = null;
+      let findImages = null;
+
+      while (allUsers.length > 0) {
+          // Select a random user
+          let randomUserIndex = Math.floor(Math.random() * allUsers.length);
+          chooseUser = allUsers[randomUserIndex].username;
+
+          findImages = await PostsCollections.findOne({ username: chooseUser }).select("posts");
+
+          // Remove user from the list if no posts found
+          if (!findImages || findImages.posts.length === 0) {
+              allUsers.splice(randomUserIndex, 1);
+              chooseUser = null;
+              findImages = null;
+          } else {
+              break;
+          }
+      }
+
+      if (!chooseUser || !findImages) {
+          return res.status(404).send({ message: "No posts found for any user" });
+      }
+
+      // Ensure viewedPostIDs is an array of strings
+      let viewedPostIDs = user.viewedPostIDs.map(postId => postId.toString());
+
+      // Filter out already viewed posts
+      let availablePosts = findImages.posts.filter(post => !viewedPostIDs.includes(post._id.toString()));
+
+      if (availablePosts.length === 0) {
+          return res.status(404).send({ message: "No new posts available" });
+      }
+
+      // Select a random post from the available posts
+      let randomPostIndex = Math.floor(Math.random() * availablePosts.length);
+      let nextPostID = findImages[randomPostIndex]._id; //off findImages on availablePosts
+
+      // Add this post to the user's viewed posts
+      user.viewedPostIDs.push(nextPostID);
+      await user.save();
+
+      res.send({ nextPostID });
+  } catch (error) {
+      res.status(500).send({ message: "Server error", error: error.message });
+  }
+}); */
+
+
+router.get("/content/nextPost/:token", async (req, res) => {
+    try {
+        let token = jwt.verify(req.params.token, SECRET_KEY);
+        let email = token.email;
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).send({ message: "User not found" });
+        }
+
+        let allUsers = await User.find({});
+
+        // Exclude the current user
+        allUsers = allUsers.filter(otherUser => otherUser.username !== user.username);
+
+        if (allUsers.length === 0) {
+            return res.status(404).send({ message: "No other users found" });
+        }
+
+        let chooseUser = null;
+        let findImages = null;
+
+        while (allUsers.length > 0) {
+            // Select a random user
+            let randomUserIndex = Math.floor(Math.random() * allUsers.length);
+            chooseUser = allUsers[randomUserIndex].username;
+
+            findImages = await PostsCollections.findOne({ username: chooseUser }).select("posts");
+
+            // Remove user from the list if no posts found
+            if (!findImages || findImages.posts.length === 0) {
+                allUsers.splice(randomUserIndex, 1);
+                chooseUser = null;
+                findImages = null;
+            } else {
+                break;
+            }
+        }
+
+        if (!chooseUser || !findImages) {
+            return res.status(404).send({ message: "No posts found for any user" });
+        }
+
+        // Select a random post from the available posts
+        let randomPostIndex = Math.floor(Math.random() * findImages.posts.length);
+        let nextPostID = findImages.posts[randomPostIndex]._id;
+
+        res.send({ nextPostID });
+    } catch (error) {
+        res.status(500).send({ message: "Server error", error: error.message });
     }
-    res.status(500).json({ message: "Server error: " + err.message });
+});
+
+
+
+
+
+
+router.get("/content/comment/:id", async(req,res)=>{
+  const postId = req.params.id
+  const doc = await PostsCollections.findOne({ "posts._id": postId });
+  const post = doc.posts.id(postId);
+
+  const comments = post.comments
+  res.send(comments)
+
+
+})
+
+router.get("/content/check/:id/:token", async (req, res) => {
+  try {
+      let token = jwt.verify(req.params.token, SECRET_KEY);
+      let email = token.email;
+      let user = await User.findOne({ email });
+
+      if (!user) {
+          return res.status(404).send({ message: "User not found" });
+      }
+
+      const postId = req.params.id;
+      const doc = await PostsCollections.findOne({ "posts._id": postId });
+
+      if (!doc) {
+          return res.status(404).send({ message: "Post not found" });
+      }
+
+      const post = doc.posts.id(postId);
+
+      if (!post) {
+          return res.status(404).send({ message: "Post not found" });
+      }
+
+      const status = post.likes.includes(user.username);
+      const likes = post.likes
+      const shares = post.shares
+      const comments = post.comments
+      res.send({ liked: status, likes: likes, shares: shares, comments: comments });
+  } catch (error) {
+      res.status(500).send({ message: "Server error", error: error.message });
   }
 });
+
+
+router.post("/content/toggleLike/:id/:token", async (req, res) => {
+  try {
+      const token = jwt.verify(req.params.token, SECRET_KEY);
+      const email = token.email;
+      const user = await User.findOne({ email });
+
+      if (!user) {
+          return res.status(404).send({ message: "User not found" });
+      }
+
+      const postId = req.params.id;
+      const doc = await PostsCollections.findOne({ "posts._id": postId });
+
+      if (!doc) {
+          return res.status(404).send({ message: "Post not found" });
+      }
+
+      const post = doc.posts.id(postId);
+
+      if (!post) {
+          return res.status(404).send({ message: "Post not found" });
+      }
+
+      const userIndex = post.likes.indexOf(user.username);
+
+      if (userIndex > -1) {
+          // User has already liked the post, so remove the like
+          post.likes.splice(userIndex, 1);
+      } else {
+          // User has not liked the post, so add the like
+          post.likes.push(user.username);
+      }
+
+      await doc.save();
+      res.send({ message: "Like status updated" });
+  } catch (error) {
+      res.status(500).send({ message: "Server error", error: error.message });
+  }
+});
+
 
 
 module.exports = router;

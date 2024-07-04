@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../style/account.css">
     <link rel="stylesheet" href="../style/myaccount.css">
     <link rel="stylesheet" href="../style/header.css">
+    <link rel="stylesheet" href="../style/view-post.css">
 </head>
 <body>
     <div class="mask">
@@ -112,8 +113,26 @@
             </div>
             <div class="account-posts">
             </div>
-            <div class="view-post-block">
-                <img src="" alt="" class="view-post">
+            <div class="view-block-conteiner">
+                <img src="../assets/icons/close.png" alt="" class="view-close">
+                <div class="view-post-block">
+                    <div class="view-post-img-box">
+                        <img src="" alt="" class="view-post-img">
+                    </div>
+                    <div class="view-post-details">
+                        <div class="view-post-head">
+                            <img src="" alt="" class="view-post-avatar">
+                            <p class="view-post-username"></p>
+                        </div>
+                        <div class="view-post-body">
+                        
+                        </div>
+                        <div class="view-post-comment">
+                            <input type="text" name="" id="comment-input" placeholder="Write a comment...">
+                            <button class="view-post-send-comment">Send</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <script src="../scripts/UI/load.js"></script>
@@ -123,5 +142,6 @@
         <script type="module" src="../scripts/getData.js"></script>
         <script type="module" src="../scripts/myprofile.js"></script>
         <script type="module" src="../scripts/header.js"></script>
+        <script type="module" src="../scripts/UI/view-post.js"></script>
 </body>
 </html>

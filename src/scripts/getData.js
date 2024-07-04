@@ -1,3 +1,5 @@
+import {LoadView} from "./UI/view-post.js"
+
 const accountAvatar = document.querySelector('.account-avatar');
 const posts = document.querySelector('.account-posts');
 const statsPosts = document.querySelector('.account-stats-posts');
@@ -7,7 +9,6 @@ let viewPostStatus = false
 
 
 export const getUser = async () => {
-    
     try {
         const response = await fetch(`API/user/${JSON.parse(localStorage.token)}`);
         const user = await response.json();
@@ -28,7 +29,7 @@ export const getUserByUserName = async (value) => {
 
 
 
-export const getPhoto = (usernameFromURL)=>{
+export const setPosts = (usernameFromURL)=>{
     fetch(`API/posts/${usernameFromURL}`)
     .then(res => res.json())
     .then(data => {
@@ -43,12 +44,22 @@ export const getPhoto = (usernameFromURL)=>{
     
             data.forEach(image => {
                 const imgElement = document.createElement('img');
+                imgElement.id = "posts-container"
                 imgElement.src = `data:${image.contentType};base64,${toBase64(image.data.data)}`;
                 imgElement.className = 'post';
                 imgElement.addEventListener("click", ()=>{
+                    fetch(`API/username/${usernameFromURL}`)
+                    .then(res => res.json())
+                    .then(data=>{
+                        LoadView(image, usernameFromURL, data.avatar);
+                        localStorage.ACTIVE_POST_ID = image._id
+                    })
+
+                
+
                     viewPostBlock.classList.add("show")
                     viewPostStatus = true
-                    viewPost.src = `data:${image.contentType};base64,${toBase64(image.data.data)}`
+                    
                     viewPostBlock.addEventListener("click", (e)=>{
                         if(e.target !== viewPost){
                             viewPostBlock.classList.remove("show")
@@ -69,7 +80,7 @@ export const getPhoto = (usernameFromURL)=>{
     
 }
 
-export const getAvatar = (avatar, InAvatar) => {
+export const setAvatar = (avatar, InAvatar) => {
     function toBase64(arr) {
         return btoa(
             new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')
