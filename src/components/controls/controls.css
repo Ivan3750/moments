@@ -1,117 +1,36 @@
-
-
-main{
-    display: flex;
-    gap: 25px;
-    margin-top: 20px;
-    justify-content: space-between;
-}
 .section__controls{
-  border-radius: 20px;
-  margin-left: 20px;
-    width: 250px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #2A2A2A;
+  padding-top: 20px;
+border-radius: 20px;
+margin-left: 20px;
+  width: 250px;
+  height: 100vh;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  background-color: #2A2A2A;
 }
 
 .tab:nth-child(1){
-  margin-top: 15px;
+margin-top: 15px;
 }
 .tab{
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 1px 10px;
+display: flex;
+align-items: center;
+gap: 18px;
+padding: 15px 10px;
+}
+.tab:hover{
+  cursor: pointer;
+  background-color: rgb(28, 27, 27);
+
 }
 .tab__icon{
-    width: 40px;
-    height: 40px;
-}
-.tab__name{
-    font-size: 18px;
-}
-
-.content-block {
-  border-radius: 10px;
-  padding: 15px;
-}
-.user-block {
-  width: min-content;
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.user-block:hover{
-  cursor: pointer;
-}
-.user-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-}
-.user-name {
-}
-.content-img {
-  margin-top: 20px;
-  width: 400px;
-  border-radius: 5px;
-  cursor: pointer;
-
-}
-.content-controls {
-}
-
-.content-box img{
-  cursor: pointer;
-  width: auto;
+  width: 30px;
   height: 30px;
 }
-.content-controls{
-  margin-top: 10px;
-  display: flex;
-  gap: 15px;
+.tab__name{
+  font-size: 18px;
 }
-
-.content-box{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-
-
-.section__followers{
-  width: 300px;
-}
-
-#loading-indicator{
-  display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.content-frame-img{
-  margin-top: 20px;
-  display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-    border-radius: 20px;
-    height: 556px;
-}
-
-.section__contents{
-
-}
-
-
-
 .modal-create {
   display: none;
   flex-direction: column;
@@ -200,5 +119,3 @@ main{
     opacity: 0;
     cursor: pointer;
 }
-
-

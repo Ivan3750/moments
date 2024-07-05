@@ -1,55 +1,11 @@
 
-.account {
-    border-radius: 50px;
-    height: 50px;
-    width: 50px;
-}
-.account-img{
-    border-radius: 50px;
-    height: 50px;
-    width: 50px;
-    cursor: pointer;
-}
-
-
 main{
     display: flex;
     gap: 25px;
     margin-top: 20px;
 }
-.section__controls{
-    padding-top: 20px;
-  border-radius: 20px;
-  margin-left: 20px;
-    width: 250px;
-    height: max-content;
-    display: flex;
-    flex-direction: column;
-    background-color: #2A2A2A;
-}
 
-.tab:nth-child(1){
-  margin-top: 15px;
-}
-.tab{
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 15px 10px;
-}
-.tab:hover{
-    cursor: pointer;
-    background-color: rgb(28, 27, 27);
-
-}
-.tab__icon{
-    width: 30px;
-    height: 30px;
-}
-.tab__name{
-    font-size: 18px;
-}
-.modal-create {
+/* .modal-create {
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -138,7 +94,7 @@ main{
       cursor: pointer;
   }
 
-
+ */
 
 /* SECTION ACCOUNT */
 

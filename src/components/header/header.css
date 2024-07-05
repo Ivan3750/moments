@@ -1,5 +1,24 @@
 
 
+
+
+.account {
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+}
+.account-img{
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
+
+
+
+
+
 .header {
     display: flex;
     background-color: #2A2A2A;

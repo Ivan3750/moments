@@ -1,4 +1,4 @@
-import { getUser, setAvatar } from "./getData.js";
+import { getUser, setAvatar } from "../../scripts/getData.js";
 
 
 
@@ -62,7 +62,7 @@ const resultBox = (place, user) => {
     divResult.classList = "result-box"
     const avatarResult = document.createElement("img")
     avatarResult.classList = "result-avatar"
-    getAvatar(user.avatar, avatarResult)
+    setAvatar(user.avatar, avatarResult)
     const usernameResult = document.createElement("p")
     usernameResult.innerHTML = user.username
     divResult.addEventListener("click", ()=>{

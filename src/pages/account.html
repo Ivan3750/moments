@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/account.css">
     <link rel="stylesheet" href="../style/header.css">
+    <link rel="stylesheet" href="../style/view-post.css">
 
 </head>
 <body>
@@ -59,13 +60,16 @@
             <img src="../assets/icons/close.png" alt="" class="close-modal-create">
             <div class="modal-block">
                 <div class="modal-head">
-                    <p class="modal-title">Створити допис
+                    <p class="modal-title">Create a post
                     </p>
                 </div>
                 <div class="modal-body">
-                        <input type="text" name="name" placeholder="Image Name" id="input-text" required>
-                        <input type="file" name="image" accept="image/*" id="input-file" class="custom-file-input" required>
-                        <button  id="send-photo-btn">Upload</button>
+                    <div class="button-wrapper">
+                        <span class="label">
+                          Upload File
+                        </span>
+                          <input type="file" name="upload" id="input-file" class="upload-box" placeholder="Upload File">
+                      </div>     
                 </div>
             </div>
         </div>
@@ -74,7 +78,7 @@
                 <img src="../assets/icons/close.png" alt="" class="close-modal-avatar">
                 <div class="modal-block">
                     <div class="modal-head">
-                        <p class="modal-title">Основна світлина
+                        <p class="modal-title">Avatar
                         </p>
                     </div>
                     <div class="modal-body">
@@ -105,13 +109,35 @@
             </div>
             <div class="account-posts">
             </div>
+            <div class="view-block-conteiner">
+                <img src="../assets/icons/close.png" alt="" class="view-close">
+                <div class="view-post-block">
+                    <div class="view-post-img-box">
+                        <img src="" alt="" class="view-post-img">
+                    </div>
+                    <div class="view-post-details">
+                        <div class="view-post-head">
+                            <img src="" alt="" class="view-post-avatar">
+                            <p class="view-post-username"></p>
+                        </div>
+                        <div class="view-post-body">
+                        
+                        </div>
+                        <div class="view-post-comment">
+                            <input type="text" name="" id="comment-input" placeholder="Write a comment...">
+                            <button class="view-post-send-comment">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         </main>
         <script src="../scripts/UI/load.js"></script>
-        <script src="../scripts/UI/controls.js"></script>
         <script type="module" src="../scripts/UI/modal-create.js"></script>
         <script type="module" src="../scripts/getData.js"></script>
         <script type="module" src="../scripts/profile.js"></script>
-        <script type="module" src="../scripts/header.js"></script>
+        <script type="module" src="../components/header/header.js"></script>
+        <script type="module" src="../components/controls/controls.js"></script>
+        <script type="module" src="../scripts/UI/view-post.js"></script>
 </body>
 </html>

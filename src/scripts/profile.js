@@ -16,10 +16,10 @@ export const loadProfileData = async () => {
             window.location.href = "/myprofile";
             return;
         }
-
+        
         const user = await getUserByUserName(usernameFromURL);
         if (!user) throw new Error('User not found');
-
+        console.log(user)
         profileName.textContent = user.username;
         profileDescription.textContent = user.description;
         statsFollowers.textContent = `${user.stats.followers.length} followers`;

@@ -87,10 +87,11 @@ const createPostElement = (postData, userData) => {
     postElement.querySelector('.content-btn-like').addEventListener('click', async () => {
         const token = JSON.parse(localStorage.token).replace(/%22/g, '');
         try {
+            await doAction('like', postData._id);
             const data = await (await fetch(`API/content/check/${postData._id}/${token}`)).json();
+            console.log(data)
             postElement.querySelector('.content-amount-like').innerHTML = data.likes.length;
             postElement.querySelector('.content-btn-like').src = data.liked ? "../assets/icons/like-active.png" : "../assets/icons/like.png";
-            await doAction('like', postData._id);
         } catch (err) {
             console.error('Error:', err);
         }

@@ -31,7 +31,7 @@ closeModalCreate.addEventListener("click", ()=>{
             .then(response => response.json())
             .then(data => {
                 modal.classList.remove("show")
-                getPhoto(user.username)
+                setPosts(user.username)
                 statsPostsTxT.textContent = user.images.length + " posts"
 
                 
