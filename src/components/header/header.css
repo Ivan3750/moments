@@ -4,13 +4,13 @@
 
 .account {
     border-radius: 50px;
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
 }
 .account-img{
     border-radius: 50px;
-    height: 50px;
-    width: 50px;
+    height: 100%;
+    width: 100%;
     cursor: pointer;
 }
 
@@ -20,16 +20,51 @@
 
 
 .header {
+    height: 55px;
     display: flex;
     background-color: #2A2A2A;
-    padding: 5px 15px;
+    padding: 2px 10px;
     box-sizing: border-box;
     align-items: center;
     justify-content: space-between;
+
+      box-sizing: border-box;
+      font-family: Linear, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 24px;
+/*       margin: 0px 235.6px;
+ */      padding: 0px 12px;
+      
+      backdrop-filter: blur(24px) saturate(1.4);
+      background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 0.2);
+      border-radius: 16px;
+      box-shadow: rgba(255, 255, 255, 0.08) 0px 0px 0px 1px;
+      height: 48px;
+      inset-inline: 0px;
+      isolation: isolate;
+/*       margin-inline: 235.6px;
+ */      max-width: 1500px;
+ margin: 0px auto;
+      position: absolute;
+      top: 16px;
+      transform: matrix(1, 0, 0, 1, 0, 0);
+      width: 90%;
+      z-index: 100;
+      color: rgb(255, 255, 255);
+      text-size-adjust: 100%;
+
+
+    
+
+
 }
 .header__logo {
     color: #ffffff;
     font-size: 24px;
+    height: 40px;
+    width:  40px;
+
 }
 .search-block{
     position: relative;
@@ -43,8 +78,8 @@
     align-items: center;
     gap: 15px;
     width: 500px;
-    height: 50px;
-    border-radius: 20px;
+    height: 40px;
+    border-radius: 10px;
     background-color: #3a3a3a;
  
 }
@@ -79,9 +114,12 @@
     padding-top: 50px;
     padding: 30px 0px;
     box-sizing: border-box;
+    background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 1);
 }
 .search-result.active{
-display: block;
+display: flex;
+gap: 5px;
+flex-direction: column;
 }
 
 .result-box{
@@ -93,11 +131,31 @@ display: block;
     cursor: pointer;
 }
 .result-box:hover{
-    background-color: #211f1f;
+    background-color: #252528;
 }
 
 .result-avatar{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+}
+
+.result-username{
+    font-size: 14px;
+}
+
+.search__background{
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: #00000043;
+    backdrop-filter: blur(20px);
+    display: none;
+    width: 100%;
+    height: 100vh;
+    z-index: 4;
+}
+
+.search__background.active{
+    display: block;
 }

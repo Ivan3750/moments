@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music</title>
+    <link rel="shortcut icon" href="../assets/icons/moments.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/view-post.css">
+    <link rel="stylesheet" href="../style/normalize.css">
+    <link rel="stylesheet" href="../style/music.css">
+
+</head>
+<body>
+    <!-- <div class="mask">
+        <div class="load-3">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </div> -->
+    <header class="header">
+        <img src="../assets/icons/moments.svg" class="header__logo"/>
+        <div class="search-block">
+            <div class="search__box">
+                <img src="../assets/icons/search.png" alt="" class="search-icon">
+                <input type="text" name="" id="" class="search-input">
+            </div>
+            <div class="search-result">
+                
+            </div>
+        </div>
+        <div class="account">
+            <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img">
+        </div>
+    </header>
+    <main>
+        <section class="section__controls">
+            
+        </section>
+        <div class="modal-create">
+            <img src="../assets/icons/close.png" alt="" class="close-modal-create">
+            <div class="modal-block">
+                <div class="modal-head">
+                    <p class="modal-title">Create a post
+                    </p>
+                </div>
+                <div class="modal-body">
+                    <div class="button-wrapper">
+                        <span class="label">
+                          Upload File
+                        </span>
+                          <input type="file" name="upload" id="input-file" class="upload-box" placeholder="Upload File">
+                      </div>     
+                </div>
+            </div>
+        </div>
+        <div class="player-page">
+            <div class="player-page-left">
+                <img src="" alt="" class="player-page-img" width="500px" height="500px">
+            </div>
+            <div class="player-page-right">
+                <div class="player-page-control">
+                    <button class="btn-next pp-btn">Next</button>
+                  <button class="btn-like pp-btn">Like</button>
+                    <select name="" id="select-genre">
+                        <option value="Pop">Pop</option>
+                        <option value="Rock">Rock</option>
+                        <option value="Rep">Rep</option>
+                        <option value="R’n’B">R’n’B</option>
+                        <option value="80-90">80-90</option>
+                        <option value="Classic">Classic</option>
+                    </select>
+                </div>
+                <div class="player-page-main">
+                    <div class="player-page-list">
+                        
+                    </div>
+                    <div class="player-page-text">
+                        
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <div class="player" id="blurryface">
+            <div class="player-info">
+                <div class="track-info">
+                    <img src="" alt="" class="img-track">
+                    <div class="track-detalis">
+                    <div id="track-artist"></div>
+                    <div id="track-title"></div>
+                    <div id="track-genre"></div>
+                </div>
+                </div>
+            </div>
+            <div class="player-controls">
+               
+                <audio id="track"></audio>
+                <div class="controls">
+                    <button id="prev-track">
+                        <img src="../assets/icons/next-track-button.png" alt="" class="icon-player prev-track-img">
+                    </button>
+                    <button id="back10">
+                        <img src="../assets/icons/10-button.png" alt="" class="icon-player back10-img">
+                    </button>
+                    <button id="play">
+                        <img src="../assets/icons/play.png" alt="" class="icon-player play-img">
+                    </button>
+                    <button id="pause" style="display:none;">
+                        <img src="../assets/icons/pause.png" alt="" class="icon-player pause-img">
+                    </button>
+                    
+                    <button id="stop">                    
+                        <img src="../assets/icons/stop.png" alt="" class="icon-player stop-img">
+                    </button>
+                    
+                    <button id="forward10">
+                        <img src="../assets/icons/10-button.png" alt="" class="icon-player forward10-img">
+                    </button>
+                    <button id="next-track">
+                        <img src="../assets/icons/next-track-button.png" alt="" class="icon-player next-track-img">
+                    </button>
+                    <button id="like-track">
+                        <img src="" alt="" class="icon-player like-track-img" width="14px">
+                    </button>
+                </div>
+                <div class="progress">
+                    <span id="currentTime">0:00</span>
+                    <input type="range" id="progressBar" value="0">
+                    <span id="durationTime">0:00</span>
+                </div>
+            </div>
+            <div class="help-group">
+                <div class="volume">
+                    <img src="../assets/icons/speaker-filled-audio-tool.png" alt="" width="15px" height="15px">
+                    <input type="range" id="volumeBar" value="100">
+                </div>
+                <img src="../assets/icons/arrow-up.png" alt="" width="50px" height="50px" class="img-open-pp">
+            </div>
+        </div>
+        <section class="section__music"></section>
+       
+        <section class="section__followers"></section>
+    </main>
+    <script src="https://afarkas.github.io/lazysizes/lazysizes.min.js" async=""></script>   
+    <script type="module" src="../scripts/UI/components.js"></script>
+    <script type="module" src="../scripts/content.js"></script>
+    <script type="module" src="../scripts/UI/load.js"></script>
+    <script type="module" src="../components/header/header.js"></script>
+    <script type="module" src="../components/controls/controls.js"></script>
+    <script type="module" src="../scripts/UI/modal-create.js"></script>
+    <script type="module" src="../scripts/player.js"></script>
+</body>
+</html>

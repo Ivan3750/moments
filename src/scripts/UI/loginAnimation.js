@@ -1,8 +1,6 @@
-
 const main = document.querySelector('.main__block');
 let isLogin;
 
-// Функція для створення елементів
 const createElement = (type, text, className, append = main) => {
     const el = document.createElement(type);
     if (text) el.innerHTML = text;
@@ -11,13 +9,12 @@ const createElement = (type, text, className, append = main) => {
     return el;
 };
 
-// Функція для введення тексту
-function typeText(selector, text, speed) {
+const typeText = (selector, text, speed) => {
     return new Promise((resolve) => {
         const element = document.querySelector(selector);
         let index = 0;
 
-        function type() {
+        const type = () => {
             if (index < text.length) {
                 element.innerHTML += text.charAt(index);
                 index++;
@@ -25,13 +22,12 @@ function typeText(selector, text, speed) {
             } else {
                 resolve();
             }
-        }
+        };
 
         type();
     });
-}
+};
 
-// Функція для введення даних з кнопкою підтвердження
 const getInputWithButton = (message, userData, userDataKey, validator = null) => {
     return new Promise((resolve) => {
         createElement("p", "", "text-active");
@@ -54,9 +50,7 @@ const getInputWithButton = (message, userData, userDataKey, validator = null) =>
         };
 
         input.addEventListener("keydown", (e) => {
-            if (e.code === "Enter") {
-                handleInput();
-            }
+            if (e.code === "Enter") handleInput();
         });
 
         button.addEventListener("click", handleInput);
@@ -65,61 +59,49 @@ const getInputWithButton = (message, userData, userDataKey, validator = null) =>
 
 const createEmailAndPassword = (userData) => {
     return new Promise((resolve) => {
-        const askEmail = createElement("p", "Enter email: ", "");
-        const inputEmail = createElement("input", "", "input");
-        inputEmail.type = "email"
-        const askPass = createElement("p", "Enter password: ", "");
-        const inputPass = createElement("input", "", "input");
-        inputPass.type = "password"
-        const messageElement = createElement("p", "", "message");
+        createElement("p", "Enter email: ", "");
+        const inputEmail = createElement("input", "", "input", main);
+        inputEmail.type = "email";
+
+        createElement("p", "Enter password: ", "");
+        const inputPass = createElement("input", "", "input", main);
+        inputPass.type = "password";
+
         const button = createElement("button", "Next", "next-button");
 
         const handleInput = () => {
-            const valueEmail = inputEmail.value;
-            const valuePass = inputPass.value;
-           
-            userData["email"] = valueEmail;
-            userData["password"] = valuePass;
+            userData.email = inputEmail.value;
+            userData.password = inputPass.value;
             resolve();
         };
 
         inputEmail.addEventListener("keydown", (e) => {
-            if (e.code === "Enter") {
-                handleInput();
-            }
+            if (e.code === "Enter") handleInput();
         });
         inputPass.addEventListener("keydown", (e) => {
-            if (e.code === "Enter") {
-                handleInput();
-            }
+            if (e.code === "Enter") handleInput();
         });
 
         button.addEventListener("click", handleInput);
     });
 };
 
-// Функція вибору кнопки
 const chooseButton = () => {
     return new Promise((resolve) => {
         createElement("p", "", "text-active");
         typeText(".text-active", "Choose:", 50);
         const box = createElement("div", "", "box-buttons");
-        const buttonLogin = createElement("button", "Login", "login-button", box);
-        const buttonRegistration = createElement("button", "Registration", "registration-button", box);
-
-        buttonLogin.addEventListener("click", () => {
+        createElement("button", "Login", "login-button", box).addEventListener("click", () => {
             isLogin = true;
             resolve();
         });
-
-        buttonRegistration.addEventListener("click", () => {
+        createElement("button", "Registration", "registration-button", box).addEventListener("click", () => {
             isLogin = false;
             resolve();
         });
     });
 };
 
-// Клас Login
 class Login {
     constructor() {
         this.userData = {
@@ -128,12 +110,6 @@ class Login {
             email: '',
             password: ''
         };
-    }
-
-    async showHello() {
-        const el = createElement("p", "", "text-active");
-        el.style.fontSize = "25px";
-        await typeText(".text-active", "Welcome to Social Media Moments! Let’s begin the adventure    ", 50);
     }
 
     askName() {
@@ -145,49 +121,36 @@ class Login {
     }
 
     askEmailAndPassword() {
-        return new Promise(async (resolve) => {
-            await createEmailAndPassword(this.userData)
-            resolve();
-        });
+        return createEmailAndPassword(this.userData);
     }
-
 
     removeAll() {
         main.innerHTML = "";
     }
 }
 
-// Основна функція для запуску логіну
 const startLogin = async () => {
-    let s = new Login();
-    await s.showHello();
-    s.removeAll();
+    const loginInstance = new Login();
+
     await chooseButton();
-    s.removeAll();
+    loginInstance.removeAll();
 
     if (!isLogin) {
-        await s.askName();
-        s.removeAll();
-        await s.askNickName();
-        s.removeAll();
-        await s.askEmailAndPassword();
-        s.removeAll();
-        sendRegistration(s.userData);
+        await loginInstance.askName();
+        loginInstance.removeAll();
+        await loginInstance.askNickName();
+        loginInstance.removeAll();
+        await loginInstance.askEmailAndPassword();
+        loginInstance.removeAll();
+        sendRegistration(loginInstance.userData);
     } else {
-        await s.askEmailAndPassword();
-        s.removeAll();
-        sendLogin(s.userData)
-            
+        await loginInstance.askEmailAndPassword();
+        loginInstance.removeAll();
+        sendLogin(loginInstance.userData);
     }
 };
 
-
-
-startLogin();
-
-
-const sendRegistration = (data) =>{
-        
+const sendRegistration = (data) => {
     fetch("API/register", {
         method: "POST",
         body: JSON.stringify(data),
@@ -200,42 +163,30 @@ const sendRegistration = (data) =>{
         localStorage.setItem('isLogin', "true");
         localStorage.setItem('token', JSON.stringify(data.token));
         location.href = "/home";
+    });
+};
+
+const sendLogin = (data) => {
+    fetch("API/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        },
     })
-}
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        localStorage.setItem('isLogin', "true");
+        localStorage.setItem('token', JSON.stringify(data.token));
+        location.href = "/home";
+    })
+    .catch(error => {
+        alert("No email or password");
+        location.href = "/";
+    });
+};
 
-
-
-
-const sendLogin = (data) =>{
-
-fetch("API/login", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-        "Content-Type": "application/json"
-    },
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-})
-.then(data => {
-    localStorage.setItem('isLogin', "true");
-    localStorage.setItem('token', JSON.stringify(data.token));
-    location.href = "/home";
-
-})
-.catch(error => {
-    alert("No email password")
-    location.href = "/";
-
-});
-}    
-
-
-
-
-
-
+startLogin();

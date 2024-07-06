@@ -6,7 +6,8 @@ import { getUser, setAvatar } from "../../scripts/getData.js";
 const searchResult = document.querySelector('.search-result');
 const searchInput = document.querySelector('.search-input');
 const searchIcon = document.querySelector('.search-icon');
-
+const searchBackground = document.querySelector('.search__background');
+console.log(searchBackground)
 const accountImg = document.querySelector('.account-img'); 
 
 accountImg.addEventListener("click", ()=>{
@@ -27,12 +28,14 @@ searchIcon.addEventListener("click", () => {
 });
 searchInput.addEventListener("input", () => {
     searchResult.classList.add("active")
+    searchBackground.classList.add("active")
     searchUsers();
 });
 window.addEventListener("click", (e) => {
 
     if (!searchResult.contains(e.target)) {
         searchResult.classList.remove("active");
+        searchBackground.classList.remove("active");
     }
 });
 

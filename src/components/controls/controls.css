@@ -1,27 +1,31 @@
 .section__controls{
-  padding-top: 20px;
 border-radius: 20px;
 margin-left: 20px;
-  width: 250px;
+  width: 200px;
   height: 100vh;
   height: max-content;
   display: flex;
   flex-direction: column;
-  background-color: #2A2A2A;
+  gap: 5px;
 }
 
 .tab:nth-child(1){
-margin-top: 15px;
-}
+/* margin-top: 15px;
+ */}
 .tab{
 display: flex;
 align-items: center;
-gap: 18px;
-padding: 15px 10px;
+gap: 16px;
+padding: 8px 10px;
+background-color: #2A2A2A;
+border-radius: 14px;
+background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 0.5);
+
+
 }
 .tab:hover{
   cursor: pointer;
-  background-color: rgb(28, 27, 27);
+  background: none 0% 0% / auto repeat scroll padding-box border-box rgba(20, 20, 20, 0.8);
 
 }
 .tab__icon{
@@ -29,7 +33,7 @@ padding: 15px 10px;
   height: 30px;
 }
 .tab__name{
-  font-size: 18px;
+  font-size: 14px;
 }
 .modal-create {
   display: none;

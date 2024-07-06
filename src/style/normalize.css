@@ -1,91 +1,123 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import url(../components/controls/controls.css);
 @import url(../components/header/header.css);
 
 * {
-   font-family: "Open Sans";
-    padding: 0;
-    margin: 0;
-    border: 0;
-    text-decoration: none;
-    font-family: Unbounded;
-  }
-  
-  * {
-    color: #ffffff;
-  }
-  
-  :focus, :active {
-    outline: none;
-  }
-  
-  a:focus, a:active {
-    outline: none;
-  }
-  
-  nav, footer, header, aside {
-    display: block;
-  }
-  
-  input, button, textarea {
-    font-family: inherit;
-  }
-  
-  input::-ms-clear {
-    display: none;
-  }
-  
-  button {
-    cursor: pointer;
-    background-color: transparent;
-  }
-  
-  button::-moz-focus-inner {
-    padding: 0;
-    border: 0;
-  }
-  
-  a, a:visited {
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: none;
-  }
-  
-  ul li {
-    list-style: none;
-  }
-  
-  img {
-    vertical-align: top;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-size: inherit;
-    font-weight: 400;
-     font-family: "Open Sans"
-  }
-  p{
-     font-family: "Open Sans"
-  }
-  html {
-    scroll-behavior: smooth;
-  }
+  font-family: "Open Sans";
+  padding: 0;
+  margin: 0;
+  border: 0;
+  text-decoration: none;
+  font-family: Unbounded;
+}
 
-body{
-    background-color: #1C1919;
+* {
+  color: #ffffff;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: 400;
+  font-family: "Open Sans"
+}
+
+p {
+  font-family: "Open Sans"
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #1C1919;
+
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  min-height: 695.2px;
+  padding-top: 80px;
+  font-family: Linear, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgb(255, 255, 255);
+  text-size-adjust: 100%;
+  background: none 0% 0% / auto repeat scroll padding-box border-box rgb(24, 30, 37);
+
+
 }
 
 .load-3 .line:nth-last-child(1) {
   animation: loadingC 0.6s 0.1s linear infinite;
 }
+
 .load-3 .line:nth-last-child(2) {
   animation: loadingC 0.6s 0.2s linear infinite;
   background-color: #4b52db;
 
 }
+
 .load-3 .line:nth-last-child(3) {
   background-color: #894bdb;
   animation: loadingC 0.6s 0.3s linear infinite;
@@ -99,7 +131,7 @@ body{
   background-color: #4b9cdb;
 }
 
-.mask{
+.mask {
   position: fixed;
   top: 0;
   left: 0;
@@ -112,18 +144,81 @@ body{
   z-index: 500;
   justify-content: center;
 }
-.mask.hide{
+
+.mask.hide {
   display: none;
 }
 
 @keyframes loadingC {
-  0%{
+  0% {
     transform: translate(0, 0);
   }
+
   50% {
     transform: translate(0, 15px);
   }
+
   100% {
     transform: translate(0, 0);
   }
 }
+
+
+/* CODE */
+
+
+
+
+.A-0 {
+  align-items: center;
+  appearance: none;
+  background: none 0% 0% / auto repeat scroll padding-box border-box rgb(230, 230, 230);
+  color: rgb(8, 9, 10);
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-family: Linear, "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-feature-settings: "cv01", "ss03";
+  font-kerning: auto;
+  font-optical-sizing: auto;
+  font-size: 15px;
+  font-stretch: 100%;
+  font-variant: normal;
+  font-variation-settings: normal;
+  font-weight: 510;
+  justify-content: center;
+  line-height: 40px;
+  max-width: 100%;
+  padding: 0px 16px;
+  position: relative;
+  white-space: nowrap;
+  user-select: none;
+  border-radius: 10px;
+  gap: 6px;
+  height: 40px;
+  transition-property: border, background-color, color, box-shadow, opacity, filter, transform;
+  box-shadow: rgba(0, 0, 0, 0.11) 0px -1px 1px 0px inset, rgba(0, 0, 0, 0) 0px 8px 2px 0px, rgba(0, 0, 0, 0.01) 0px 5px 2px 0px, rgba(0, 0, 0, 0.04) 0px 3px 2px 0px, rgba(0, 0, 0, 0.07) 0px 1px 1px 0px, rgba(0, 0, 0, 0.08) 0px 0px 1px 0px;
+  box-sizing: border-box;
+  vertical-align: baseline;
+  text-decoration: none solid rgb(8, 9, 10);
+  outline: rgb(8, 9, 10) none 0px;
+  text-size-adjust: 100%;
+
+}
+
+
+
+::-webkit-scrollbar {
+  width: 5px
+}
+
+::-webkit-scrollbar-track {
+  background: #1C1919;
+  border-radius: 20px
+}
+
+::-webkit-scrollbar-thumb {
+  background: #19296c;
+  border-radius: 20px
+}
+
