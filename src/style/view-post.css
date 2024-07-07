@@ -188,3 +188,13 @@ max-width: 100%;
 .view-close:hover{
     cursor: pointer;
 }
+
+
+@media (max-width: 800.98px){
+    .view-block-conteiner{
+        display: none;
+    }
+    .view-block-conteiner.active{
+        display: none;
+    }
+}

@@ -314,3 +314,193 @@ cursor: pointer;
 /* *{
     outline: 2px solid #f0f;
 } */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1250px){
+    .post{
+        border-radius: 14px;
+        width: 250px;
+        height: 250px;
+    
+    }
+}
+@media (max-width: 1175px){
+    .post{
+        border-radius: 14px;
+        width: 240px;
+        height: 240px;
+    
+    }
+}
+@media (max-width: 1175px){
+    .post{
+        border-radius: 14px;
+        width: 210px;
+        height: 210px;
+    
+    }
+}
+
+@media (max-width: 1100.98px){
+    .account-avatar{
+        width: 100px;
+        height: 100px;
+    }
+    .account-info{
+        gap: 15px;
+    }
+    .section__account{
+        padding: 25px;
+    }
+    .account-info-stats p{
+        font-size: 11px;
+    }
+    .account-name{
+        font-size: 12px;
+        min-width: 60px!important;
+    }
+    .account-btn-edit {
+        width: 100px;
+        height: 24px;
+        border-radius: 8px;
+        background-color: #373737;
+    }
+
+}
+
+@media (max-width: 975px){
+    .post{
+        border-radius: 14px;
+        width: 175px;
+        height: 175px;
+    
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px){
+    .section__controls{
+        width: 180px;
+    }
+}
+@media (max-width: 900px){
+    .post{
+        border-radius: 14px;
+        width: 175px;
+        height: 175px;
+    
+    }
+    .account-avatar{
+        width: 90px;
+        height: 90px;
+    }
+
+    .post{
+        border-radius: 14px;
+        width: 150px;
+        height: 150px;
+    }
+
+    .account__head{
+        padding: 30px 20px;
+        gap: 25px;
+}
+
+.section__account{
+    width: calc(100% - 250px);
+}
+}
+
+
+
+@media (max-width: 768.98px){
+    main {
+        display: flex;
+        gap: 25px;
+        margin-top: 20px;
+        justify-content: center;
+    }
+    .section__account{
+        width: 90%;
+    }
+    .post{
+        border-radius: 14px;
+        width: 175px;
+        height: 175px;
+    }
+    .account__head{
+        justify-content: center;
+    }
+    .account-info-head button{
+        width: 80px!important;
+    }
+}
+
+
+@media (max-width: 500.98px){
+    .post{
+        width: 130px;
+        height: 130px;
+    }
+    .account-avatar{
+        width: 70px;
+        height: 70px;
+    }
+}
+@media (max-width: 400.98px){
+    .account-info-head button{
+        width: 50px!important;
+        height: 25px!important;
+        font-size: 7px!important;
+    }
+    .post{
+        width: 100px!important;
+        height: 100px!important;
+        border-radius: 10px!important;
+    }
+    .account-avatar{
+        width: 60px;
+        height: 60px;
+    }
+    .account__head {
+        gap: 10px;
+    }
+    .account-info-stats {
+        display: flex;
+        gap: 15px;
+    }
+    .section__account {
+        padding: 20px;
+    }
+    .account-name {
+        font-size: 12px;
+        min-width: none;
+    }
+    .account-avatar-box:hover .account-avatar-icon {
+        width: auto;
+        height: 73%;
+    }
+    .account-description{
+        display: none;
+    }
+}
+

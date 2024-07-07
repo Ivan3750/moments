@@ -1,12 +1,12 @@
-.section__controls{
-border-radius: 20px;
-margin-left: 20px;
-  width: 200px;
-  height: 100vh;
-  height: max-content;
+.section__controls-mobil{
+  position: fixed;
+  bottom: 0;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  width: 100%;
+  background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 1);
+  align-content: center;
+  justify-content: space-around;
+  padding: 2px 5px;
 }
 
 .tab:nth-child(1){
@@ -90,7 +90,6 @@ background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 
   top: 0;
   padding: 5px;
   cursor: pointer;
-  z-index: 20;
 }
 
 .button-wrapper {
@@ -158,31 +157,4 @@ background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 
     left: 0;
     opacity: 0;
     cursor: pointer;
-}
-
-
-
-
-
-/* MEDIA */
-
-
-
-@media (max-width: 756.98px){
-  .section__controls{
-    position: fixed;
-    bottom: 0;
-    display: flex;
-    width: 97%;
-    background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 1);
-    align-content: center;
-    justify-content: space-around;
-    padding: 2px 5px;
-    flex-direction: row;
-    margin: 0;
-    padding: 0px 5px;
-  }
-  .tab__name{
-    display: none;
-  }
 }

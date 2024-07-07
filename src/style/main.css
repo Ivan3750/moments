@@ -77,6 +77,7 @@ main{
   margin-top: 10px;
   display: flex;
   gap: 15px;
+  margin-left: 22px;
 }
 
 .content-box{
@@ -209,3 +210,52 @@ main{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* MEDIA *** */
+
+
+
+@media (max-width: 1100.98px){
+  .section__followers{
+    width: 150px;
+  }
+}
+@media (max-width: 950.98px){
+  .section__followers{
+    width: 50px;
+  }
+}
+@media (max-width: 756.98px){
+  .section__followers{
+    width: 0px;
+  }
+  main{
+    justify-content: center;
+    gap: 0;
+  }
+}
+
+@media (max-width: 756.98px){
+
+  .content-frame-img{
+      width: 300px;
+      height: 417px;
+  }
+}
