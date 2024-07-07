@@ -1,5 +1,4 @@
 .section__controls{
-border-radius: 20px;
 margin-left: 20px;
   width: 200px;
   height: 100vh;
@@ -19,14 +18,12 @@ gap: 16px;
 padding: 8px 10px;
 background-color: #2A2A2A;
 border-radius: 14px;
-background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 0.5);
-
+background: none 0% 0% / auto repeat scroll padding-box border-box rgb(15, 16, 17);
 
 }
 .tab:hover{
   cursor: pointer;
-  background: none 0% 0% / auto repeat scroll padding-box border-box rgba(20, 20, 20, 0.8);
-
+  background: none 0% 0% / auto repeat scroll padding-box border-box rgb(15, 16, 17);
 }
 .tab__icon{
   width: 30px;
@@ -172,8 +169,7 @@ background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 
     bottom: 0;
     display: flex;
     width: 97%;
-    background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 1);
-    align-content: center;
+    background: none 0% 0% / auto repeat scroll padding-box border-box rgb(15, 16, 17);    align-content: center;
     justify-content: space-around;
     padding: 2px 5px;
     flex-direction: row;

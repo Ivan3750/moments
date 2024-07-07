@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../style/view-post.css">
     <link rel="stylesheet" href="../style/normalize.css">
     <link rel="stylesheet" href="../style/music.css">
+    <link rel="stylesheet" href="../style/player.css">
 
 </head>
 <body>
@@ -55,42 +56,14 @@
                 </div>
             </div>
         </div>
-        <div class="player-page">
-            <div class="player-page-left">
-                <img src="" alt="" class="player-page-img" width="500px" height="500px">
-            </div>
-            <div class="player-page-right">
-                <div class="player-page-control">
-                    <button class="btn-next pp-btn">Next</button>
-                  <button class="btn-like pp-btn">Like</button>
-                    <select name="" id="select-genre">
-                        <option value="Pop">Pop</option>
-                        <option value="Rock">Rock</option>
-                        <option value="Rep">Rep</option>
-                        <option value="R’n’B">R’n’B</option>
-                        <option value="80-90">80-90</option>
-                        <option value="Classic">Classic</option>
-                    </select>
-                </div>
-                <div class="player-page-main">
-                    <div class="player-page-list">
-                        
-                    </div>
-                    <div class="player-page-text">
-                        
-                    </div>
-    
-                </div>
-            </div>
-        </div>
+      
         <div class="player" id="blurryface">
             <div class="player-info">
                 <div class="track-info">
                     <img src="" alt="" class="img-track">
                     <div class="track-detalis">
-                    <div id="track-artist"></div>
-                    <div id="track-title"></div>
-                    <div id="track-genre"></div>
+                    <div id="track-artist">BIBI</div>
+                    <div id="track-title">Feeling Lucky</div>
                 </div>
                 </div>
             </div>
@@ -99,27 +72,16 @@
                 <audio id="track"></audio>
                 <div class="controls">
                     <button id="prev-track">
-                        <img src="../assets/icons/next-track-button.png" alt="" class="icon-player prev-track-img">
-                    </button>
-                    <button id="back10">
-                        <img src="../assets/icons/10-button.png" alt="" class="icon-player back10-img">
+                        <img src="../assets/icons/next.png" alt="" class="icon-player prev-track-img">
                     </button>
                     <button id="play">
                         <img src="../assets/icons/play.png" alt="" class="icon-player play-img">
                     </button>
                     <button id="pause" style="display:none;">
                         <img src="../assets/icons/pause.png" alt="" class="icon-player pause-img">
-                    </button>
-                    
-                    <button id="stop">                    
-                        <img src="../assets/icons/stop.png" alt="" class="icon-player stop-img">
-                    </button>
-                    
-                    <button id="forward10">
-                        <img src="../assets/icons/10-button.png" alt="" class="icon-player forward10-img">
-                    </button>
+                    </button>                    
                     <button id="next-track">
-                        <img src="../assets/icons/next-track-button.png" alt="" class="icon-player next-track-img">
+                        <img src="../assets/icons/next.png" alt="" class="icon-player next-track-img">
                     </button>
                     <button id="like-track">
                         <img src="" alt="" class="icon-player like-track-img" width="14px">
@@ -133,13 +95,21 @@
             </div>
             <div class="help-group">
                 <div class="volume">
-                    <img src="../assets/icons/speaker-filled-audio-tool.png" alt="" width="15px" height="15px">
+                    <img src="../assets/icons/volume.png" alt="" width="15px" height="15px">
                     <input type="range" id="volumeBar" value="100">
                 </div>
-                <img src="../assets/icons/arrow-up.png" alt="" width="50px" height="50px" class="img-open-pp">
+                <img src="../assets/icons/more.png" alt="" width="50px" height="50px" class="img-open-pp">
             </div>
         </div>
-        <section class="section__music"></section>
+        <section class="section__music">
+            <div class="music__container">
+                <div class="music__songPrew">
+                    <img src="../assets/img/unnamed.jpg" alt="" class="music__songPrew-img">
+                    <p class="music__songPrew-title"></p>
+                    <p class="music__songPrew-artist"></p>
+                </div>
+            </div>
+        </section>
        
         <section class="section__followers"></section>
     </main>
@@ -151,5 +121,8 @@
     <script type="module" src="../components/controls/controls.js"></script>
     <script type="module" src="../scripts/UI/modal-create.js"></script>
     <script type="module" src="../scripts/player.js"></script>
+    <script type="module" src="../scripts/fetchMusic.js"></script>
+    <script type="module" src="../scripts/UI/mobileModal.js"></script>
+
 </body>
 </html>
