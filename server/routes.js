@@ -43,6 +43,13 @@ router.get("/music", (req, res) => {
     }
   });
 });
+router.get("/settings", (req, res) => {
+  res.sendFile(path.join(__dirname, "../src", "pages", "settings.html"), (err) => {
+    if (err) {
+      res.status(err.status || 500).send("Internal Server Error");
+    }
+  });
+});
 
 router.get("/:username", async (req, res) => {
   let username = req.params.username;

@@ -14,5 +14,6 @@ const ConnectComponent = (component, placeURL) =>{
 
 
 ConnectComponent("controls",".section__controls")
-ConnectComponent("controlsMobil",".section__controls-mobil")
 ConnectComponent("header",".header")
+
+

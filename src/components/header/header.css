@@ -20,6 +20,7 @@
 
 
 .header {
+    position: relative;
     height: 55px;
     display: flex;
     background-color: #2A2A2A;
@@ -143,7 +144,7 @@ flex-direction: column;
     font-size: 14px;
 }
 
-.search__background{
+.background-blur{
     top: 0;
     left: 0;
     position: fixed;
@@ -155,12 +156,54 @@ flex-direction: column;
     z-index: 4;
 }
 
-.search__background.active{
+.background-blur.active{
     display: block;
 }
 
 
+.header__menu {
+    position: fixed;
+    top: 50px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    display: none;
 
+}
+
+.header__menu.active{
+    display: block;
+
+}
+.header__menu-logout {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding: 8px 10px;
+    background-color: #2A2A2A;
+    border-radius: 14px;
+    background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 0.5);
+    width: 100px;
+    text-align: center;
+    justify-content: center;
+}
+.header__menu-myprofile {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding: 8px 10px;
+    background-color: #2A2A2A;
+    border-radius: 14px;
+    background: none 0% 0% / auto repeat scroll padding-box border-box rgba(10, 10, 10, 0.5);
+    width: 100px;
+    text-align: center;
+    justify-content: center;
+}
 
 
 

@@ -52,6 +52,44 @@ router.post("/login", async (req, res) => {
   }
 });
 
+
+router.put("/update", async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1]; // Assuming Bearer token is used
+  if (!token) {
+    return res.status(401).json({ message: "Authorization token required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const { username, email, password } = req.body;
+
+    const updatedData = {};
+    if (username) updatedData.username = username;
+    if (email) updatedData.email = email;
+    if (password) updatedData.password = await bcrypt.hash(password, 10);
+
+    const updatedUser = await User.findOneAndUpdate(
+      { email: decoded.email }, // Assuming the email is unique and used to find the user
+      { $set: updatedData },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User updated successfully", user: updatedUser });
+  } catch (err) {
+    if (err.name === 'JsonWebTokenError') {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+
+
 // Перевірка JWT токена
 router.post("/checkJWT", (req, res) => {
   const token = req.header('Authorization')?.split(' ')[1];
@@ -149,6 +187,31 @@ router.get("/user/:token", async (req, res) => {
     res.status(500).json({ message: "Failed" });
   }
 });
+router.get("/delete/:token", async (req, res) => {
+  let token;
+  try {
+    token = jwt.decode(req.params.token);
+    if (!token || !token.email) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+  } catch (error) {
+    return res.status(400).json({ message: "Invalid token format" });
+  }
+
+  let email = token.email;
+  try {
+    const user = await User.findOneAndDelete({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "User deleted successfully", user });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to delete user" });
+  }
+});
+
+module.exports = router;
 
 router.get("/username/:username", async (req, res) => {
   try {

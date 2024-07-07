@@ -47,6 +47,26 @@ following - "/:username/follower"
 /* MAYBE FOR SETTINGS PHOTO  */
 
 
+
+
+
+
+
+/* SETTINGS
+
+CHANGE MAIL
+CHANGE PASSWORD
+CHANGE NICKNAME
+DELETE PROFILE
+
+*/
+
+
+
+
+
+
+
 /* const getPhoto = ()=>{
     const email = JSON.parse(localStorage.user).email
     fetch(`http://localhost:5000/photos/${email}`)

@@ -1,41 +1,89 @@
 import { getUser, setAvatar } from "../../scripts/getData.js";
 
 
+window.addEventListener("load", async () => {
 
 
-const searchResult = document.querySelector('.search-result');
-const searchInput = document.querySelector('.search-input');
-const searchIcon = document.querySelector('.search-icon');
-const searchBackground = document.querySelector('.search__background');
-console.log(searchBackground)
-const accountImg = document.querySelector('.account-img'); 
 
-accountImg.addEventListener("click", ()=>{
-    window.location = "/myprofile"
-})
-window.addEventListener("load",()=>{
-    getUser()
-    .then(user=>{
-        setAvatar(user.avatar, accountImg)
-    })
-})
+
+    const searchResult = document.querySelector('.search-result');
+    const searchInput = document.querySelector('.search-input');
+    const searchIcon = document.querySelector('.search-icon');
+    const blurBackground = document.querySelector('.background-blur');
+    const headerMenu = document.querySelector('.header__menu');
+    console.log(blurBackground)
+    const accountImg = document.querySelector('.account-img'); 
+    const menuMyprofile = document.querySelector('.header__menu-myprofile');
+    const menuLogout = document.querySelector('.header__menu-logout');
+    
+
+    let avatar;
+
+    function toBase64(arr) {
+        return btoa(
+            new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')
+        );
+    }
+
+    async function fetchUserAvatar() {
+        try {
+            const user = await getUser();
+            avatar = user.avatar;
+            sessionStorage.setItem("avatar", JSON.stringify(avatar));
+        } catch (error) {
+            console.error('Error fetching user:', error);
+        }
+    }
+
+    function setAvatarImage(avatar) {
+        try {
+            const base64String = toBase64(avatar.data.data);
+            document.getElementById('accountImg').src = `data:${avatar.contentType};base64,${base64String}`;
+        } catch (error) {
+            console.error('Error setting avatar image:', error);
+            document.getElementById('accountImg').src = `https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg`;
+        }
+    }
+
+    if (sessionStorage.avatar) {
+        avatar = JSON.parse(sessionStorage.avatar);
+    } else {
+        await fetchUserAvatar();
+    }
+
+    setAvatarImage(avatar);
+
+    accountImg.addEventListener("click", () => {
+        blurBackground.classList.add("active");
+        headerMenu.classList.add("active");
+    });
 
 
 // SEARCH
+
+menuMyprofile.addEventListener("click", ()=>{
+    location.href = "/myprofile"
+})
+menuLogout.addEventListener("click", ()=>{
+    location.href = "/auth"
+    localStorage.removeItem("token")
+    sessionStorage.removeItem("avatar")
+})
 
 searchIcon.addEventListener("click", () => {
     searchUsers();
 });
 searchInput.addEventListener("input", () => {
     searchResult.classList.add("active")
-    searchBackground.classList.add("active")
+    blurBackground.classList.add("active")
     searchUsers();
 });
 window.addEventListener("click", (e) => {
-
-    if (!searchResult.contains(e.target)) {
+    if (!searchResult.contains(e.target) && e.target !== accountImg) {
         searchResult.classList.remove("active");
-        searchBackground.classList.remove("active");
+        blurBackground.classList.remove("active");
+        headerMenu.classList.remove("active");
+
     }
 });
 
@@ -77,3 +125,4 @@ const resultBox = (place, user) => {
     place.append(divResult)
     divResult.append(avatarResult, usernameResult)
 }
+});
