@@ -1,7 +1,23 @@
-let dataMusic = {}
+let dataMusic = [
+    // Додайте свої треки сюди
+    {
+        url: "path/to/track1.mp3",
+        artist: "Artist 1",
+        title: "Title 1",
+        genre: "Genre 1",
+        img: "track1.jpg"
+    },
+    {
+        url: "path/to/track2.mp3",
+        artist: "Artist 2",
+        title: "Title 2",
+        genre: "Genre 2",
+        img: "track2.jpg"
+    }
+];
+
 // Знаходимо елементи DOM та зберігаємо їх у відповідні змінні
 const likeTrack = document.querySelector('.like-track-img');
-const likeTrackImg = document.querySelector('.like-track-img');
 const track = document.getElementById("track");
 const trackArtist = document.getElementById("track-artist");
 const trackTitle = document.getElementById("track-title");
@@ -12,7 +28,6 @@ const trackImg = document.querySelector(".img-track");
 const trackGenre = document.querySelector("#track-genre");
 const ppImg = document.querySelector(".player-page-img");
 const volumeBar = document.querySelector('#volumeBar'); 
-const durationVolume = document.querySelector('#durationVolume');
 
 const play = document.getElementById("play");
 const pause = document.getElementById("pause");
@@ -22,7 +37,7 @@ const stop = document.getElementById("stop");
 const back = document.getElementById("back10");
 const forward = document.getElementById("forward10");
 
-export let trackIndex = 0; // Індекс поточного треку
+let trackIndex = 0; // Індекс поточного треку
 let playing = false; // Статус відтворення
 
 // Функція перевірки, чи є трек улюбленим
@@ -34,11 +49,13 @@ const checkTrackLike = (track) => {
 const tracks = dataMusic; // Зберігаємо дані музичних треків у змінну
 
 // Функція завантаження треку
-export function loadTrack(index) {
+ function loadTrack(index) {
+    if (tracks.length === 0) return; // Перевірка наявності треків
+
     if (checkTrackLike(tracks[index])) {
-        likeTrackImg.src = "../assets/icons/like.png"; // Відображаємо іконку лайку
+        likeTrack.src = "../assets/icons/like.png"; // Відображаємо іконку лайку
     } else {
-        likeTrackImg.src = "../assets/icons/heart.png"; // Відображаємо іконку серця
+        likeTrack.src = "../assets/icons/like-active.png"; // Відображаємо іконку серця
     }
 
     setProgress(); // Встановлюємо прогрес
@@ -46,7 +63,6 @@ export function loadTrack(index) {
     track.src = tracks[index].url; // Встановлюємо джерело аудіо
     trackArtist.textContent = tracks[index].artist; // Встановлюємо ім'я виконавця
     trackTitle.textContent = tracks[index].title; // Встановлюємо назву треку
-    trackGenre.textContent = tracks[index].genre; // Встановлюємо жанр треку
     trackImg.src = "../assets/images/tracks/" + tracks[index].img; // Встановлюємо зображення треку
     updateProgress(); // Оновлюємо прогрес
 }
@@ -65,15 +81,6 @@ function playPauseTrack() {
     playing = !playing; // Змінюємо статус відтворення
 }
 
-// Функція відтворення треку
-export function playTrack(){
-    track.play();
-    play.style.display = "none";
-    pause.style.display = "flex";
-    playing = !playing;
-}
-
-
 // Функція зупинки треку
 function stopTrack() {
     track.pause(); // Ставимо на паузу
@@ -85,6 +92,8 @@ function stopTrack() {
 
 // Функція зміни треку
 function changeTrack(direction) {
+    if (tracks.length === 0) return; // Перевірка наявності треків
+
     trackIndex = (trackIndex + direction + tracks.length) % tracks.length; // Обчислюємо новий індекс треку
     loadTrack(trackIndex); // Завантажуємо новий трек
     updateProgress(); // Оновлюємо прогрес
@@ -121,16 +130,18 @@ function formatTime(seconds) {
 }
 
 // Додаємо обробники подій для керування плеєром
-play.addEventListener("click", playPauseTrack); // Відтворення/пауза при натисканні кнопки відтворення
-pause.addEventListener("click", playPauseTrack); // Відтворення/пауза при натисканні кнопки паузи
-stop.addEventListener("click", stopTrack); // Зупинка при натисканні кнопки зупинки
-prev.addEventListener("click", () => changeTrack(-1)); // Попередній трек при натисканні кнопки попереднього треку
-next.addEventListener("click", () => changeTrack(1)); // Наступний трек при натисканні кнопки наступного треку
-back.addEventListener("click", () => skip(-10)); // Перемотка назад на 10 секунд при натисканні кнопки перемотки назад
-forward.addEventListener("click", () => skip(10)); // Перемотка вперед на 10 секунд при натисканні кнопки перемотки вперед
-progressBar.addEventListener("input", setProgress); // Встановлення прогресу при зміні значення прогрес-бару
-track.addEventListener("timeupdate", updateProgress); // Оновлення прогресу при зміні часу відтворення треку
-track.addEventListener("ended", () => changeTrack(1)); // Наступний трек при закінченні поточного треку
+if (play && pause && stop && prev && next && back && forward && progressBar && track) {
+    play.addEventListener("click", playPauseTrack); // Відтворення/пауза при натисканні кнопки відтворення
+    pause.addEventListener("click", playPauseTrack); // Відтворення/пауза при натисканні кнопки паузи
+    stop.addEventListener("click", stopTrack); // Зупинка при натисканні кнопки зупинки
+    prev.addEventListener("click", () => changeTrack(-1)); // Попередній трек при натисканні кнопки попереднього треку
+    next.addEventListener("click", () => changeTrack(1)); // Наступний трек при натисканні кнопки наступного треку
+    back.addEventListener("click", () => skip(-10)); // Перемотка назад на 10 секунд при натисканні кнопки перемотки назад
+    forward.addEventListener("click", () => skip(10)); // Перемотка вперед на 10 секунд при натисканні кнопки перемотки вперед
+    progressBar.addEventListener("input", setProgress); // Встановлення прогресу при зміні значення прогрес-бару
+    track.addEventListener("timeupdate", updateProgress); // Оновлення прогресу при зміні часу відтворення треку
+    track.addEventListener("ended", () => changeTrack(1)); // Наступний трек при закінченні поточного треку
+}
 
 loadTrack(trackIndex); // Завантаження початкового треку
 
@@ -140,26 +151,28 @@ const body = document.body; // Знаходимо елемент body для к�
 const player = document.querySelector('.player'); // Знаходимо елемент плеєра
 
 // Додаємо обробник події для відкриття/закриття сторінки плеєра
-openPP.addEventListener("click", () => {
-    if (playerPage.classList.contains("show")) {
-        playerPage.classList.remove("show"); // Закриваємо сторінку плеєра
-        openPP.classList.remove("show"); // Закриваємо елемент для відкриття сторінки плеєра
-        body.style.overflow = "visible"; // Відновлюємо прокрутку
-        if(window.screen.availWidth <= 768){
-            player.classList.remove("show") // Приховуємо плеєр для мобільних пристроїв
+if (openPP) {
+    openPP.addEventListener("click", () => {
+        if (playerPage.classList.contains("show")) {
+            playerPage.classList.remove("show"); // Закриваємо сторінку плеєра
+            openPP.classList.remove("show"); // Закриваємо елемент для відкриття сторінки плеєра
+            body.style.overflow = "visible"; // Відновлюємо прокрутку
+            if (window.screen.availWidth <= 768) {
+                player.classList.remove("show"); // Приховуємо плеєр для мобільних пристроїв
+            }
+        } else {
+            playerPage.classList.add("show"); // Відкриваємо сторінку плеєра
+            openPP.classList.add("show"); // Відкриваємо елемент для відкриття сторінки плеєра
+            body.style.overflow = "hidden"; // Забороняємо прокрутку
+            if (window.screen.availWidth <= 768) {
+                player.classList.add("show"); // Відображаємо плеєр для мобільних пристроїв
+            }
         }
-    } else {
-        playerPage.classList.add("show"); // Відкриваємо сторінку плеєра
-        openPP.classList.add("show"); // Відкриваємо елемент для відкриття сторінки плеєра
-        body.style.overflow = "hidden"; // Забороняємо прокрутку
-        if(window.screen.availWidth <= 768){
-            player.classList.add("show") // Відображаємо плеєр для мобільних пристроїв
-        }
-    }
-})
+    });
+}
 
 // Функція отримання улюблених треків
-export function getFavoriteTracks() {
+ function getFavoriteTracks() {
     const favoriteTracks = localStorage.getItem('favoriteTracks'); // Отримуємо улюблені треки з localStorage
     return favoriteTracks ? JSON.parse(favoriteTracks) : []; // Повертаємо розпарсені треки або пустий масив, якщо улюблених треків немає
 }
@@ -175,32 +188,31 @@ function toggleFavorite() {
     const isFavorite = favoriteTracks.some(favTrack => favTrack.title === tracks[trackIndex].title); // Перевіряємо, чи є поточний трек улюбленим
     if (isFavorite) {
         favoriteTracks = favoriteTracks.filter(favTrack => favTrack.title !== tracks[trackIndex].title); // Видаляємо трек зі списку улюблених
-        likeTrackImg.src = "../assets/icons/heart.png"; // Змінюємо іконку на серце
+        likeTrack.src = "../assets/icons/like-active.png"; // Змінюємо іконку на серце
     } else {
         const favoriteTrack = {
-            src: track.src, // Додаємо URL треку
+            url: tracks[trackIndex].url, // Додаємо URL треку
             artist: trackArtist.textContent, // Додаємо ім'я виконавця
             title: trackTitle.textContent, // Додаємо назву треку
             img: (trackImg.src).split('/').pop(), // Додаємо зображення треку
             id: trackIndex + 1 // Додаємо індекс треку
         };
         favoriteTracks.push(favoriteTrack); // Додаємо трек до списку улюблених
-        likeTrackImg.src = "../assets/icons/like.png"; // Змінюємо іконку на лайк
+        likeTrack.src = "../assets/icons/like.png"; // Змінюємо іконку на лайк
     }
     saveFavoriteTracks(favoriteTracks); // Зберігаємо оновлений список улюблених треків
 }
 
 // Додаємо обробник події для перемикання статусу улюбленого треку
-likeTrack.addEventListener("click", () => {
-    toggleFavorite();
-});
-
-
-
-
-
+if (likeTrack) {
+    likeTrack.addEventListener("click", () => {
+        toggleFavorite();
+    });
+}
 
 // Додаємо обробник події для змінни гучності треку
-volumeBar.addEventListener("input", ()=>{
-    track.volume = volumeBar.value * 0.01 // Встановлюємо гучність треку відповідно до значення шкали гучності (0-100).
-});
+if (volumeBar) {
+    volumeBar.addEventListener("input", () => {
+        track.volume = volumeBar.value * 0.01; // Встановлюємо гучність треку відповідно до значення шкали гучності (0-100).
+    });
+}

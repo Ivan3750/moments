@@ -34,14 +34,14 @@ async function loadRandomTracks(count) {
 
 function createTrack(randomTrack) {
   const musicPrew = `
-    <div class="music__songPrew">
+    <div class="music__songPrew" ">  
       <img src="https://e-cdns-images.dzcdn.net/images/cover/${randomTrack.md5_image}/320x320.jpg" alt="" class="music__songPrew-img">
       <p class="music__songPrew-title">${randomTrack.title_short}</p>
       <p class="music__songPrew-artist">${randomTrack.artist.name}</p>
     </div>
-  `;
+  `;/* onclick="${loadTrack(randomTrack)} */
   musicContainer.innerHTML += musicPrew;
 }
 
 // Завантажуємо 20 треків
-loadRandomTracks(10);
+loadRandomTracks(15);

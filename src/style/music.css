@@ -64,3 +64,60 @@
 
 
 }
+
+@media (max-width: 768.98px){
+    .music__songPrew-img {
+
+        box-sizing: border-box;
+        scrollbar-width: none;
+        background: none 0% 0% / auto repeat scroll padding-box border-box rgba(195, 191, 209, 0.3);
+        border-radius: 10px;
+        height: 100px;
+        width: 100px;
+        cursor: pointer;
+        color: rgba(144, 140, 152,);
+        font-family: "SF Pro Display Medium";
+        font-size: 14.72px;
+        letter-spacing: 0.27968px;
+        font-weight: 800;
+    
+      
+    }
+    .music__songPrew-title {
+        box-sizing: border-box;
+        scrollbar-width: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: rgb(97, 93, 106);
+        font-family: "SF Pro Display Medium";
+        font-size: 12.72px;
+        letter-spacing: 0.27968px;
+        text-overflow: ellipsis;
+        max-width: 100px;
+    }
+    .music__songPrew-artist {
+        max-width: 100px;
+        text-overflow: ellipsis;
+      box-sizing: border-box;
+      scrollbar-width: none;
+      color: rgba(144, 140, 152, 0.7);
+      font-size: 11.248px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 95.2px;
+      white-space: nowrap;
+      font-family: "SF Pro Display Medium";
+      letter-spacing: 0.27968px;
+    
+    
+    }
+    .music__container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 35px;
+        justify-content: center;
+        padding-bottom: 150px;
+    }
+}
