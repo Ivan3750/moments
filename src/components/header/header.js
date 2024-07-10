@@ -19,6 +19,7 @@ window.addEventListener("load", async () => {
         });
     }
 
+    UsersCategory.addEventListener("t")
     if (MusicCategory) {
         MusicCategory.addEventListener("click", () => {
             toggleActiveCategory(MusicCategory, UsersCategory, "music");

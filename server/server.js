@@ -13,7 +13,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "../src")));
+app.use(express.static(path.resolve(__dirname, "../src")));
+app.use(express.static(path.resolve(__dirname, "../downloads")));
 
 // Use routes
 app.use("/", routes);

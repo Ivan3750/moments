@@ -3,15 +3,30 @@ const bcrypt = require("bcrypt");
 const sharp = require('sharp');
 const multer = require("multer");
 const { User, PostsCollections } = require("./db.js");
+const { main } = require("./download.js");
 const jwt = require('jsonwebtoken');
 
 const SECRET_KEY = 'moments'; //DONT CHANGE!!!
+const clientId = '70188fa5';
+const clientSecret = 'cd26e5c31285079ca95bb34eab96c3b0';
 
 const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+
+
 // Реєстрація користувача
+router.get('/audio/:name', async (req, res) => {
+  try {
+    const filePath = await main(req.params.name);
+    res.send(filePath);
+    console.log(filePath)
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
   try {

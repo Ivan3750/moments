@@ -142,3 +142,18 @@ body{
     display: flex;
     gap: 15px;
 }
+
+@media (max-width: 750.98px){
+    .main__block{
+        height: 275px;
+        width: 350px;
+        padding: 30px;
+
+    }
+    .input{
+        width: 250px;
+    }
+    p{
+        font-size: 14px;
+    }
+}
