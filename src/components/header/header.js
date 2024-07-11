@@ -19,12 +19,14 @@ window.addEventListener("load", async () => {
         });
     }
 
-    UsersCategory.addEventListener("t")
-    if (MusicCategory) {
-        MusicCategory.addEventListener("click", () => {
-            toggleActiveCategory(MusicCategory, UsersCategory, "music");
-        });
-    }
+    UsersCategory.addEventListener("click", ()=>{
+
+        if (MusicCategory) {
+            MusicCategory.addEventListener("click", () => {
+                toggleActiveCategory(MusicCategory, UsersCategory, "music");
+            });
+        }
+    })
 
     let avatar;
 

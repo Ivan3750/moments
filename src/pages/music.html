@@ -21,23 +21,62 @@
         </div>
     </div> -->
     <header class="header">
-        <img src="../assets/icons/moments.svg" class="header__logo"/>
-        <div class="search-block">
-            <div class="search__box">
-                <img src="../assets/icons/search.png" alt="" class="search-icon">
-                <input type="text" name="" id="" class="search-input">
-            </div>
-            <div class="search-result">
-                
-            </div>
+        
+    <img src="../assets/icons/logo-t.png" class="header__logo"/>
+    <div class="search-block">
+        <div class="search__box">
+            <img src="../assets/icons/search.png" alt="" class="search-icon">
+            <input type="text" name="" id="" class="search-input">
         </div>
-        <div class="account">
-            <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img">
+        <div class="search-result">
+            <div class="Category">
+                <button class="category-btn active" id="Users"  >Users</button>
+                <button class="category-btn"  id="Music">Music</button>
+            </div>
+            <div class="search-result-box"></div>
+            
         </div>
+    </div>
+    <div class="account">
+       
+        <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img" id="accountImg">
+        <div class="header__menu">
+            <button class="header__menu-myprofile">
+                My profile
+            </button>
+            <button class="header__menu-logout">
+                Log out
+            </button>
+        </div>
+    </div>
     </header>
     <main>
         <section class="section__controls">
-            
+            <div class="tab tab-home" id="tab-home">
+                <img src="../assets/icons/home.png" alt="" class="tab__icon" id="img-home">
+                <p class="tab__name">Home</p>
+            </div>
+            <div class="tab tab-notifications" id="tab-notifications">
+                <img src="../assets/icons/like.png" alt="" class="tab__icon"  id="img-notifications">
+                <p class="tab__name">Notifications</p>
+            </div>
+            <div class="tab tab-create" id="tab-create">
+                <img src="../assets/icons/add.png" alt="" class="tab__icon" id="img-create">
+                <p class="tab__name">Create</p>
+            </div>
+            <div class="tab tab-messages" id="tab-messages">
+                <img src="../assets/icons/messages.png" alt="" class="tab__icon" id="img-messages">
+                <p class="tab__name">Messages</p>
+            </div>
+            <div class="tab tab-music" id="tab-music">
+                <img src="../assets/icons/music.png" alt="" class="tab__icon" id="img-music">
+                <p class="tab__name">Music</p>
+            </div>
+            <div class="tab tab-settings" id="tab-settings">
+                <img src="../assets/icons/settings.png" alt="" class="tab__icon" id="img-settings">
+                <p class="tab__name">Settings</p>
+            </div>
+        
         </section>
         <div class="modal-create">
             <img src="../assets/icons/close.png" alt="" class="close-modal-create">
@@ -116,25 +155,21 @@
         </div>
         <section class="section__music">
             <div class="music__container">
-                <div class="music__songPrew">
-                    <img src="../assets/img/unnamed.jpg" alt="" class="music__songPrew-img">
-                    <p class="music__songPrew-title"></p>
-                    <p class="music__songPrew-artist"></p>
-                </div>
+                <p>WAIT...</p>
             </div>
         </section>
        
         <section class="section__followers"></section>
     </main>
-    <script src="https://afarkas.github.io/lazysizes/lazysizes.min.js" async=""></script>   
-    <script type="module" src="../scripts/UI/components.js"></script>
-    <script type="module" src="../scripts/content.js"></script>
-    <script type="module" src="../scripts/UI/load.js"></script>
-    <script type="module" src="../components/header/header.js"></script>
-    <script type="module" src="../components/controls/controls.js"></script>
-    <script type="module" src="../scripts/UI/modal-create.js"></script>
-    <script type="module" src="../scripts/fetchMusic.js"></script>
-    <script src="../scripts/player.js"></script>
+<!--     <script src="https://afarkas.github.io/lazysizes/lazysizes.min.js" async=""></script>   
+ -->    <script type="module" src="../scripts/player.js" defer></script>
+    <script type="module" src="../scripts/UI/modal-create.js" defer></script>
+    <script type="module" src="../scripts/fetchMusic.js" defer></script>
+    <script type="module" src="../scripts/UI/components.js" async defer></script>
+    <script type="module" src="../scripts/content.js" defer></script>
+    <script type="module" src="../scripts/UI/load.js" defer></script>
+    <script type="module" src="../components/controls/controls.js" defer></script>
+    <script type="module" src="../components/header/header.js" defer></script>
 
 </body>
 </html>

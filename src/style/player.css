@@ -3,10 +3,6 @@
     --size-player: 120px;
   }
 
-  *{
-    outline: 2px solid #000000;
-  }
-  
   
   /* body {
       font-family: Arial, sans-serif;
@@ -96,12 +92,32 @@
       gap: 5px;
     }
     #track-artist{
-      text-overflow: ellipsis;
-    max-width: 100px;
+      max-width: 150px;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    scrollbar-width: none;
+    color: rgba(144, 140, 152, 0.7);
+    font-size: 13.248px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 95.2px;
+    white-space: nowrap;
+    font-family: "SF Pro Display Medium";
+    letter-spacing: 0.27968px;
     }
     #track-title{
+      box-sizing: border-box;
+      scrollbar-width: none;
+      overflow: hidden;
       text-overflow: ellipsis;
-    max-width: 100px;
+      white-space: nowrap;
+      color: rgb(97, 93, 106);
+      font-family: "SF Pro Display Medium";
+      font-size: 14.72px;
+      letter-spacing: 0.27968px;
+      text-overflow: ellipsis;
+      max-width: 150px;
+    
     }
   
     input[type="range"] {

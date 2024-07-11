@@ -21,19 +21,34 @@
     <div class="search__background"></div>
 
     <header class="header">
-       <!--  <img src="../assets/icons/moments.svg" class="header__logo"/>
-        <div class="search-block">
-            <div class="search__box">
-                <img src="../assets/icons/search.png" alt="" class="search-icon">
-                <input type="text" name="" id="" class="search-input">
-            </div>
-            <div class="search-result">
-                
-            </div>
+       
+    <img src="../assets/icons/logo-t.png" class="header__logo"/>
+    <div class="search-block">
+        <div class="search__box">
+            <img src="../assets/icons/search.png" alt="" class="search-icon">
+            <input type="text" name="" id="" class="search-input">
         </div>
-        <div class="account">
-            <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img">
-        </div> -->
+        <div class="search-result">
+            <div class="Category">
+                <button class="category-btn active" id="Users"  >Users</button>
+                <button class="category-btn"  id="Music">Music</button>
+            </div>
+            <div class="search-result-box"></div>
+            
+        </div>
+    </div>
+    <div class="account">
+       
+        <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img" id="accountImg">
+        <div class="header__menu">
+            <button class="header__menu-myprofile">
+                My profile
+            </button>
+            <button class="header__menu-logout">
+                Log out
+            </button>
+        </div>
+    </div>
     </header>
     <main>
         <section class="section__controls">
@@ -45,36 +60,23 @@
                 <img src="../assets/icons/like.png" alt="" class="tab__icon"  id="img-notifications">
                 <p class="tab__name">Notifications</p>
             </div>
+            <div class="tab tab-create" id="tab-create">
+                <img src="../assets/icons/add.png" alt="" class="tab__icon" id="img-create">
+                <p class="tab__name">Create</p>
+            </div>
             <div class="tab tab-messages" id="tab-messages">
                 <img src="../assets/icons/messages.png" alt="" class="tab__icon" id="img-messages">
                 <p class="tab__name">Messages</p>
             </div>
-            <div class="tab tab-create" id="tab-create">
-                <img src="../assets/icons/add.png" alt="" class="tab__icon" id="img-create">
-                <p class="tab__name">Create</p>
+            <div class="tab tab-music" id="tab-music">
+                <img src="../assets/icons/music.png" alt="" class="tab__icon" id="img-music">
+                <p class="tab__name">Music</p>
             </div>
             <div class="tab tab-settings" id="tab-settings">
                 <img src="../assets/icons/settings.png" alt="" class="tab__icon" id="img-settings">
                 <p class="tab__name">Settings</p>
             </div>
-        </section>
-        <div class="modal-create">
-            <img src="../assets/icons/close.png" alt="" class="close-modal-create">
-            <div class="modal-block">
-                <div class="modal-head">
-                    <p class="modal-title">Create a post
-                    </p>
-                </div>
-                <div class="modal-body">
-                    <div class="button-wrapper">
-                        <span class="label">
-                          Upload File
-                        </span>
-                          <input type="file" name="upload" id="input-file" class="upload-box" placeholder="Upload File">
-                      </div>     
-                </div>
-            </div>
-        </div>
+        
         <section class="section__account">
             <div class="modal-create">
                 <img src="../assets/icons/close.png" alt="" class="close-modal-avatar">
