@@ -1,5 +1,5 @@
-import {LoadView} from "./UI/view-post.js"
-
+/* import {LoadView} from "./UI/view-post.js"
+ */
 const accountAvatar = document.querySelector('.account-avatar');
 const posts = document.querySelector('.account-posts');
 const statsPosts = document.querySelector('.account-stats-posts');
@@ -51,8 +51,8 @@ export const setPosts = (usernameFromURL)=>{
                     fetch(`API/username/${usernameFromURL}`)
                     .then(res => res.json())
                     .then(data=>{
-                        LoadView(image, usernameFromURL, data.avatar);
-                        localStorage.ACTIVE_POST_ID = image._id
+/*                         LoadView(image, usernameFromURL, data.avatar);
+ */                        localStorage.ACTIVE_POST_ID = image._id
                     })
 
                 

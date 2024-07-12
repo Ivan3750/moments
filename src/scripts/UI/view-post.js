@@ -7,7 +7,12 @@ const ViewClose = document.querySelector('.view-close');
 const ViewModal = document.querySelector('.view-block-conteiner');
 const commentInput = document.querySelector('#comment-input');
 const commentSend = document.querySelector('.view-post-send-comment');
-const ViewPostBody = document.querySelector('.view-post-body');
+const ViewPostBody = document.querySelector('.view-post-body'); 
+const posts = document.querySelector('.account-posts');
+const statsPosts = document.querySelector('.account-stats-posts');
+const viewPostBlock = document.querySelector('.view-post-block');
+const viewPost = document.querySelector('.view-post');
+let viewPostStatus = false
 
 const fetchPost = async (postId) => {
     const response = await fetch(`API/content/post/${postId}`);
@@ -88,3 +93,56 @@ const LoadComments = async (postID) => {
         alert('Failed to load comments');
     }
 };
+
+
+
+export const setPosts = (usernameFromURL)=>{
+    fetch(`API/posts/${usernameFromURL}`)
+    .then(res => res.json())
+    .then(data => {
+        posts.innerHTML = ""
+        if(data.length !== 0 && data.length){
+            statsPosts.textContent = data.length + " posts"
+            function toBase64(arr) {
+                return btoa(
+                    new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')
+                );
+            }
+    
+            data.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.id = "posts-container"
+                imgElement.src = `data:${image.contentType};base64,${toBase64(image.data.data)}`;
+                imgElement.className = 'post';
+                imgElement.addEventListener("click", ()=>{
+                    fetch(`API/username/${usernameFromURL}`)
+                    .then(res => res.json())
+                    .then(data=>{
+/*                         LoadView(image, usernameFromURL, data.avatar);
+ */                        localStorage.ACTIVE_POST_ID = image._id
+                    })
+
+                
+
+                    viewPostBlock.classList.add("show")
+                    viewPostStatus = true
+                    
+                    viewPostBlock.addEventListener("click", (e)=>{
+                        if(e.target !== viewPost){
+                            viewPostBlock.classList.remove("show")
+                        }
+                    })
+                })
+                posts.prepend(imgElement);
+            });
+        }else{
+            const notImg = document.createElement("p")
+            notImg.textContent = "No images"
+            posts.prepend(notImg)
+
+        }
+
+       
+    })
+    
+}

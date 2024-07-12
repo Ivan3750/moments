@@ -2,6 +2,7 @@ import { getUser, setAvatar } from "../../scripts/getData.js";
 
 window.addEventListener("load", async () => {
     const searchResult = document.querySelector('.search-result');
+    const searchResultBox = document.querySelector('.search-result-box');
     const searchInput = document.querySelector('.search-input');
     const searchIcon = document.querySelector('.search-icon');
     const blurBackground = document.querySelector('.background-blur');

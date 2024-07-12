@@ -1,4 +1,6 @@
 import { getUser, setPosts } from "../getData.js";
+
+// Отримуємо елементи DOM
 const filePost = document.querySelector('.file-post');
 const inputText = document.querySelector('#input-text');
 const inputFile = document.querySelector('#input-file');
@@ -8,42 +10,46 @@ const modal = document.querySelector('.modal-create');
 const closeModalCreate = document.querySelector('.close-modal-create');
 const statsPostsTxT = document.querySelector('.account-stats-posts');
 
+// Функція для закриття модального вікна
+const closeModal = () => {
+    modal.classList.remove("show");
+}
 
+// Обробник закриття модального вікна
+closeModalCreate.addEventListener("click", closeModal);
 
-closeModalCreate.addEventListener("click", ()=>{
-    modal.classList.remove("show")
-})
-
-/* filePost.addEventListener("change", (event)=>{
-    let file = event.target.files[0];
-    
-}) */
-
-    inputFile.addEventListener("change", () => {
-        let file = inputFile.files[0];
-        let formData = new FormData();
+// Обробник зміни файлу
+const handleFileChange = async () => {
+    const file = inputFile.files[0];
+    if (file) {
+        const formData = new FormData();
         formData.append('image', file);
-        getUser().then(user=>{
-            fetch(`API/${JSON.stringify(user.username).replace(/^"(.*)"$/, '$1')}/upload`, {  //CHANGE USERNAME
+        
+        try {
+            const user = await getUser();
+            const response = await fetch(`API/${user.username}/upload`, {  //CHANGE USERNAME
                 method: "POST",
                 body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                modal.classList.remove("show")
-                setPosts(user.username)
-                statsPostsTxT.textContent = user.images.length + " posts"
-
-                
-            })
-            .catch(error => {
             });
-        
-        })
-    });
-    
 
+            if (response.ok) {
+                const data = await response.json();
+                closeModal();
+                setPosts(user.username);
+                statsPostsTxT.textContent = `${user.images.length} posts`;
+            } else {
+                console.error('Failed to upload image');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    }
+}
 
+// Додаємо обробник події на зміну файлу
+inputFile.addEventListener("change", handleFileChange);
 
-
-
+// Обробник для завантаження сторінки
+window.addEventListener("load", () => {
+    console.log("Page loaded");
+});

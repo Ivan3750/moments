@@ -12,6 +12,8 @@ margin-left: 20px;
 /* margin-top: 15px;
  */}
 .tab{
+  min-width: 160px;
+  max-width: 160px;
 display: flex;
 align-items: center;
 gap: 16px;

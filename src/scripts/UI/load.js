@@ -1,10 +1,19 @@
 let mask = document.querySelector('.mask');
+let favicon = document.querySelector('#favicon');
 
 window.addEventListener('load', () => {
+  function setFavicons(favImg){
+    let headTitle = document.querySelector('head');
+    let setFavicon = document.createElement('link');
+    setFavicon.setAttribute('rel','shortcut icon');
+    setFavicon.setAttribute('href',favImg);
+    headTitle.appendChild(setFavicon);
+}
+setFavicons("../../assets/icons/logo-t.png");
     setTimeout(() => {
     mask.classList.add('hide');
     mask.remove();
-  }, 500);
+  }, 750);
 })
 
 const checkJWT = async () => {
@@ -30,11 +39,14 @@ const checkJWT = async () => {
     const data = await response.json();
   
   } catch (error) {
-    location.href = "/auth"
-    console.error('Error checking token:', error.message);
+    if(location.pathname !== "/auth"){
+      location.href = "/auth"
+      console.error('Error checking token:', error.message);
+    }
+    
     // Handle network errors or other issues
   }
 }
 
 
-checkJWT();
+checkJWT()

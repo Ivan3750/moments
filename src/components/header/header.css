@@ -100,7 +100,7 @@
     height: 30px;
 }
 
-.search-result{
+.search-result-box{
     display: none;
     position: absolute;
     min-height: 100px;
@@ -116,7 +116,7 @@
     box-sizing: border-box;
     background: none 0% 0% / auto repeat scroll padding-box border-box rgb(24, 30, 37);
 }
-.search-result.active{
+.search-result-box.active{
 display: flex;
 gap: 5px;
 flex-direction: column;

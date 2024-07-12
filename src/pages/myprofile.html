@@ -11,43 +11,58 @@
 </head>
 <body>
     <div class="mask">
-        <div class="load-3">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
+        <div class="preview-container">
+            <div class="content-wrapper">
+                <div class="preview-container">
+                    <div class="loading-preview" id="preview" style="font-family: Inter, sans-serif;">
+                        <div
+                            style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;  background: linear-gradient(318deg, rgba(28,25,25,1) 32%, rgba(64,57,57,1) 82%); opacity: 0.3;">
+                        </div>
+                        <div
+                            style="z-index: 1; color: rgb(255, 255, 255); font-size: 1.8rem; font-weight: bold; text-shadow: rgba(0, 0, 0, 0.5) 2px 2px 4px; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);">
+                            Loading...</div>
+                        <div class="progress-bar-container"
+                            style="z-index: 1; position: absolute; bottom: 30%; left: 50%; transform: translateX(-50%);">
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="search__background"></div>
 
+   
     <header class="header">
-        
-    <img src="../assets/icons/logo-t.png" class="header__logo"/>
-    <div class="search-block">
-        <div class="search__box">
-            <img src="../assets/icons/search.png" alt="" class="search-icon">
-            <input type="text" name="" id="" class="search-input">
-        </div>
-        <div class="search-result">
-            <div class="Category">
-                <button class="category-btn active" id="Users"  >Users</button>
-                <button class="category-btn"  id="Music">Music</button>
+        <img src="../assets/icons/logo-t.png" class="header__logo"/>
+        <div class="search-block">
+            <div class="search__box">
+                <img src="../assets/icons/search.png" alt="" class="search-icon">
+                <input type="text" name="" id="" class="search-input">
             </div>
-            <div class="search-result-box"></div>
-            
+            <div class="search-result">
+                <div class="Category">
+                    <button class="category-btn active" id="Users"  >Users</button>
+                    <button class="category-btn"  id="Music">Music</button>
+                </div>
+                <div class="search-result-box"></div>
+                
+            </div>
         </div>
-    </div>
-    <div class="account">
-       
-        <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img" id="accountImg">
-        <div class="header__menu">
-            <button class="header__menu-myprofile">
-                My profile
-            </button>
-            <button class="header__menu-logout">
-                Log out
-            </button>
+        <div class="account">
+           
+            <img src="https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="" class="account-img" id="accountImg">
+            <div class="header__menu">
+                <button class="header__menu-myprofile">
+                    My profile
+                </button>
+                <button class="header__menu-logout">
+                    Log out
+                </button>
+            </div>
         </div>
-    </div>
     </header>
     <main>
         <section class="section__controls">
@@ -55,22 +70,27 @@
                 <img src="../assets/icons/home.png" alt="" class="tab__icon" id="img-home">
                 <p class="tab__name">Home</p>
             </div>
-            <div class="tab tab-notifications" id="tab-notifications">
+<!--             <div class="tab tab-notifications" id="tab-notifications">
                 <img src="../assets/icons/like.png" alt="" class="tab__icon"  id="img-notifications">
                 <p class="tab__name">Notifications</p>
-            </div>
-            <div class="tab tab-messages" id="tab-messages">
-                <img src="../assets/icons/messages.png" alt="" class="tab__icon" id="img-messages">
-                <p class="tab__name">Messages</p>
-            </div>
+            </div> -->
             <div class="tab tab-create" id="tab-create">
                 <img src="../assets/icons/add.png" alt="" class="tab__icon" id="img-create">
                 <p class="tab__name">Create</p>
+            </div>
+<!--             <div class="tab tab-messages" id="tab-messages">
+                <img src="../assets/icons/messages.png" alt="" class="tab__icon" id="img-messages">
+                <p class="tab__name">Messages</p>
+            </div> -->
+            <div class="tab tab-music" id="tab-music">
+                <img src="../assets/icons/music.png" alt="" class="tab__icon" id="img-music">
+                <p class="tab__name">Music</p>
             </div>
             <div class="tab tab-settings" id="tab-settings">
                 <img src="../assets/icons/settings.png" alt="" class="tab__icon" id="img-settings">
                 <p class="tab__name">Settings</p>
             </div>
+        
         </section>
         <div class="modal-create">
             <img src="../assets/icons/close.png" alt="" class="close-modal-create">
@@ -154,16 +174,13 @@
                 </div>
             </div>
         </section>
-        <script src="../scripts/UI/load.js"></script>
-        <script src="../scripts/UI/controls.js"></script>
+        <script type="module" src="../scripts/content.js"></script>
+        <script type="module" src="../scripts/UI/load.js"></script>
         <script type="module" src="../scripts/UI/modal-create.js"></script>
-        <script type="module" src="../scripts/UI/modal-avatar.js"></script>
-        <script type="module" src="../scripts/getData.js"></script>
-        <script type="module" src="../scripts/myprofile.js"></script>
         <script type="module" src="../components/header/header.js"></script>
         <script type="module" src="../components/controls/controls.js"></script>
-        <script src="../scripts/UI/components.js"></script>
-
+        <script type="module" src="../scripts/getData.js"></script>
+        <script type="module" src="../scripts/profile.js"></script>
         <script type="module" src="../scripts/UI/view-post.js"></script>
 </body>
 </html>
