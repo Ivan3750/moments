@@ -54,7 +54,7 @@ async function getRandomTrack(tracks) {
   return randomTrack;
 }
 
-async function getAUDIO(name) {
+export async  function getAUDIO(name) {
   const response = await fetch(`/api/audio/${name}`);
   if (!response.ok) {
     throw new Error(`Failed to fetch audio for ${name}: ${response.statusText}`);
@@ -63,7 +63,7 @@ async function getAUDIO(name) {
   return response.text();
 }
 
-function setAudio(trackURL) {
+export function setAudio(trackURL) {
   const track = document.querySelector('#track');
   track.src = trackURL;
 /*   track.play();

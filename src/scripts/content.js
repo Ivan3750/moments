@@ -61,10 +61,7 @@ const createPostElement = (postData, userData) => {
                 <img src="../assets/icons/messages.png" alt="" class="content-btn-messages">
                 <p class="content-amount-messages">${commentsCount}</p>
             </div>
-            <div class="content-box">
-                <img src="../assets/icons/share.png" alt="" class="content-btn-share">
-                <p class="content-amount-share">${sharesCount}</p>
-            </div>
+
         </div>
     `;
 
@@ -96,10 +93,10 @@ const createPostElement = (postData, userData) => {
             console.error('Error:', err);
         }
     });
-
+/* 
     postElement.querySelector('.content-btn-share').addEventListener('click', async () => {
         await doAction('share', postData._id);
-    });
+    }); */
 
     return postElement;
 };

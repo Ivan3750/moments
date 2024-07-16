@@ -1,4 +1,6 @@
 import { getUser, setAvatar } from "../../scripts/getData.js";
+import { getAUDIO, setAudio } from "../../scripts/fetchMusic.js";
+import { sendToPlayerTrack } from "../../scripts/player.js";
 
 window.addEventListener("load", async () => {
     const searchResult = document.querySelector('.search-result');
@@ -10,9 +12,10 @@ window.addEventListener("load", async () => {
     const accountImg = document.querySelector('.account-img'); 
     const menuMyprofile = document.querySelector('.header__menu-myprofile');
     const menuLogout = document.querySelector('.header__menu-logout');
+    const Category = document.querySelector('.Category');
     const UsersCategory = document.querySelector('#Users');
     const MusicCategory = document.querySelector('#Music');
-    let ActiveCategory = "music";
+    let ActiveCategory = "users";
 
     if (UsersCategory) {
         UsersCategory.addEventListener("click", () => {
@@ -20,14 +23,11 @@ window.addEventListener("load", async () => {
         });
     }
 
-    UsersCategory.addEventListener("click", ()=>{
-
-        if (MusicCategory) {
-            MusicCategory.addEventListener("click", () => {
-                toggleActiveCategory(MusicCategory, UsersCategory, "music");
-            });
-        }
-    })
+    if (MusicCategory) {
+        MusicCategory.addEventListener("click", () => {
+            toggleActiveCategory(MusicCategory, UsersCategory, "music");
+        });
+    }
 
     let avatar;
 
@@ -96,12 +96,17 @@ window.addEventListener("load", async () => {
     }
 
     window.addEventListener("click", (e) => {
-        if (searchResult && !searchResult.contains(e.target) && e.target !== accountImg) {
+        if (searchResult && !searchResult.contains(e.target) 
+            && e.target !== accountImg 
+        && e.target !== Category
+        && e.target !== UsersCategory
+        && e.target !== MusicCategory) {
             hideSearchResults();
         }
     });
 
     function toggleActiveCategory(active, inactive, category) {
+        console.log(category)
         if (active && inactive) {
             active.classList.add("active");
             inactive.classList.remove("active");
@@ -127,6 +132,7 @@ window.addEventListener("load", async () => {
     }
 
     function search() {
+        console.log(ActiveCategory)
         if (ActiveCategory === "users") {
             searchUsers();
         } else if (ActiveCategory === "music") {
@@ -210,7 +216,40 @@ window.addEventListener("load", async () => {
         const trackTitle = document.createElement("p");
         trackTitle.innerHTML = track.title;
         divResult.addEventListener("click", () => {
-            window.open(track.link, '_blank');
+/*             window.open(track.link, '_blank');
+
+ */            
+
+
+/* 
+
+0
+: 
+artist
+: 
+"Mario"
+fullTrackUrl
+: 
+"https://open.spotify.com/track/3ibKnFDaa3GhpPGlOUj7ff"
+id
+: 
+"3ibKnFDaa3GhpPGlOUj7ff"
+imageUrl
+: 
+"https://i.scdn.co/image/ab67616d0000b273c42212db6d665fab0c51d495"
+previewUrl
+: 
+"https://p.scdn.co/mp3-preview/044543daa7f44efda4679fb799f5daccd2b13b68?cid=b28005e70d3b41d996ebb5ba90739e02"
+title
+: 
+
+sendToPlayerTrack(track)
+getAUDIO(track.title)
+            .then((url)=>{
+                setAudio(url)
+            })
+
+            /*GET AND SET AUDIO  */
         });
         trackTitle.classList.add("result-username");
         place.append(divResult);
@@ -219,7 +258,7 @@ window.addEventListener("load", async () => {
 
     function showSearchResults() {
         if (searchResult) {
-            searchResult.classList.add("active");
+            searchResultBox.classList.add("active");
         }
         if (blurBackground) {
             blurBackground.classList.add("active");
@@ -229,7 +268,7 @@ window.addEventListener("load", async () => {
 
     function hideSearchResults() {
         if (searchResult) {
-            searchResult.classList.remove("active");
+            searchResultBox.classList.remove("active");
         }
         if (blurBackground) {
             blurBackground.classList.remove("active");

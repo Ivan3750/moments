@@ -1,16 +1,19 @@
 let tracks = [];
+let activeTrackIndex = 0;
 
 export const sendToPlayerTrack = (track) => {
-    console.log(track);
-    tracks.length = 0; // Clear the tracks array
+    if (!track.previewUrl || !track.artist || !track.title || !track.imageUrl) {
+        console.error("Недостатньо інформації для завантаження треку:", track);
+        return;
+    }
     tracks.push(track);
-    console.log("STARTS");
-    loadTrack(0);
-}
+    activeTrackIndex = tracks.length - 1;
+    loadTrack(activeTrackIndex);
+};
 
-// Знаходимо елементи DOM та зберігаємо їх у відповідні змінні
+// DOM Elements
 const likeTrack = document.querySelector('.like-track-img');
-const track = document.getElementById("track");
+const trackElement = document.getElementById("track");
 const trackArtist = document.getElementById("track-artist");
 const trackTitle = document.getElementById("track-title");
 const progressBar = document.getElementById("progressBar");
@@ -18,19 +21,20 @@ const currentTime = document.getElementById("currentTime");
 const durationTime = document.getElementById("durationTime");
 const trackImg = document.querySelector(".img-track");
 const ppImg = document.querySelector(".player-page-img");
-const volumeBar = document.querySelector('#volumeBar'); 
+const volumeBar = document.querySelector('#volumeBar');
 
-const play = document.getElementById("play");
-const pause = document.getElementById("pause");
-const next = document.getElementById("next-track");
-const prev = document.getElementById("prev-track");
-const stop = document.getElementById("stop");
-const back = document.getElementById("back10");
-const forward = document.getElementById("forward10");
+const playButton = document.getElementById("play");
+const pauseButton = document.getElementById("pause");
+const nextButton = document.getElementById("next-track");
+const prevButton = document.getElementById("prev-track");
+const stopButton = document.getElementById("stop");
+const backButton = document.getElementById("back10");
+const forwardButton = document.getElementById("forward10");
 
 let playing = false;
 
 function loadTrack(index) {
+    console.log(tracks)
     if (tracks.length === 0) {
         console.error("Трек-лист порожній.");
         return;
@@ -42,92 +46,79 @@ function loadTrack(index) {
     }
 
     const trackData = tracks[index];
-    
-    if (!trackData.previewUrl) {
-        console.error("Трек не має previewUrl:", trackData);
-        return;
-    }
-
-    track.src = trackData.previewUrl; // Встановлюємо джерело аудіо
-    trackArtist.textContent = trackData.artist; // Встановлюємо ім'я виконавця
-    trackTitle.textContent = trackData.title; // Встановлюємо назву треку
-    trackImg.src = trackData.imageUrl; // Встановлюємо зображення треку
-    ppImg.src = trackData.imageUrl; // Встановлюємо зображення треку на сторінці плеєра
-    updateProgress(); // Оновлюємо прогрес
+    trackElement.src = trackData.previewUrl;
+    trackArtist.textContent = trackData.artist;
+    trackTitle.textContent = trackData.title;
+    trackImg.src = trackData.imageUrl;
+    ppImg.src = trackData.imageUrl;
+    updateProgress();
 }
 
 function playPauseTrack() {
     if (playing) {
-        track.pause(); // Ставимо на паузу
-        play.style.display = "flex"; // Відображаємо кнопку відтворення
-        pause.style.display = "none"; // Приховуємо кнопку паузи
+        trackElement.pause();
     } else {
-        track.play(); // Відтворюємо трек
-        play.style.display = "none"; // Приховуємо кнопку відтворення
-        pause.style.display = "flex"; // Відображаємо кнопку паузи
+        trackElement.play();
     }
-    playing = !playing; // Змінюємо статус відтворення
+    playing = !playing;
+    togglePlayPauseButtons();
+}
+
+function togglePlayPauseButtons() {
+    playButton.style.display = playing ? "none" : "flex";
+    pauseButton.style.display = playing ? "flex" : "none";
 }
 
 function updateProgress() {
-    progressBar.max = track.duration; // Встановлюємо максимальне значення прогрес-бару
-    progressBar.value = track.currentTime; // Оновлюємо поточне значення прогрес-бару
-    currentTime.textContent = formatTime(track.currentTime); // Оновлюємо поточний час
-    durationTime.textContent = isNaN(track.duration) ? "0:00" : formatTime(track.duration); // Оновлюємо тривалість треку
+    progressBar.max = trackElement.duration || 0;
+    progressBar.value = trackElement.currentTime || 0;
+    currentTime.textContent = formatTime(trackElement.currentTime);
+    durationTime.textContent = isNaN(trackElement.duration) ? "0:00" : formatTime(trackElement.duration);
 }
 
 function formatTime(seconds) {
-    const min = Math.floor(seconds / 60); // Обчислюємо хвилини
-    const sec = Math.floor(seconds % 60); // Обчислюємо секунди
-    return `${min}:${sec < 10 ? '0' : ''}${sec}`; // Форматуємо час у форматі mm:ss
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
 }
 
-// Add missing functions
 function stopTrack() {
-    track.pause();
-    track.currentTime = 0;
+    trackElement.pause();
+    trackElement.currentTime = 0;
     playing = false;
-    play.style.display = "flex";
-    pause.style.display = "none";
+    togglePlayPauseButtons();
 }
 
 function changeTrack(direction) {
-    let currentIndex = tracks.findIndex(t => t.previewUrl === track.src);
-    let newIndex = currentIndex + direction;
-
-    if (newIndex < 0) {
-        newIndex = tracks.length - 1;
-    } else if (newIndex >= tracks.length) {
-        newIndex = 0;
-    }
-
-    loadTrack(newIndex);
+    activeTrackIndex = (activeTrackIndex + direction + tracks.length) % tracks.length;
+    loadTrack(activeTrackIndex);
     if (playing) {
-        track.play();
+        trackElement.play();
     }
 }
 
 function skip(seconds) {
-    track.currentTime += seconds;
+    trackElement.currentTime += seconds;
 }
 
 function setProgress() {
-    track.currentTime = progressBar.value;
+    trackElement.currentTime = progressBar.value;
 }
 
-if (play && pause && stop && prev && next && back && forward && progressBar && track) {
-    play.addEventListener("click", ()=>{playPauseTrack}); // Відтворення/пауза при натисканні кнопки відтворення
-    pause.addEventListener("click", playPauseTrack); // Відтворення/пауза при натисканні кнопки паузи
-    stop.addEventListener("click", stopTrack); // Зупинка при натисканні кнопки зупинки
-    prev.addEventListener("click", () => changeTrack(-1)); // Попередній трек при натисканні кнопки попереднього треку
-    next.addEventListener("click", () => changeTrack(1)); // Наступний трек при натисканні кнопки наступного треку
-    back.addEventListener("click", () => skip(-10)); // Перемотка назад на 10 секунд при натисканні кнопки перемотки назад
-    forward.addEventListener("click", () => skip(10)); // Перемотка вперед на 10 секунд при натисканні кнопки перемотки вперед
-    progressBar.addEventListener("input", setProgress); // Встановлення прогресу при зміні значення прогрес-бару
-    track.addEventListener("timeupdate", updateProgress); // Оновлення прогресу при зміні часу відтворення треку
-    track.addEventListener("ended", () => changeTrack(1)); // Наступний трек при закінченні поточного треку
-}
+playButton.addEventListener("click", playPauseTrack);
+pauseButton.addEventListener("click", playPauseTrack);
+prevButton.addEventListener("click", () => changeTrack(-1));
+nextButton.addEventListener("click", () => changeTrack(1));
+progressBar.addEventListener("input", setProgress);
+trackElement.addEventListener("timeupdate", updateProgress);
+trackElement.addEventListener("ended", () => changeTrack(1));
+volumeBar.addEventListener("input", () => {
+    trackElement.volume = volumeBar.value * 0.01;
+});
 
+/* backButton.addEventListener("click", () => skip(-10));
+forwardButton.addEventListener("click", () => skip(10));
+stopButton.addEventListener("click", stopTrack); */
 
 /* 
 let trackIndex = 0; // Індекс поточного треку

@@ -3,6 +3,7 @@
     border-radius: 20px;
 }
 .music__container {
+    min-width: 1000px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;

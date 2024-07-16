@@ -49,4 +49,4 @@ const checkJWT = async () => {
 }
 
 
-checkJWT()
+checkJWT( )
