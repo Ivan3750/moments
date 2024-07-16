@@ -66,8 +66,6 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
 router.put("/update", async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1]; // Assuming Bearer token is used
   if (!token) {
@@ -89,6 +87,14 @@ router.put("/update", async (req, res) => {
       { new: true }
     );
 
+    if (username) {
+      await PostsCollections.updateMany(
+        { username: decoded.username }, // Assuming the original username is in the decoded token
+        { $set: { username: username } },
+        { new: true }
+      );
+    }
+
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -101,8 +107,6 @@ router.put("/update", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
 
 
 // Перевірка JWT токена

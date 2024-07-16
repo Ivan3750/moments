@@ -1,12 +1,23 @@
-let tracks = [];
 let activeTrackIndex = 0;
+
+const getTracksFromStorage = () => {
+    const tracks = localStorage.getItem('tracks');
+    return tracks ? JSON.parse(tracks) : [];
+}
+
+const setTracksToStorage = (tracks) => {
+    localStorage.setItem('tracks', JSON.stringify(tracks));
+}
 
 export const sendToPlayerTrack = (track) => {
     if (!track.previewUrl || !track.artist || !track.title || !track.imageUrl) {
         console.error("Недостатньо інформації для завантаження треку:", track);
         return;
     }
+
+    let tracks = getTracksFromStorage();
     tracks.push(track);
+    setTracksToStorage(tracks);
     activeTrackIndex = tracks.length - 1;
     loadTrack(activeTrackIndex);
 };
@@ -34,7 +45,8 @@ const forwardButton = document.getElementById("forward10");
 let playing = false;
 
 function loadTrack(index) {
-    console.log(tracks)
+    let tracks = getTracksFromStorage();
+    console.log(tracks);
     if (tracks.length === 0) {
         console.error("Трек-лист порожній.");
         return;
@@ -90,6 +102,7 @@ function stopTrack() {
 }
 
 function changeTrack(direction) {
+    let tracks = getTracksFromStorage();
     activeTrackIndex = (activeTrackIndex + direction + tracks.length) % tracks.length;
     loadTrack(activeTrackIndex);
     if (playing) {

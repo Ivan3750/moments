@@ -12,7 +12,11 @@ const validateEmail = (email) => {
 
 const validatePassword = (password) => {
     // Add your own password validation logic if needed
-    return password.length >= 6
+    if(password !== ""){
+        return password.length >= 6
+    }else{
+        return true
+    }
 }
 
 const getSettings = async () => {

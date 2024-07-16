@@ -1,6 +1,4 @@
 import { getUser, setAvatar } from "../../scripts/getData.js";
-import { getAUDIO, setAudio } from "../../scripts/fetchMusic.js";
-import { sendToPlayerTrack } from "../../scripts/player.js";
 
 window.addEventListener("load", async () => {
     const searchResult = document.querySelector('.search-result');
