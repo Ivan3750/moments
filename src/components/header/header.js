@@ -1,4 +1,6 @@
 import { getUser, setAvatar } from "../../scripts/getData.js";
+import { sendToPlayerTrack } from "../../scripts/player.js";
+import { getAUDIO } from "../../scripts/fetchMusic.js";
 
 window.addEventListener("load", async () => {
     const searchResult = document.querySelector('.search-result');
@@ -55,9 +57,11 @@ window.addEventListener("load", async () => {
         }
     }
 
-    if (sessionStorage.avatar) {
+    if (sessionStorage.avatar && sessionStorage.avatar != "undefined") {
         avatar = JSON.parse(sessionStorage.avatar);
-    } else {
+    } else if(sessionStorage.avatar == "undefined"){
+        console.log("Not founded avatar")
+    }else {
         await fetchUserAvatar();
     }
 
@@ -217,37 +221,19 @@ window.addEventListener("load", async () => {
 /*             window.open(track.link, '_blank');
 
  */            
-
-
-/* 
-
-0
-: 
-artist
-: 
-"Mario"
-fullTrackUrl
-: 
-"https://open.spotify.com/track/3ibKnFDaa3GhpPGlOUj7ff"
-id
-: 
-"3ibKnFDaa3GhpPGlOUj7ff"
-imageUrl
-: 
-"https://i.scdn.co/image/ab67616d0000b273c42212db6d665fab0c51d495"
-previewUrl
-: 
-"https://p.scdn.co/mp3-preview/044543daa7f44efda4679fb799f5daccd2b13b68?cid=b28005e70d3b41d996ebb5ba90739e02"
-title
-: 
-
-sendToPlayerTrack(track)
-getAUDIO(track.title)
-            .then((url)=>{
-                setAudio(url)
+console.log(track)
+           const TrackToSend = {
+                previewUrl: track.preview,
+                artist: track.artist.name, 
+                title: track.title, 
+                imageUrl: track.album.cover_big,
+                fullTrackUrl: null
+            } 
+            getAUDIO(track.title).then((data)=>{
+                TrackToSend.previewUrl = data
             })
+            sendToPlayerTrack(TrackToSend)
 
-            /*GET AND SET AUDIO  */
         });
         trackTitle.classList.add("result-username");
         place.append(divResult);

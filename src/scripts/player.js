@@ -1,12 +1,12 @@
 let activeTrackIndex = 0;
 
 const getTracksFromStorage = () => {
-    const tracks = localStorage.getItem('tracks');
+    const tracks = sessionStorage.getItem('tracks');
     return tracks ? JSON.parse(tracks) : [];
 }
 
 const setTracksToStorage = (tracks) => {
-    localStorage.setItem('tracks', JSON.stringify(tracks));
+    sessionStorage.setItem('tracks', JSON.stringify(tracks));
 }
 
 export const sendToPlayerTrack = (track) => {
@@ -20,6 +20,7 @@ export const sendToPlayerTrack = (track) => {
     setTracksToStorage(tracks);
     activeTrackIndex = tracks.length - 1;
     loadTrack(activeTrackIndex);
+    console.log(tracks)
 };
 
 // DOM Elements
@@ -33,6 +34,7 @@ const durationTime = document.getElementById("durationTime");
 const trackImg = document.querySelector(".img-track");
 const ppImg = document.querySelector(".player-page-img");
 const volumeBar = document.querySelector('#volumeBar');
+const track = document.querySelector('track');
 
 const playButton = document.getElementById("play");
 const pauseButton = document.getElementById("pause");
@@ -63,6 +65,7 @@ function loadTrack(index) {
     trackTitle.textContent = trackData.title;
     trackImg.src = trackData.imageUrl;
     ppImg.src = trackData.imageUrl;
+   /*  track.src = trackData.fullTrackUrl */
     updateProgress();
 }
 
