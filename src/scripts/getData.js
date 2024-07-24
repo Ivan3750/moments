@@ -78,6 +78,7 @@ export const setPosts = (usernameFromURL)=>{
        
     })
     
+    
 }
 
 export const setAvatar = (avatar, InAvatar) => {

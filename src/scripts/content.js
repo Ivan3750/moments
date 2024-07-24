@@ -11,7 +11,13 @@ let isLoading = false;
 let debounceTimer = null;
 export let ACTIVE_POST_ID;
 
-const toBase64 = (arr) => btoa(String.fromCharCode(...new Uint8Array(arr)));
+const toBase64 = (arr) => {
+    if (!arr || !(arr instanceof Uint8Array)) {
+        console.error('Invalid input for toBase64:', arr);
+        return '';
+    }
+    return btoa(String.fromCharCode(...arr));
+};
 
 const fetchWithErrorHandling = async (url) => {
     const response = await fetch(url);
@@ -30,23 +36,16 @@ const fetchNextPostID = async () => {
 const updatePostLikes = async (postData, postElement) => {
     const token = JSON.parse(localStorage.token).replace(/%22/g, '');
     const data = await fetchWithErrorHandling(`${API_BASE}/check/${postData._id}/${token}`);
-    postElement.querySelector('.content-amount-like').textContent = data.likes.length;
-    postElement.querySelector('.content-btn-like').src = data.liked ? "../assets/icons/like-active.png" : "../assets/icons/like.png";
+    const likesCount = postElement.querySelector('.content-amount-like');
+    const likeButton = postElement.querySelector('.content-btn-like');
+    
+    likesCount.textContent = data.likes.length;
+    likeButton.src = data.liked ? "../assets/icons/like-active.png" : "../assets/icons/like.png";
 };
 
 const createPostElement = (postData, userData) => {
-    if (!postData || !userData) {
-        console.error("Invalid postData or userData", postData, userData);
-        return null;
-    }
-    console.log(userData.avatar)
-    if (!userData.avatar || !userData.avatar.contentType || !userData.avatar.data || !userData.avatar.data.data) {
-        console.error("Invalid userData.avatar structure", userData.avatar);
-        return null;
-    }
-
-    if (!postData.contentType || !postData.data || !postData.data.data) {
-        console.error("Invalid postData structure", postData);
+    if (!postData || !userData || !userData.avatar?.data?.data || !postData.data?.data) {
+        console.error("Invalid data structure", { postData, userData });
         return null;
     }
 
@@ -57,40 +56,47 @@ const createPostElement = (postData, userData) => {
     const commentsCount = postData.comments?.length || 0;
     const sharesCount = postData.shares?.length || 0;
 
-    postElement.innerHTML = `
-        <div class="user-block">
-            <img src="data:${userData.avatar.contentType};base64,${toBase64(userData.avatar.data.data)}" alt="" class="user-img">
-            <p class="user-name">${userData.username}</p>
-        </div>
-        <div class="content-frame-img">
-            <img src="data:${postData.contentType};base64,${toBase64(postData.data.data)}" alt="" class="content-img lazyload">
-        </div>
-        <div class="content-controls">
-            <div class="content-box">
-                <img src="../assets/icons/like.png" alt="" class="content-btn-like">
-                <p class="content-amount-like">${likesCount}</p>
+    try {
+        const userAvatarBase64 = toBase64(new Uint8Array(userData.avatar.data.data));
+        const postContentBase64 = toBase64(new Uint8Array(postData.data.data));
+
+        postElement.innerHTML = `
+            <div class="user-block">
+                <img src="data:${userData.avatar.contentType};base64,${userAvatarBase64}" alt="" class="user-img">
+                <p class="user-name">${userData.username}</p>
             </div>
-            <div class="content-box">
-                <img src="../assets/icons/messages.png" alt="" class="content-btn-messages">
-                <p class="content-amount-messages">${commentsCount}</p>
+            <div class="content-frame-img">
+                <img src="data:${postData.contentType};base64,${postContentBase64}" alt="" class="content-img lazyload">
             </div>
-        </div>
-    `;
+            <div class="content-controls">
+                <div class="content-box">
+                    <img src="../assets/icons/like.png" alt="" class="content-btn-like">
+                    <p class="content-amount-like">${likesCount}</p>
+                </div>
+                <div class="content-box">
+                    <img src="../assets/icons/messages.png" alt="" class="content-btn-messages">
+                    <p class="content-amount-messages">${commentsCount}</p>
+                </div>
+            </div>
+        `;
 
-    updatePostLikes(postData, postElement);
-
-    postElement.querySelector('.user-block').addEventListener('click', () => {
-        location.href = `/${userData.username}`;
-    });
-
-    postElement.querySelector('.content-img').addEventListener('click', () => {
-        LoadView(postData, userData.username, userData.avatar);
-    });
-
-    postElement.querySelector('.content-btn-like').addEventListener('click', async () => {
-        await doAction('like', postData._id);
         updatePostLikes(postData, postElement);
-    });
+
+        postElement.querySelector('.user-block').addEventListener('click', () => {
+            location.href = `/${userData.username}`;
+        });
+
+        postElement.querySelector('.content-img').addEventListener('click', () => {
+            LoadView(postData, userData.username, userData.avatar);
+        });
+
+        postElement.querySelector('.content-btn-like').addEventListener('click', async () => {
+            await doAction('like', postData._id);
+            updatePostLikes(postData, postElement);
+        });
+    } catch (error) {
+        console.error('Error creating post element:', error);
+    }
 
     return postElement;
 };
@@ -101,18 +107,13 @@ const loadPost = async (postId) => {
         loadingIndicator.style.display = 'block';
 
         const [postData, userData] = await fetchPost(postId);
-        if (!postData || !userData) {
-            throw new Error(`Invalid data received. postData: ${JSON.stringify(postData)}, userData: ${JSON.stringify(userData)}`);
-        }
+        if (!postData || !userData) throw new Error(`Invalid data received.`);
 
         const postElement = createPostElement(postData, userData);
-        if (postElement) {
-            postsContainer.appendChild(postElement);
-        }
+        if (postElement) postsContainer.appendChild(postElement);
 
         ACTIVE_POST_ID = await fetchNextPostID();
         localStorage.setItem('ACTIVE_POST_ID', ACTIVE_POST_ID);
-
     } catch (error) {
         console.error("Failed to load post:", error);
     } finally {
@@ -123,7 +124,8 @@ const loadPost = async (postId) => {
 
 const doAction = async (action, postId, body = {}) => {
     try {
-        await fetch(`${API_BASE}/${action}/post/${postId}/${JSON.parse(localStorage.token)}`, {
+        const token = JSON.parse(localStorage.token);
+        await fetch(`${API_BASE}/${action}/post/${postId}/${token}`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -133,9 +135,11 @@ const doAction = async (action, postId, body = {}) => {
     }
 };
 
-const debounce = (func, delay) => (...args) => {
-    if (debounceTimer) clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => func.apply(this, args), delay);
+const debounce = (func, delay) => {
+    return (...args) => {
+        if (debounceTimer) cancelAnimationFrame(debounceTimer);
+        debounceTimer = requestAnimationFrame(() => func.apply(this, args));
+    };
 };
 
 // Event Listeners

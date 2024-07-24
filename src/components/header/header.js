@@ -1,8 +1,8 @@
 import { getUser, setAvatar } from "../../scripts/getData.js";
-import { sendToPlayerTrack } from "../../scripts/player.js";
-import { getAUDIO } from "../../scripts/fetchMusic.js";
+import { getAUDIO } from "../../scripts/music/fetchMusic.js";
 
 window.addEventListener("load", async () => {
+    // Element selections
     const searchResult = document.querySelector('.search-result');
     const searchResultBox = document.querySelector('.search-result-box');
     const searchInput = document.querySelector('.search-input');
@@ -15,28 +15,28 @@ window.addEventListener("load", async () => {
     const Category = document.querySelector('.Category');
     const UsersCategory = document.querySelector('#Users');
     const MusicCategory = document.querySelector('#Music');
-    let ActiveCategory = "users";
-
+    
+    let ActiveCategory = window.location.pathname === "/music" ? "music" : "users";
+    
+    // Set up categories
     if (UsersCategory) {
-        UsersCategory.addEventListener("click", () => {
-            toggleActiveCategory(UsersCategory, MusicCategory, "users");
-        });
+        UsersCategory.addEventListener("click", () => toggleActiveCategory(UsersCategory, MusicCategory, "users"));
     }
 
     if (MusicCategory) {
-        MusicCategory.addEventListener("click", () => {
-            toggleActiveCategory(MusicCategory, UsersCategory, "music");
-        });
+        MusicCategory.addEventListener("click", () => toggleActiveCategory(MusicCategory, UsersCategory, "music"));
     }
 
     let avatar;
 
+    // Convert array to Base64
     function toBase64(arr) {
         return btoa(
             new Uint8Array(arr).reduce((data, byte) => data + String.fromCharCode(byte), '')
         );
     }
 
+    // Fetch user avatar
     async function fetchUserAvatar() {
         try {
             const user = await getUser();
@@ -47,68 +47,60 @@ window.addEventListener("load", async () => {
         }
     }
 
+    // Set avatar image
     function setAvatarImage(avatar) {
-        try {
+        if (avatar) {
             const base64String = toBase64(avatar.data.data);
             document.getElementById('accountImg').src = `data:${avatar.contentType};base64,${base64String}`;
-        } catch (error) {
-            console.error('Error setting avatar image:', error);
+        } else {
             document.getElementById('accountImg').src = `https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg`;
         }
     }
 
-    if (sessionStorage.avatar && sessionStorage.avatar != "undefined") {
+    // Initialize avatar
+    if (sessionStorage.avatar && sessionStorage.avatar !== "undefined") {
         avatar = JSON.parse(sessionStorage.avatar);
-    } else if(sessionStorage.avatar == "undefined"){
-        console.log("Not founded avatar")
-    }else {
+    } else if (sessionStorage.avatar === "undefined") {
+        console.log("Avatar not found");
+    } else {
         await fetchUserAvatar();
     }
 
     setAvatarImage(avatar);
 
+    // Set up event listeners
     if (accountImg) {
-        accountImg.addEventListener("click", () => {
-            toggleMenu();
-        });
+        accountImg.addEventListener("click", toggleMenu);
     }
 
     if (menuMyprofile) {
-        menuMyprofile.addEventListener("click", () => {
-            navigateTo('/myprofile');
-        });
+        menuMyprofile.addEventListener("click", () => navigateTo('/myprofile'));
     }
 
     if (menuLogout) {
-        menuLogout.addEventListener("click", () => {
-            logout();
-        });
+        menuLogout.addEventListener("click", logout);
     }
 
     if (searchIcon) {
-        searchIcon.addEventListener("click", () => {
-            search();
-        });
+        searchIcon.addEventListener("click", search);
     }
 
     if (searchInput) {
-        searchInput.addEventListener("input", () => {
-            showSearchResults();
-        });
+        searchInput.addEventListener("input", showSearchResults);
     }
 
     window.addEventListener("click", (e) => {
         if (searchResult && !searchResult.contains(e.target) 
             && e.target !== accountImg 
-        && e.target !== Category
-        && e.target !== UsersCategory
-        && e.target !== MusicCategory) {
+            && e.target !== Category
+            && e.target !== UsersCategory
+            && e.target !== MusicCategory) {
             hideSearchResults();
         }
     });
 
+    // Toggle active category
     function toggleActiveCategory(active, inactive, category) {
-        console.log(category)
         if (active && inactive) {
             active.classList.add("active");
             inactive.classList.remove("active");
@@ -116,6 +108,7 @@ window.addEventListener("load", async () => {
         }
     }
 
+    // Toggle menu
     function toggleMenu() {
         if (blurBackground && headerMenu) {
             blurBackground.classList.toggle("active");
@@ -123,68 +116,65 @@ window.addEventListener("load", async () => {
         }
     }
 
+    // Navigate to URL
     function navigateTo(url) {
         location.href = url;
     }
 
+    // Logout user
     function logout() {
-        location.href = "/auth";
         localStorage.removeItem("token");
         sessionStorage.removeItem("avatar");
+        location.href = "/auth";
     }
 
-    function search() {
-        console.log(ActiveCategory)
+    // Perform search
+    async function search() {
         if (ActiveCategory === "users") {
-            searchUsers();
+            await searchUsers();
         } else if (ActiveCategory === "music") {
-            searchMusic();
+            await searchMusic();
         }
     }
 
-    function searchUsers() {
-        fetch(`API/search/${searchInput.value}`)
-            .then(response => {
-                if (response.status === 405) {
-                    throw new Error('Method Not Allowed');
-                }
-                return response.json();
-            })
-            .then(users => {
-                displaySearchResults(users, resultBox);
-            })
-            .catch(error => {
-                console.error('Error fetching users:', error);
-                searchResult.innerHTML = "Error fetching users";
-            });
+    // Search users
+    async function searchUsers() {
+        try {
+            const response = await fetch(`API/search/${searchInput.value}`);
+            if (response.status === 405) {
+                throw new Error('Method Not Allowed');
+            }
+            const users = await response.json();
+            displaySearchResults(users, resultBox);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+            searchResult.innerHTML = "Error fetching users";
+        }
     }
 
-    function searchMusic() {
-        fetch(`https://api.deezer.com/search?q=${searchInput.value}`)
-            .then(response => {
-                if (response.status === 404) {
-                    throw new Error('Not Found');
-                }
-                return response.json();
-            })
-            .then(data => {
-                displaySearchResults(data.data, musicResultBox);
-            })
-            .catch(error => {
-                console.error('Error fetching music:', error);
-                searchResult.innerHTML = "Error fetching music";
-            });
+    // Search music
+    async function searchMusic() {
+        try {
+            const response = await fetch(`https://api.deezer.com/search?q=${searchInput.value}`);
+            if (response.status === 404) {
+                throw new Error('Not Found');
+            }
+            const data = await response.json();
+            displaySearchResults(data.data, musicResultBox);
+        } catch (error) {
+            console.error('Error fetching music:', error);
+            searchResult.innerHTML = "Error fetching music";
+        }
     }
 
+    // Display search results
     function displaySearchResults(data, createBox) {
         if (searchResult) {
             searchResult.innerHTML = "";
             if (data.length === 0) {
-                searchResult.innerHTML = "Nothing";
+                searchResult.innerHTML = "Nothing found";
             } else {
-                data.forEach(item => {
-                    createBox(searchResult, item);
-                });
+                data.forEach(item => createBox(searchResult, item));
             }
             searchResult.classList.add("active");
             if (blurBackground) {
@@ -193,6 +183,7 @@ window.addEventListener("load", async () => {
         }
     }
 
+    // Create user result box
     function resultBox(place, user) {
         const divResult = document.createElement("div");
         divResult.classList.add("result-box");
@@ -201,15 +192,14 @@ window.addEventListener("load", async () => {
         setAvatar(user.avatar, avatarResult);
         const usernameResult = document.createElement("p");
         usernameResult.innerHTML = user.username;
-        divResult.addEventListener("click", () => {
-            navigateTo(`/${encodeURIComponent(user.username)}`);
-        });
+        divResult.addEventListener("click", () => navigateTo(`/${encodeURIComponent(user.username)}`));
         usernameResult.classList.add("result-username");
         place.append(divResult);
         divResult.append(avatarResult, usernameResult);
     }
 
-    function musicResultBox(place, track) {
+    // Create music result box
+    async function musicResultBox(place, track) {
         const divResult = document.createElement("div");
         divResult.classList.add("result-box");
         const albumCover = document.createElement("img");
@@ -217,29 +207,22 @@ window.addEventListener("load", async () => {
         albumCover.src = track.album.cover;
         const trackTitle = document.createElement("p");
         trackTitle.innerHTML = track.title;
-        divResult.addEventListener("click", () => {
-/*             window.open(track.link, '_blank');
-
- */            
-console.log(track)
-           const TrackToSend = {
+        divResult.addEventListener("click", async () => {
+            const TrackToSend = {
                 previewUrl: track.preview,
                 artist: track.artist.name, 
                 title: track.title, 
                 imageUrl: track.album.cover_big,
-                fullTrackUrl: null
-            } 
-            getAUDIO(track.title).then((data)=>{
-                TrackToSend.previewUrl = data
-            })
-            sendToPlayerTrack(TrackToSend)
-
+                fullTrackUrl: await getAUDIO(track.title)
+            };
+            await sendToPlayerTrack(TrackToSend);
         });
         trackTitle.classList.add("result-username");
         place.append(divResult);
         divResult.append(albumCover, trackTitle);
     }
 
+    // Show search results
     function showSearchResults() {
         if (searchResult) {
             searchResultBox.classList.add("active");
@@ -250,6 +233,7 @@ console.log(track)
         search();
     }
 
+    // Hide search results
     function hideSearchResults() {
         if (searchResult) {
             searchResultBox.classList.remove("active");
@@ -260,5 +244,14 @@ console.log(track)
         if (headerMenu) {
             headerMenu.classList.remove("active");
         }
+    }
+
+    // Initialize search functionality based on the active category
+    if (pathname === "/music") {
+        searchIcon.addEventListener("click", searchMusic);
+        searchInput.addEventListener("input", searchMusic);
+    } else {
+        searchIcon.addEventListener("click", searchUsers);
+        searchInput.addEventListener("input", searchUsers);
     }
 });

@@ -6,14 +6,13 @@ margin-left: 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  z-index: 100;
 }
 
 .tab:nth-child(1){
 /* margin-top: 15px;
  */}
 .tab{
-  min-width: 160px;
-  max-width: 160px;
 display: flex;
 align-items: center;
 gap: 16px;
@@ -163,7 +162,13 @@ background: none 0% 0% / auto repeat scroll padding-box border-box rgb(15, 16, 1
 
 /* MEDIA */
 
+@media (min-width: 756.98px){
+  .tab{
+    min-width: 160px;
+    max-width: 160px;
 
+  }
+}
 
 @media (max-width: 756.98px){
   .section__controls{
