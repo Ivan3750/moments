@@ -9,10 +9,9 @@ window.addEventListener("load", async () => {
     const searchIcon = document.querySelector('.search-icon');
     const blurBackground = document.querySelector('.background-blur');
     const headerMenu = document.querySelector('.header__menu');
-    const accountImg = document.querySelector('.account-img'); 
+    const accountImg = document.querySelector('.account-img');
     const menuMyprofile = document.querySelector('.header__menu-myprofile');
     const menuLogout = document.querySelector('.header__menu-logout');
-    const Category = document.querySelector('.Category');
     const UsersCategory = document.querySelector('#Users');
     const MusicCategory = document.querySelector('#Music');
     
@@ -41,7 +40,7 @@ window.addEventListener("load", async () => {
         try {
             const user = await getUser();
             avatar = user.avatar;
-            sessionStorage.setItem("avatar", JSON.stringify(avatar));
+            setAvatarImage(avatar);
         } catch (error) {
             console.error('Error fetching user:', error);
         }
@@ -49,24 +48,17 @@ window.addEventListener("load", async () => {
 
     // Set avatar image
     function setAvatarImage(avatar) {
+        const accountImgElement = document.getElementById('accountImg');
         if (avatar) {
             const base64String = toBase64(avatar.data.data);
-            document.getElementById('accountImg').src = `data:${avatar.contentType};base64,${base64String}`;
+            accountImgElement.src = `data:${avatar.contentType};base64,${base64String}`;
         } else {
-            document.getElementById('accountImg').src = `https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg`;
+            accountImgElement.src = `https://as2.ftcdn.net/v2/jpg/03/49/49/79/1000_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg`;
         }
     }
 
     // Initialize avatar
-    if (sessionStorage.avatar && sessionStorage.avatar !== "undefined") {
-        avatar = JSON.parse(sessionStorage.avatar);
-    } else if (sessionStorage.avatar === "undefined") {
-        console.log("Avatar not found");
-    } else {
-        await fetchUserAvatar();
-    }
-
-    setAvatarImage(avatar);
+    await fetchUserAvatar();
 
     // Set up event listeners
     if (accountImg) {
@@ -92,7 +84,6 @@ window.addEventListener("load", async () => {
     window.addEventListener("click", (e) => {
         if (searchResult && !searchResult.contains(e.target) 
             && e.target !== accountImg 
-            && e.target !== Category
             && e.target !== UsersCategory
             && e.target !== MusicCategory) {
             hideSearchResults();
@@ -124,7 +115,6 @@ window.addEventListener("load", async () => {
     // Logout user
     function logout() {
         localStorage.removeItem("token");
-        sessionStorage.removeItem("avatar");
         location.href = "/auth";
     }
 
@@ -141,8 +131,8 @@ window.addEventListener("load", async () => {
     async function searchUsers() {
         try {
             const response = await fetch(`API/search/${searchInput.value}`);
-            if (response.status === 405) {
-                throw new Error('Method Not Allowed');
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
             }
             const users = await response.json();
             displaySearchResults(users, resultBox);
@@ -156,11 +146,15 @@ window.addEventListener("load", async () => {
     async function searchMusic() {
         try {
             const response = await fetch(`https://api.deezer.com/search?q=${searchInput.value}`);
-            if (response.status === 404) {
-                throw new Error('Not Found');
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
             }
             const data = await response.json();
-            displaySearchResults(data.data, musicResultBox);
+            if (data && data.data) {
+                displaySearchResults(data.data, musicResultBox);
+            } else {
+                displaySearchResults([], musicResultBox);
+            }
         } catch (error) {
             console.error('Error fetching music:', error);
             searchResult.innerHTML = "Error fetching music";
@@ -171,7 +165,7 @@ window.addEventListener("load", async () => {
     function displaySearchResults(data, createBox) {
         if (searchResult) {
             searchResult.innerHTML = "";
-            if (data.length === 0) {
+            if (!Array.isArray(data) || data.length === 0) {
                 searchResult.innerHTML = "Nothing found";
             } else {
                 data.forEach(item => createBox(searchResult, item));
@@ -222,6 +216,14 @@ window.addEventListener("load", async () => {
         divResult.append(albumCover, trackTitle);
     }
 
+    // Define sendToPlayerTrack function
+    async function sendToPlayerTrack(track) {
+        // Implement the logic to send the track to the player
+        console.log('Sending track to player:', track);
+        // Example: Call a function from another module
+        // await playerModule.playTrack(track);
+    }
+
     // Show search results
     function showSearchResults() {
         if (searchResult) {
@@ -247,7 +249,7 @@ window.addEventListener("load", async () => {
     }
 
     // Initialize search functionality based on the active category
-    if (pathname === "/music") {
+    if (window.location.pathname === "/music") {
         searchIcon.addEventListener("click", searchMusic);
         searchInput.addEventListener("input", searchMusic);
     } else {

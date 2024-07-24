@@ -92,6 +92,7 @@
       gap: 5px;
     }
     #track-artist{
+      text-align: left;
       max-width: 150px;
     text-overflow: ellipsis;
     box-sizing: border-box;

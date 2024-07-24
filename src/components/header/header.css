@@ -265,7 +265,9 @@ flex-direction: column;
 
 
 
-
+.Category{
+    display: none;
+}
 
 
 
