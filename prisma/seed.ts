@@ -1,5 +1,6 @@
 /**
- * Demo data for local development: `npm run db:seed`
+ * Demo data for local development (runs automatically on first `npm run dev`; manually: `npm run db:seed`).
+ * WARNING: without --if-empty this deletes ALL existing users and content.
  * All accounts share the password "password123". Never run this against production.
  */
 import "dotenv/config";
@@ -72,6 +73,9 @@ const CAPTIONS = [
 const COMMENTS = ["Love this! 😍", "Amazing shot", "Wow, where is this?", "🔥🔥🔥", "Goals!", "So good", "This made my day", "Beautiful colors", "Need to go there!", "Great composition 👏"];
 
 async function main() {
+  // `--if-empty` is used by `npm run dev`: only seed a brand-new database, never wipe real data.
+  if (process.argv.includes("--if-empty") && (await db.user.count()) > 0) return;
+
   console.log("Resetting demo data…");
   // Remove the image files that belong to the rows we're about to delete (and only those).
   const keys = [

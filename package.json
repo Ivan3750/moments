@@ -2,7 +2,7 @@
   "name": "moments",
   "version": "4.0.0",
   "private": true,
-  "description": "Moments — a photo-sharing social network built with Next.js",
+  "description": "Moments \u2014 a photo-sharing social network built with Next.js",
   "author": "Ivan Kohan",
   "license": "ISC",
   "scripts": {
@@ -15,9 +15,11 @@
     "postinstall": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
-    "db:seed": "prisma db seed",
+    "db:seed": "tsx prisma/seed.ts",
     "db:reset": "prisma migrate reset --force",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "predev": "node scripts/setup.mjs",
+    "setup": "node scripts/setup.mjs"
   },
   "dependencies": {
     "@prisma/adapter-libsql": "^7.10.1",
@@ -49,5 +51,8 @@
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "vitest": "^5.1.1"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }
