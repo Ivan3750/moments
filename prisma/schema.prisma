@@ -1,0 +1,214 @@
+// Moments — data model.
+// SQLite is used by default (zero setup). To move to Postgres, change the
+// provider below, swap the adapter in src/lib/db.ts and run `npm run db:migrate`.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique // always stored lowercase
+  email        String   @unique // always stored lowercase
+  passwordHash String
+  name         String   @default("")
+  bio          String   @default("")
+  website      String   @default("")
+  avatarKey    String?
+  createdAt    DateTime @default(now())
+
+  posts         Post[]
+  likes         Like[]
+  saves         Save[]
+  comments      Comment[]
+  stories       Story[]
+  storyViews    StoryView[]
+  followers     Follow[]       @relation("Following")
+  following     Follow[]       @relation("Follower")
+  notifications Notification[] @relation("Recipient")
+  activity      Notification[] @relation("Actor")
+  sentMessages  Message[]
+  convosAsA     Conversation[] @relation("ConvoA")
+  convosAsB     Conversation[] @relation("ConvoB")
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  authorId    String
+  caption     String   @default("")
+  createdAt   DateTime @default(now())
+
+  // Optional attached track. Only the Deezer id and display metadata are stored:
+  // preview URLs are signed and expire, so they are resolved at play time.
+  musicId     String?
+  musicTitle  String?
+  musicArtist String?
+  musicCover  String?
+
+  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  images        PostImage[]
+  likes         Like[]
+  saves         Save[]
+  comments      Comment[]
+  tags          PostTag[]
+  notifications Notification[]
+
+  @@index([authorId, createdAt(sort: Desc)])
+  @@index([createdAt(sort: Desc)])
+}
+
+model PostImage {
+  id       String @id @default(cuid())
+  postId   String
+  key      String // file name inside the upload dir
+  width    Int
+  height   Int
+  blur     String @default("") // tiny base64 data-url placeholder
+  position Int    @default(0)
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, position])
+}
+
+model PostTag {
+  postId String
+  tag    String // lowercase, without '#'
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tag])
+  @@index([tag])
+}
+
+model Like {
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+  @@index([postId])
+}
+
+model Save {
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([userId, postId])
+  @@index([userId, createdAt(sort: Desc)])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  authorId  String
+  text      String
+  createdAt DateTime @default(now())
+
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+}
+
+model Follow {
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@id([followerId, followingId])
+  @@index([followingId])
+}
+
+model Story {
+  id        String   @id @default(cuid())
+  authorId  String
+  key       String
+  width     Int
+  height    Int
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  author User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  views  StoryView[]
+
+  @@index([authorId, expiresAt])
+  @@index([expiresAt])
+}
+
+model StoryView {
+  storyId   String
+  viewerId  String
+  createdAt DateTime @default(now())
+
+  story  Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  viewer User  @relation(fields: [viewerId], references: [id], onDelete: Cascade)
+
+  @@id([storyId, viewerId])
+}
+
+// type: "like" | "comment" | "follow"
+model Notification {
+  id          String    @id @default(cuid())
+  recipientId String
+  actorId     String
+  type        String
+  postId      String?
+  text        String    @default("")
+  readAt      DateTime?
+  createdAt   DateTime  @default(now())
+
+  recipient User  @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  actor     User  @relation("Actor", fields: [actorId], references: [id], onDelete: Cascade)
+  post      Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([recipientId, createdAt(sort: Desc)])
+  @@index([recipientId, readAt])
+}
+
+// 1:1 conversation. userAId < userBId (lexicographically) so a pair is unique.
+model Conversation {
+  id            String    @id @default(cuid())
+  userAId       String
+  userBId       String
+  userAReadAt   DateTime  @default(now())
+  userBReadAt   DateTime  @default(now())
+  lastMessageAt DateTime  @default(now())
+  createdAt     DateTime  @default(now())
+
+  userA    User      @relation("ConvoA", fields: [userAId], references: [id], onDelete: Cascade)
+  userB    User      @relation("ConvoB", fields: [userBId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@unique([userAId, userBId])
+  @@index([userAId, lastMessageAt(sort: Desc)])
+  @@index([userBId, lastMessageAt(sort: Desc)])
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  senderId       String
+  text           String
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
